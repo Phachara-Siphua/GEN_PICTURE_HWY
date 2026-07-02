@@ -77,7 +77,7 @@
                 <div class="flex justify-between items-center gap-2 mt-3">
                     <div class="flex-1">
                         <label class="block text-xs font-bold text-gray-600">เลือกฟอนต์:</label>
-                        <select id="headerFontFamily" class="w-full p-1 border rounded text-sm mt-1">
+                        <select id="headerFontFamily" class="w-full p-1 border rounded text-sm mt-1" @change="draw()">
                             <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                         </select>
                     </div>
@@ -116,7 +116,7 @@
                 <div class="flex justify-between items-center gap-2 mt-2">
                     <div class="flex-1">
                         <label class="block text-xs font-bold text-gray-600">เลือกฟอนต์:</label>
-                        <select id="dateFontFamily" class="w-full p-1 border rounded text-sm mt-1">
+                        <select id="dateFontFamily" class="w-full p-1 border rounded text-sm mt-1" @change="draw()">
                             <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                         </select>
                     </div>
@@ -153,7 +153,7 @@
                 <div class="flex justify-between items-center gap-2 mt-2">
                     <div class="flex-1">
                         <label class="block text-xs font-bold text-gray-600">เลือกฟอนต์:</label>
-                        <select id="num3FontFamily" class="w-full p-1 border rounded text-sm mt-1">
+                        <select id="num3FontFamily" class="w-full p-1 border rounded text-sm mt-1" @change="draw()">
                             <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                         </select>
                     </div>
@@ -191,7 +191,7 @@
                 <div class="flex justify-between items-center gap-2 mt-2">
                     <div class="flex-1">
                         <label class="block text-xs font-bold text-gray-600">เลือกฟอนต์:</label>
-                        <select id="num2FontFamily" class="w-full p-1 border rounded text-sm mt-1">
+                        <select id="num2FontFamily" class="w-full p-1 border rounded text-sm mt-1" @change="draw()">
                             <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                         </select>
                     </div>
@@ -229,7 +229,7 @@
                 <div class="flex justify-between items-center gap-2 mt-2">
                     <div class="flex-1">
                         <label class="block text-xs font-bold text-gray-600">เลือกฟอนต์:</label>
-                        <select id="num1FontFamily" class="w-full p-1 border rounded text-sm mt-1">
+                        <select id="num1FontFamily" class="w-full p-1 border rounded text-sm mt-1" @change="draw()">
                             <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                         </select>
                     </div>
