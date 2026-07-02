@@ -26,8 +26,17 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# def get_db_connection():
+#     return pymysql.connect(host='localhost', user='root', password='', database='lottery_db', cursorclass=pymysql.cursors.DictCursor)
 def get_db_connection():
-    return pymysql.connect(host='localhost', user='root', password='', database='lottery_db', cursorclass=pymysql.cursors.DictCursor)
+    return pymysql.connect(
+        host='dbgenpicturehwy-genpicturehwy.j.aivencloud.com',
+        user='avnadmin',
+        password='AVNS__fa2yeBXwsXcV_eon6B',
+        database='defaultdb',
+        port=20513,
+        cursorclass=pymysql.cursors.DictCursor
+    )
 
 def get_password_hash(password: str):
     return hashlib.sha256(password.encode()).hexdigest()
