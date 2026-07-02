@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เว็บสร้างรูปใบหวย</title>
+    <!-- โหลด JSZip สำหรับทำไฟล์ ZIP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <!-- โหลด Google Fonts 10 สไตล์ -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,700;1,400;1,700&family=Charm:wght@400;700&family=Itim&family=Kanit:ital,wght@0,400;0,700;1,400;1,700&family=Mali:ital,wght@0,400;0,700;1,400;1,700&family=Mitr:wght@400;700&family=Pattaya&family=Pridi:wght@400;700&family=Prompt:ital,wght@0,400;0,700;1,400;1,700&family=Sarabun:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f2f5; color: #333; }
+        
+        #loginOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); width: 300px; text-align: center; box-sizing: border-box; }
+        .login-box h2 { margin-top: 0; color: #1877f2; }
+        .login-box input[type="text"], .login-box input[type="password"] { 
+            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; font-family: inherit;
+        }
+        .login-box button { width: 100%; padding: 12px; background: #1877f2; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .login-box button:hover { background: #166fe5; }
+        .error-msg { color: red; font-size: 14px; display: none; margin-bottom: 10px; }
+
+        #mainApp { display: none; flex-wrap: wrap; gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        
+        .controls-container { display: flex; flex-direction: column; gap: 15px; width: 380px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); max-height: 90vh; overflow-y: auto; }
+        .control-group { border: 1px solid #e1e4e8; padding: 12px; border-radius: 8px; background-color: #f8f9fa; }
+        .control-group h4 { margin-top: 0; margin-bottom: 10px; color: #495057; font-size: 15px; border-bottom: 2px solid #ddd; padding-bottom: 5px; }
+        label { display: block; font-size: 13px; margin-top: 8px; font-weight: 600; color: #555; }
+        
+        input[type="range"] { cursor: pointer; width: 100%; margin-top: 5px; box-sizing: border-box; }
+        input[type="text"], input[type="number"], input[type="file"], input[type="color"], input[type="date"], select { width: 100%; margin-top: 5px; box-sizing: border-box; font-family: inherit; padding: 4px; border: 1px solid #ccc; border-radius: 4px; }
+        input[type="color"] { padding: 0; height: 30px; cursor: pointer; }
+        
+        /* สไตล์สำหรับกล่องเลือกรายชื่อหวย */
+        .lottery-selector { border: 1px solid #ccc; border-radius: 4px; padding: 8px; max-height: 250px; overflow-y: auto; background: #fff; margin-top: 5px; }
+        .lottery-category { margin-bottom: 5px; }
+        .cat-header { display: flex; align-items: center; justify-content: space-between; background: #f1f3f5; padding: 8px 10px; border-radius: 4px; transition: 0.2s; }
+        .cat-header:hover { background: #e9ecef; }
+        .cat-label { font-weight: bold; color: #1877f2; display: flex; align-items: center; cursor: pointer; font-size: 14px; margin: 0; flex: 1;}
+        .cat-label input { margin-right: 8px; cursor: pointer; width: 16px; height: 16px; }
+        .toggle-btn { cursor: pointer; font-size: 12px; color: #6c757d; padding: 5px; }
+        .sub-items { display: flex; flex-direction: column; padding: 8px 12px; background: #fafafa; border: 1px solid #eee; border-top: none; border-radius: 0 0 4px 4px; }
+        .sub-label { font-weight: normal; font-size: 13px; display: flex; align-items: center; margin-top: 6px; cursor: pointer; color: #333; }
+        .sub-label input { margin-right: 8px; cursor: pointer; width: 14px; height: 14px; }
+
+        .flex-row { display: flex; justify-content: space-between; gap: 10px; align-items: center; margin-top: 5px; }
+        .flex-row > div { flex: 1; }
+        
+        /* สไตล์สำหรับเช็คบ็อกซ์ตัวอักษรหนา เอียง */
+        .checkbox-group { display: flex; gap: 8px; margin-top: 5px; }
+        .checkbox-group label { display: flex; align-items: center; font-weight: normal; margin-top: 0; font-size: 12px; cursor: pointer;}
+        .checkbox-group input { width: auto; margin: 0 4px 0 0; cursor: pointer; }
+
+        .canvas-container { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 300px; align-items: center; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        canvas { width: 100%; max-width: 450px; height: auto; border: 1px solid #ccc; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-radius: 4px; }
+        
+        button { padding: 8px 12px; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; margin-top: 5px; transition: 0.2s; font-family: inherit; }
+        button:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-center { background-color: #6c757d; font-size: 12px; padding: 5px 10px; }
+        .btn-random { background-color: #17a2b8; padding: 12px; font-size: 15px; font-weight: bold; width: 100%; }
+        .btn-batch { background-color: #28a745; font-size: 16px; padding: 12px; font-weight: bold; width: 100%; }
+        .btn-zip { background-color: #ffc107; font-size: 16px; padding: 12px; font-weight: bold; color: #333; display: none; width: 100%; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-logout { background-color: #dc3545; padding: 8px; font-size: 13px; float: right; margin-bottom: 10px; }
+
+        #previewZone { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; padding: 15px; border: 2px dashed #ced4da; border-radius: 8px; background: #f8f9fa; width: 100%; box-sizing: border-box; justify-content: center; }
+        .preview-item { position: relative; display: flex; flex-direction: column; align-items: center; font-size: 13px; font-weight: 600; color: #495057; }
+        .preview-item img { width: 100px; border: 1px solid #ddd; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 5px; }
+        
+        .btn-remove-preview {
+            position: absolute; top: -8px; right: -8px; background-color: #dc3545; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; margin: 0; box-shadow: 0 2px 5px rgba(0,0,0,0.3); transition: 0.2s;
+        }
+        .btn-remove-preview:hover { background-color: #c82333; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+
+    <div id="loginOverlay">
+        <div class="login-box">
+            <h2>เข้าสู่ระบบ</h2>
+            <div id="errorMsg" class="error-msg">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง!</div>
+            <input type="text" id="username" placeholder="Username (admin)">
+            <input type="password" id="password" placeholder="Password (1234)" onkeypress="handleEnter(event)">
+            <button onclick="checkLogin()">เข้าสู่ระบบ</button>
+        </div>
+    </div>
+
+    <div id="mainApp">
+        <div class="canvas-container">
+            <div style="width: 100%; text-align: right;">
+                <button class="btn-logout" onclick="logout()">🚪 ออกจากระบบ</button>
+            </div>
+            
+            <h3 style="margin-top: 0;">👁️ ภาพพรีวิว</h3>
+            <canvas id="myCanvas" width="600" height="600"></canvas>
+            
+            <h3 style="margin-top: 30px; width: 100%; border-bottom: 2px solid #eee; padding-bottom: 10px;">🖼️ พรีวิวรูปภาพทั้งหมด (คลิก ✖ เพื่อคัดออก)</h3>
+            <div id="previewZone">
+                <span style="color: #adb5bd; width: 100%; text-align: center; margin-top: 10px;">กดปุ่ม "🚀 สร้างรูปทั้งหมด" เพื่อดูพรีวิวที่นี่</span>
+            </div>
+        </div>
+
+        <div class="controls-container">
+            <h3 style="margin-top: 0; color: #1877f2;">⚙️ แผงควบคุม</h3>
+            
+            <div class="control-group">
+                <h4>1. รูปภาพ (Background & Logo)</h4>
+                <label>อัปโหลด Background:</label>
+                <input type="file" id="bgUpload" accept="image/*">
+                <label>อัปโหลด Logo:</label>
+                <input type="file" id="logoUpload" accept="image/*">
+                <div style="text-align: center; margin-top: 8px;">
+                    <button class="btn-center" onclick="centerElement('logo')">📍 จัด Logo กึ่งกลาง</button>
+                </div>
+                <label>ตำแหน่ง Logo X:</label>
+                <input type="range" id="logoX" min="0" max="600" value="300">
+                <label>ตำแหน่ง Logo Y:</label>
+                <input type="range" id="logoY" min="0" max="600" value="100">
+                <label>ขนาด Logo: <span id="logoScaleVal">100</span>%</label>
+                <input type="range" id="logoScale" min="10" max="300" value="100">
+            </div>
+
+            <!-- หัวข้อ -->
+            <div class="control-group">
+                <h4>2. รายชื่อหัวข้อ (แบบติ๊กเลือก)</h4>
+                <div id="lotterySelector" class="lottery-selector"></div>
+                
+                <div class="flex-row" style="margin-top: 15px;">
+                    <div style="flex: 1.5;">
+                        <label>เลือกฟอนต์:</label>
+                        <select id="headerFontFamily">
+                            <option value="Arial">Arial (มาตรฐาน)</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Kanit">Kanit (คณิต - ทันสมัย)</option>
+                            <option value="Prompt">Prompt (พร้อม - อ่านง่าย)</option>
+                            <option value="Sarabun">Sarabun (สารบรรณ - ทางการ)</option>
+                            <option value="Mitr">Mitr (มิตร - โค้งมน)</option>
+                            <option value="Mali">Mali (มะลิ - ลายมือ)</option>
+                            <option value="Itim">Itim (ไอติม - น่ารัก)</option>
+                            <option value="Chakra Petch">Chakra Petch (จักรเพชร - เหลี่ยม)</option>
+                            <option value="Pattaya">Pattaya (พัทยา - ลายมือหนา)</option>
+                            <option value="Pridi">Pridi (ปรีดี - มีหัว)</option>
+                            <option value="Charm">Charm (ชาร์ม - ตัวเขียน)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>สไตล์:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="headerFontBold" checked> หนา</label>
+                            <label><input type="checkbox" id="headerFontItalic"> เอียง</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div><label>ขนาดฟอนต์:</label><input type="number" id="headerFontSize" value="50" min="10"></div>
+                    <div><label>สีตัวอักษร:</label><input type="color" id="headerColor" value="#000000"></div>
+                </div>
+                <div class="flex-row">
+                    <div><label>ความหนาขอบ:</label><input type="number" id="headerStrokeWidth" value="0" min="0"></div>
+                    <div><label>สีขอบ:</label><input type="color" id="headerStrokeColor" value="#FFFFFF"></div>
+                </div>
+                <div style="text-align: center; margin-top: 8px;">
+                    <button class="btn-center" onclick="centerElement('header')">📍 จัดหัวข้อกึ่งกลาง</button>
+                </div>
+                <label>ตำแหน่งหัวข้อ X:</label>
+                <input type="range" id="headerX" min="0" max="600" value="300">
+                <label>ตำแหน่งหัวข้อ Y:</label>
+                <input type="range" id="headerY" min="0" max="600" value="100">
+            </div>
+            
+            <!-- วันที่ -->
+            <div class="control-group">
+                <h4>3. ตั้งค่าวันที่</h4>
+                <div class="flex-row">
+                    <div style="flex: 2;">
+                        <label>เลือกวันที่ (เพื่อแปลงลงในรูป):</label>
+                        <input type="date" id="datePicker" value="2024-11-16" style="cursor: pointer;">
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div style="flex: 1.5;">
+                        <label>เลือกฟอนต์:</label>
+                        <select id="dateFontFamily">
+                            <option value="Arial">Arial (มาตรฐาน)</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Kanit">Kanit (คณิต - ทันสมัย)</option>
+                            <option value="Prompt">Prompt (พร้อม - อ่านง่าย)</option>
+                            <option value="Sarabun">Sarabun (สารบรรณ - ทางการ)</option>
+                            <option value="Mitr">Mitr (มิตร - โค้งมน)</option>
+                            <option value="Mali">Mali (มะลิ - ลายมือ)</option>
+                            <option value="Itim">Itim (ไอติม - น่ารัก)</option>
+                            <option value="Chakra Petch">Chakra Petch (จักรเพชร - เหลี่ยม)</option>
+                            <option value="Pattaya">Pattaya (พัทยา - ลายมือหนา)</option>
+                            <option value="Pridi">Pridi (ปรีดี - มีหัว)</option>
+                            <option value="Charm">Charm (ชาร์ม - ตัวเขียน)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>สไตล์:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="dateFontBold" checked> หนา</label>
+                            <label><input type="checkbox" id="dateFontItalic"> เอียง</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div><label>ขนาดฟอนต์:</label><input type="number" id="dateFontSize" value="45" min="10"></div>
+                    <div><label>สีตัวอักษร:</label><input type="color" id="dateColor" value="#000000"></div>
+                </div>
+                <div class="flex-row">
+                    <div><label>ความหนาขอบ:</label><input type="number" id="dateStrokeWidth" value="3" min="0"></div>
+                    <div><label>สีขอบ:</label><input type="color" id="dateStrokeColor" value="#FFD700"></div>
+                </div>
+                <div style="text-align: center; margin-top: 8px;">
+                    <button class="btn-center" onclick="centerElement('date')">📍 จัดวันที่กึ่งกลาง</button>
+                </div>
+                <label>ตำแหน่ง X:</label>
+                <input type="range" id="dateX" min="0" max="600" value="300">
+                <label>ตำแหน่ง Y:</label>
+                <input type="range" id="dateY" min="0" max="600" value="170">
+            </div>
+
+            <!-- ตัวเลข 3 ตัว -->
+            <div class="control-group">
+                <h4>4. ตั้งค่าตัวเลข 3 ตัว</h4>
+                <div class="flex-row">
+                    <div><label>จำนวนแถว:</label><input type="number" id="row3Count" value="2" min="0"></div>
+                    <div><label>จำนวนคอลัมน์:</label><input type="number" id="col3Count" value="3" min="1"></div>
+                </div>
+
+                <div class="flex-row">
+                    <div style="flex: 1.5;">
+                        <label>เลือกฟอนต์:</label>
+                        <select id="num3FontFamily">
+                            <option value="Arial">Arial (มาตรฐาน)</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Kanit">Kanit (คณิต - ทันสมัย)</option>
+                            <option value="Prompt">Prompt (พร้อม - อ่านง่าย)</option>
+                            <option value="Sarabun">Sarabun (สารบรรณ - ทางการ)</option>
+                            <option value="Mitr">Mitr (มิตร - โค้งมน)</option>
+                            <option value="Mali">Mali (มะลิ - ลายมือ)</option>
+                            <option value="Itim">Itim (ไอติม - น่ารัก)</option>
+                            <option value="Chakra Petch">Chakra Petch (จักรเพชร - เหลี่ยม)</option>
+                            <option value="Pattaya">Pattaya (พัทยา - ลายมือหนา)</option>
+                            <option value="Pridi">Pridi (ปรีดี - มีหัว)</option>
+                            <option value="Charm">Charm (ชาร์ม - ตัวเขียน)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>สไตล์:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="num3FontBold" checked> หนา</label>
+                            <label><input type="checkbox" id="num3FontItalic"> เอียง</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div><label>ขนาดฟอนต์:</label><input type="number" id="num3FontSize" value="50" min="10"></div>
+                    <div><label>สีตัวอักษร:</label><input type="color" id="num3Color" value="#FFD700"></div>
+                </div>
+                <div class="flex-row">
+                    <div><label>ความหนาขอบ:</label><input type="number" id="num3StrokeWidth" value="3" min="0"></div>
+                    <div><label>สีขอบ:</label><input type="color" id="num3StrokeColor" value="#000000"></div>
+                </div>
+                <div class="flex-row" style="margin-top: 8px; background: #fff; padding: 5px; border-radius: 4px; border: 1px solid #eee;">
+                    <div><label style="color:#d9534f;">ระยะห่าง ↔ (X):</label><input type="range" id="num3GapX" min="30" max="300" value="130"></div>
+                    <div><label style="color:#5cb85c;">ระยะห่าง ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: 8px;">
+                    <button class="btn-center" onclick="centerElement('num3')">📍 จัดกลุ่ม 3 ตัว กึ่งกลาง</button>
+                </div>
+                <label>ตำแหน่ง X:</label>
+                <input type="range" id="num3X" min="0" max="600" value="100">
+                <label>ตำแหน่ง Y:</label>
+                <input type="range" id="num3Y" min="0" max="600" value="250">
+            </div>
+
+            <!-- ตัวเลข 2 ตัว -->
+            <div class="control-group">
+                <h4>5. ตั้งค่าตัวเลข 2 ตัว</h4>
+                <div class="flex-row">
+                    <div><label>จำนวนแถว:</label><input type="number" id="row2Count" value="2" min="0"></div>
+                    <div><label>จำนวนคอลัมน์:</label><input type="number" id="col2Count" value="4" min="1"></div>
+                </div>
+
+                <div class="flex-row">
+                    <div style="flex: 1.5;">
+                        <label>เลือกฟอนต์:</label>
+                        <select id="num2FontFamily">
+                            <option value="Arial">Arial (มาตรฐาน)</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Kanit">Kanit (คณิต - ทันสมัย)</option>
+                            <option value="Prompt">Prompt (พร้อม - อ่านง่าย)</option>
+                            <option value="Sarabun">Sarabun (สารบรรณ - ทางการ)</option>
+                            <option value="Mitr">Mitr (มิตร - โค้งมน)</option>
+                            <option value="Mali">Mali (มะลิ - ลายมือ)</option>
+                            <option value="Itim">Itim (ไอติม - น่ารัก)</option>
+                            <option value="Chakra Petch">Chakra Petch (จักรเพชร - เหลี่ยม)</option>
+                            <option value="Pattaya">Pattaya (พัทยา - ลายมือหนา)</option>
+                            <option value="Pridi">Pridi (ปรีดี - มีหัว)</option>
+                            <option value="Charm">Charm (ชาร์ม - ตัวเขียน)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>สไตล์:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="num2FontBold" checked> หนา</label>
+                            <label><input type="checkbox" id="num2FontItalic"> เอียง</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div><label>ขนาดฟอนต์:</label><input type="number" id="num2FontSize" value="50" min="10"></div>
+                    <div><label>สีตัวอักษร:</label><input type="color" id="num2Color" value="#FFD700"></div>
+                </div>
+                <div class="flex-row">
+                    <div><label>ความหนาขอบ:</label><input type="number" id="num2StrokeWidth" value="3" min="0"></div>
+                    <div><label>สีขอบ:</label><input type="color" id="num2StrokeColor" value="#000000"></div>
+                </div>
+                <div class="flex-row" style="margin-top: 8px; background: #fff; padding: 5px; border-radius: 4px; border: 1px solid #eee;">
+                    <div><label style="color:#d9534f;">ระยะห่าง ↔ (X):</label><input type="range" id="num2GapX" min="30" max="300" value="110"></div>
+                    <div><label style="color:#5cb85c;">ระยะห่าง ↕ (Y):</label><input type="range" id="num2GapY" min="30" max="200" value="70"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: 8px;">
+                    <button class="btn-center" onclick="centerElement('num2')">📍 จัดกลุ่ม 2 ตัว กึ่งกลาง</button>
+                </div>
+                <label>ตำแหน่ง X:</label>
+                <input type="range" id="num2X" min="0" max="600" value="100">
+                <label>ตำแหน่ง Y:</label>
+                <input type="range" id="num2Y" min="0" max="600" value="450">
+            </div>
+
+            <!-- ตัวเลข 1 ตัว -->
+            <div class="control-group" style="background-color: #e9ecef;">
+                <h4>6. ตั้งค่าตัวเลข 1 ตัว (เลขวิ่ง)</h4>
+                <div class="flex-row">
+                    <div><label>จำนวนแถว:</label><input type="number" id="row1Count" value="1" min="0"></div>
+                    <div><label>จำนวนคอลัมน์:</label><input type="number" id="col1Count" value="2" min="1"></div>
+                </div>
+
+                <div class="flex-row">
+                    <div style="flex: 1.5;">
+                        <label>เลือกฟอนต์:</label>
+                        <select id="num1FontFamily">
+                            <option value="Arial">Arial (มาตรฐาน)</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="Kanit">Kanit (คณิต - ทันสมัย)</option>
+                            <option value="Prompt">Prompt (พร้อม - อ่านง่าย)</option>
+                            <option value="Sarabun">Sarabun (สารบรรณ - ทางการ)</option>
+                            <option value="Mitr">Mitr (มิตร - โค้งมน)</option>
+                            <option value="Mali">Mali (มะลิ - ลายมือ)</option>
+                            <option value="Itim">Itim (ไอติม - น่ารัก)</option>
+                            <option value="Chakra Petch">Chakra Petch (จักรเพชร - เหลี่ยม)</option>
+                            <option value="Pattaya">Pattaya (พัทยา - ลายมือหนา)</option>
+                            <option value="Pridi">Pridi (ปรีดี - มีหัว)</option>
+                            <option value="Charm">Charm (ชาร์ม - ตัวเขียน)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label>สไตล์:</label>
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="num1FontBold" checked> หนา</label>
+                            <label><input type="checkbox" id="num1FontItalic"> เอียง</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-row">
+                    <div><label>ขนาดฟอนต์:</label><input type="number" id="num1FontSize" value="50" min="10"></div>
+                    <div><label>สีตัวอักษร:</label><input type="color" id="num1Color" value="#FFD700"></div>
+                </div>
+                <div class="flex-row">
+                    <div><label>ความหนาขอบ:</label><input type="number" id="num1StrokeWidth" value="3" min="0"></div>
+                    <div><label>สีขอบ:</label><input type="color" id="num1StrokeColor" value="#000000"></div>
+                </div>
+                <div class="flex-row" style="margin-top: 8px; background: #fff; padding: 5px; border-radius: 4px; border: 1px solid #eee;">
+                    <div><label style="color:#d9534f;">ระยะห่าง ↔ (X):</label><input type="range" id="num1GapX" min="30" max="300" value="80"></div>
+                    <div><label style="color:#5cb85c;">ระยะห่าง ↕ (Y):</label><input type="range" id="num1GapY" min="30" max="200" value="70"></div>
+                </div>
+
+                <div style="text-align: center; margin-top: 8px;">
+                    <button class="btn-center" onclick="centerElement('num1')">📍 จัดกลุ่ม 1 ตัว กึ่งกลาง</button>
+                </div>
+                <label>ตำแหน่ง X:</label>
+                <input type="range" id="num1X" min="0" max="600" value="100">
+                <label>ตำแหน่ง Y:</label>
+                <input type="range" id="num1Y" min="0" max="600" value="550">
+            </div>
+            
+            <button class="btn-random" onclick="generatePreviewNumbers()">🎲 สุ่มตัวเลข 1 ชุด (ดูตัวอย่าง)</button>
+            <hr style="width: 100%; border: 1px solid #ddd; margin: 5px 0;">
+            <button class="btn-batch" onclick="generateBatchPreviews()">🚀 สร้างรูปทั้งหมด</button>
+            <button class="btn-zip" id="downloadZipBtn" onclick="downloadZip()">📥 ดาวน์โหลดไฟล์ ZIP</button>
+        </div>
+    </div>
+
+    <script>
+        const lotteryData = {
+            "หวยหุ้น": ["เกาหลี", "จีนเช้า", "จีนบ่าย", "จีนรอบเช้า", "ดาวโจนส์", "ไต้หวัน", "ไทยเย็น", "น้ำมันปิด", "น้ำมันเปิด", "นิเคอิเช้า", "นิเคอิบ่าย", "มาเลย์", "เยอรมัน", "รัสเซีย", "สิงคโปร์", "หุ้นทองปิด", "หุ้นทองเปิด", "หุ้นฮั่งเส็งเช้า", "หุ้นฮั่งเส็งบ่าย", "อังกฤษ", "อินเดีย", "อียิปต์", "ฮั่งเส็งเช้า", "ฮั่งเส็งบ่าย"],
+            "หวยหุ้น VIP": ["เกาหลี VIP", "จีน VIP (เช้า)", "จีน VIP (บ่าย)", "จีนเช้า VIP", "จีนบ่าย VIP", "ดาวโจนส์ VIP", "ไต้หวัน VIP", "นิเคอิ VIP (เช้า)", "นิเคอิ VIP (บ่าย)", "นิเคอิเช้า VIP", "นิเคอิบ่าย VIP", "เยอรมัน VIP", "รัสเซีย VIP", "สิงคโปร์ VIP", "อังกฤษ VIP", "ฮั่งเส็ง VIP (เช้า)", "ฮั่งเส็ง VIP (บ่าย)", "ฮั่งเส็งเช้า VIP", "ฮั่งเส็งบ่าย VIP"],
+            "หวยหุ้นพิเศษ": ["เกาหลี พิเศษ", "จีน พิเศษ เช้า", "จีน พิเศษ บ่าย", "ดาวโจนส์ พิเศษ", "ไต้หวัน พิเศษ", "นิเคอิ พิเศษ เช้า", "นิเคอิ พิเศษ บ่าย", "เยอรมัน พิเศษ", "รัสเซีย พิเศษ", "เวียดนาม พิเศษ เช้า", "เวียดนาม พิเศษ บ่าย", "สิงคโปร์ พิเศษ", "อังกฤษ พิเศษ", "ฮั่งเส็ง พิเศษ เช้า", "ฮั่งเส็ง พิเศษ บ่าย"],
+            "ฮานอย": ["เวียดนาม VIP ออนไลน์", "เวียดนาม พิเศษ ออนไลน์", "เวียดนาม ออนไลน์", "ฮานอย", "ฮานอย EXTRA", "ฮานอย HD", "ฮานอยกาชาด", "ฮานอยเช้า", "ฮานอยซุปเปอร์", "ฮานอยดานัง", "ฮานอยพรีเมี่ยม", "ฮานอยพัฒนา", "ฮานอย พิเศษ", "ฮานอยรอบดึก", "ฮานอยสามัคคี", "ฮานอยอาเซียน"],
+            "ลาว": ["ลาว EXTRA", "ลาว HD", "ลาว STAR VIP", "ลาว TV", "ลาว VIP", "ลาวกาชาด", "ลาวเช้า", "ลาวดิจิตอล", "ลาวทดแทน", "ลาวเที่ยง", "ลาวนิยม", "ลาวประชาชน", "ลาวประตูชัย", "ลาวพัฒนา", "ลาวมิตรภาพ", "ลาวสตาร์", "ลาวสะหวันมะเขต", "ลาวสันติภาพ", "ลาวสามัคคี", "ลาวสามัคคี VIP", "ลาวอาเซียน"],
+            "ไทย": ["ธกส", "รัฐบาลไทย", "ออมสิน"],
+            "หวยรายวัน": ["ดาวโจนส์STAR", "ดาวโจนส์อเมริกา", "ยี่กี", "ยูโร", "สยาม"]
+        };
+
+        window.onload = function() {
+            renderLotterySelector(); 
+            
+            if(localStorage.getItem('isLoggedIn') === 'true') {
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'flex';
+                loadSettings();
+                initApp();
+            }
+        };
+
+        function checkLogin() {
+            const u = document.getElementById('username').value;
+            const p = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+
+            if(u === 'admin' && p === '1234') {
+                localStorage.setItem('isLoggedIn', 'true');
+                document.getElementById('loginOverlay').style.display = 'none';
+                document.getElementById('mainApp').style.display = 'flex';
+                loadSettings();
+                initApp();
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function handleEnter(e) { if(e.key === 'Enter') checkLogin(); }
+        function logout() { localStorage.removeItem('isLoggedIn'); location.reload(); }
+
+        function renderLotterySelector() {
+            const container = document.getElementById('lotterySelector');
+            container.innerHTML = '';
+            
+            for (const [category, items] of Object.entries(lotteryData)) {
+                const catDiv = document.createElement('div');
+                catDiv.className = 'lottery-category';
+                
+                const catHeader = document.createElement('div');
+                catHeader.className = 'cat-header';
+                
+                const catLabel = document.createElement('label');
+                catLabel.className = 'cat-label';
+                const catCb = document.createElement('input');
+                catCb.type = 'checkbox';
+                catCb.className = 'cat-cb';
+                catLabel.appendChild(catCb);
+                catLabel.appendChild(document.createTextNode(' ' + category));
+                
+                const toggleBtn = document.createElement('span');
+                toggleBtn.className = 'toggle-btn';
+                toggleBtn.innerHTML = '▼'; 
+                
+                catHeader.appendChild(catLabel);
+                catHeader.appendChild(toggleBtn);
+                catDiv.appendChild(catHeader);
+                
+                const subDiv = document.createElement('div');
+                subDiv.className = 'sub-items';
+                subDiv.style.display = 'none'; 
+                
+                items.forEach(item => {
+                    const subLabel = document.createElement('label');
+                    subLabel.className = 'sub-label';
+                    const subCb = document.createElement('input');
+                    subCb.type = 'checkbox';
+                    subCb.className = 'sub-cb';
+                    subCb.value = item;
+                    
+                    subLabel.appendChild(subCb);
+                    subLabel.appendChild(document.createTextNode(' ' + item));
+                    subDiv.appendChild(subLabel);
+                });
+                
+                catDiv.appendChild(subDiv);
+                container.appendChild(catDiv);
+
+                toggleBtn.addEventListener('click', () => {
+                    const isHidden = subDiv.style.display === 'none';
+                    subDiv.style.display = isHidden ? 'flex' : 'none';
+                    toggleBtn.innerHTML = isHidden ? '▲' : '▼';
+                });
+
+                catCb.addEventListener('change', function() {
+                    const childCbs = subDiv.querySelectorAll('.sub-cb');
+                    childCbs.forEach(cb => cb.checked = this.checked);
+                    
+                    subDiv.style.display = this.checked ? 'flex' : 'none';
+                    toggleBtn.innerHTML = this.checked ? '▲' : '▼';
+                    
+                    saveSettings(); draw();
+                });
+
+                subDiv.querySelectorAll('.sub-cb').forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        updateCategoryCheckboxes();
+                        saveSettings(); draw();
+                    });
+                });
+            }
+        }
+
+        function updateCategoryCheckboxes() {
+            document.querySelectorAll('.lottery-category').forEach(cat => {
+                const total = cat.querySelectorAll('.sub-cb').length;
+                const checkedCount = cat.querySelectorAll('.sub-cb:checked').length;
+                const catCb = cat.querySelector('.cat-cb');
+                const subDiv = cat.querySelector('.sub-items');
+                const toggleBtn = cat.querySelector('.toggle-btn');
+                
+                if (checkedCount > 0 && checkedCount < total) {
+                    catCb.indeterminate = true;
+                    catCb.checked = false;
+                } else {
+                    catCb.indeterminate = false;
+                    catCb.checked = (total > 0 && total === checkedCount);
+                }
+                
+                if (checkedCount > 0) {
+                    subDiv.style.display = 'flex';
+                    toggleBtn.innerHTML = '▲';
+                }
+            });
+        }
+
+        function getSelectedHeaders() {
+            const checkboxes = document.querySelectorAll('.sub-cb:checked');
+            return Array.from(checkboxes).map(cb => cb.value);
+        }
+
+        const settingInputs = [
+            'logoX', 'logoY', 'logoScale', 
+            'headerX', 'headerY', 'headerFontSize', 'headerColor', 'headerStrokeWidth', 'headerStrokeColor', 'headerFontFamily', 'headerFontBold', 'headerFontItalic',
+            'datePicker', 'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
+            'row3Count', 'col3Count', 'num3X', 'num3Y', 'num3FontSize', 'num3Color', 'num3GapX', 'num3GapY', 'num3StrokeWidth', 'num3StrokeColor', 'num3FontFamily', 'num3FontBold', 'num3FontItalic',
+            'row2Count', 'col2Count', 'num2X', 'num2Y', 'num2FontSize', 'num2Color', 'num2GapX', 'num2GapY', 'num2StrokeWidth', 'num2StrokeColor', 'num2FontFamily', 'num2FontBold', 'num2FontItalic',
+            'row1Count', 'col1Count', 'num1X', 'num1Y', 'num1FontSize', 'num1Color', 'num1GapX', 'num1GapY', 'num1StrokeWidth', 'num1StrokeColor', 'num1FontFamily', 'num1FontBold', 'num1FontItalic'
+        ];
+
+        function saveSettings() {
+            let settings = {};
+            settingInputs.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) {
+                    if (el.type === 'checkbox') {
+                        settings[id] = el.checked;
+                    } else {
+                        settings[id] = el.value;
+                    }
+                }
+            });
+            settings['selectedHeaders'] = getSelectedHeaders(); 
+            localStorage.setItem('lotterySettings', JSON.stringify(settings));
+        }
+
+        function loadSettings() {
+            const saved = localStorage.getItem('lotterySettings');
+            if(saved) {
+                const settings = JSON.parse(saved);
+                settingInputs.forEach(id => {
+                    const el = document.getElementById(id);
+                    if(settings[id] !== undefined && el) {
+                        if (el.type === 'checkbox') {
+                            el.checked = settings[id];
+                        } else {
+                            el.value = settings[id];
+                        }
+                    }
+                });
+                
+                if(settings['selectedHeaders']) {
+                    document.querySelectorAll('.sub-cb').forEach(cb => cb.checked = false);
+                    settings['selectedHeaders'].forEach(val => {
+                        const cb = document.querySelector(`.sub-cb[value="${val}"]`);
+                        if(cb) cb.checked = true;
+                    });
+                    updateCategoryCheckboxes();
+                }
+            }
+        }
+
+        const canvas = document.getElementById('myCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        let numbers3Grid = [], numbers2Grid = [], numbers1Grid = [];
+        let bgImage = null, logoImage = null, generatedImagesToZip = []; 
+
+        function initApp() {
+            document.querySelectorAll('input, select').forEach(el => {
+                if(el.type !== 'file' && el.id !== 'username' && el.id !== 'password' && !el.classList.contains('sub-cb') && !el.classList.contains('cat-cb')) {
+                    el.addEventListener('input', () => { saveSettings(); draw(); });
+                    if (el.type === 'checkbox' || el.tagName.toLowerCase() === 'select') {
+                        el.addEventListener('change', () => { saveSettings(); draw(); });
+                    }
+                }
+            });
+            
+            document.getElementById('bgUpload').addEventListener('change', (e) => handleImageUpload(e, 'bg'));
+            document.getElementById('logoUpload').addEventListener('change', (e) => handleImageUpload(e, 'logo'));
+
+            generatePreviewNumbers(); 
+            
+            document.fonts.ready.then(() => {
+                draw();
+            });
+        }
+
+        function handleImageUpload(e, type) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    if (type === 'bg') bgImage = img;
+                    if (type === 'logo') logoImage = img;
+                    draw();
+                }
+                img.src = event.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function createNumbersArray(rows, cols, digitsCount) {
+            let grid = [];
+            for (let i = 0; i < rows; i++) {
+                let row = [];
+                for (let j = 0; j < cols; j++) {
+                    if (digitsCount === 3) row.push(Math.floor(Math.random() * 1000).toString().padStart(3, '0'));
+                    else if (digitsCount === 2) row.push(Math.floor(Math.random() * 100).toString().padStart(2, '0'));
+                    else if (digitsCount === 1) row.push(Math.floor(Math.random() * 10).toString());
+                }
+                grid.push(row);
+            }
+            return grid;
+        }
+
+        function generatePreviewNumbers() {
+            numbers3Grid = createNumbersArray(document.getElementById('row3Count').value, document.getElementById('col3Count').value, 3);
+            numbers2Grid = createNumbersArray(document.getElementById('row2Count').value, document.getElementById('col2Count').value, 2);
+            numbers1Grid = createNumbersArray(document.getElementById('row1Count').value, document.getElementById('col1Count').value, 1);
+            draw();
+        }
+
+        function centerElement(type) {
+            if (type === 'num3') {
+                const cols = parseInt(document.getElementById('col3Count').value);
+                const gapX3 = parseInt(document.getElementById('num3GapX').value);
+                document.getElementById('num3X').value = (canvas.width - ((cols - 1) * gapX3)) / 2;
+            } else if (type === 'num2') {
+                const cols = parseInt(document.getElementById('col2Count').value);
+                const gapX2 = parseInt(document.getElementById('num2GapX').value);
+                document.getElementById('num2X').value = (canvas.width - ((cols - 1) * gapX2)) / 2;
+            } else if (type === 'num1') {
+                const cols = parseInt(document.getElementById('col1Count').value);
+                const gapX1 = parseInt(document.getElementById('num1GapX').value);
+                document.getElementById('num1X').value = (canvas.width - ((cols - 1) * gapX1)) / 2;
+            } else if (type === 'logo' || type === 'header' || type === 'date') {
+                document.getElementById(type + 'X').value = canvas.width / 2;
+            }
+            saveSettings(); draw();
+        }
+
+        function getFontString(idPrefix, fontSize) {
+            const family = document.getElementById(idPrefix + 'FontFamily').value;
+            const isBold = document.getElementById(idPrefix + 'FontBold').checked ? 'bold' : 'normal';
+            const isItalic = document.getElementById(idPrefix + 'FontItalic').checked ? 'italic' : 'normal';
+            return `${isItalic} ${isBold} ${fontSize}px "${family}", sans-serif`;
+        }
+
+        function draw(currentHeader = null) {
+            document.getElementById('logoScaleVal').innerText = document.getElementById('logoScale').value;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (bgImage) ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
+            else { ctx.fillStyle = '#ff4d4d'; ctx.fillRect(0, 0, canvas.width, canvas.height); }
+
+            if (logoImage) {
+                const logoX = parseInt(document.getElementById('logoX').value);
+                const logoY = parseInt(document.getElementById('logoY').value);
+                const scale = parseInt(document.getElementById('logoScale').value) / 100;
+                const width = logoImage.width * scale;
+                const height = logoImage.height * scale;
+                ctx.drawImage(logoImage, logoX - (width/2), logoY - (height/2), width, height);
+            }
+            
+            // 1. หัวข้อ
+            const headerX = parseInt(document.getElementById('headerX').value);
+            const headerY = parseInt(document.getElementById('headerY').value);
+            const headerFontSize = document.getElementById('headerFontSize').value;
+            const headerStrokeWidth = parseInt(document.getElementById('headerStrokeWidth').value);
+            
+            const selectedHeaders = getSelectedHeaders();
+            let displayHeader = currentHeader || (selectedHeaders.length > 0 ? selectedHeaders[0] : 'โปรดเลือกหัวข้อหวย');
+            
+            ctx.fillStyle = document.getElementById('headerColor').value;
+            ctx.strokeStyle = document.getElementById('headerStrokeColor').value;
+            ctx.lineWidth = headerStrokeWidth;
+            ctx.font = getFontString('header', headerFontSize);
+            ctx.textAlign = 'center';
+            ctx.fillText(displayHeader, headerX, headerY);
+            if (headerStrokeWidth > 0) ctx.strokeText(displayHeader, headerX, headerY);
+            
+            // 2. วันที่
+            const dateVal = document.getElementById('datePicker').value;
+            if (dateVal) {
+                const parts = dateVal.split('-');
+                const year = (parseInt(parts[0]) + 543).toString().slice(-2);
+                const formattedDate = `${parts[2]}/${parts[1]}/${year}`;
+                
+                const dateX = parseInt(document.getElementById('dateX').value);
+                const dateY = parseInt(document.getElementById('dateY').value);
+                const dateFontSize = document.getElementById('dateFontSize').value;
+                const dateStrokeWidth = parseInt(document.getElementById('dateStrokeWidth').value);
+                
+                ctx.fillStyle = document.getElementById('dateColor').value;
+                ctx.strokeStyle = document.getElementById('dateStrokeColor').value;
+                ctx.lineWidth = dateStrokeWidth;
+                ctx.font = getFontString('date', dateFontSize);
+                ctx.textAlign = 'center';
+                
+                ctx.fillText(formattedDate, dateX, dateY);
+                if (dateStrokeWidth > 0) ctx.strokeText(formattedDate, dateX, dateY);
+            }
+
+            // 3. ฟังก์ชันตัวช่วยวาดตัวเลข
+            const drawNumbers = (grid, idPrefix) => {
+                const fontSize = document.getElementById(idPrefix + 'FontSize').value;
+                const startX = parseInt(document.getElementById(idPrefix + 'X').value);
+                const startY = parseInt(document.getElementById(idPrefix + 'Y').value);
+                const gapX = parseInt(document.getElementById(idPrefix + 'GapX').value);
+                const gapY = parseInt(document.getElementById(idPrefix + 'GapY').value);
+                
+                ctx.fillStyle = document.getElementById(idPrefix + 'Color').value;
+                ctx.strokeStyle = document.getElementById(idPrefix + 'StrokeColor').value;
+                ctx.lineWidth = parseInt(document.getElementById(idPrefix + 'StrokeWidth').value);
+                ctx.font = getFontString(idPrefix, fontSize);
+                
+                grid.forEach((row, rowIndex) => {
+                    row.forEach((num, colIndex) => {
+                        const x = startX + (colIndex * gapX);
+                        const y = startY + (rowIndex * gapY);
+                        ctx.fillText(num, x, y);
+                        if (ctx.lineWidth > 0) ctx.strokeText(num, x, y);
+                    });
+                });
+            };
+
+            drawNumbers(numbers3Grid, 'num3');
+            drawNumbers(numbers2Grid, 'num2');
+            drawNumbers(numbers1Grid, 'num1');
+        }
+
+        function generateBatchPreviews() {
+            const previewZone = document.getElementById('previewZone');
+            previewZone.innerHTML = ''; 
+            generatedImagesToZip = []; 
+            
+            const headers = getSelectedHeaders();
+            if(headers.length === 0) {
+                alert("กรุณาติ๊กเลือกชื่อหัวข้ออย่างน้อย 1 ชื่อครับ");
+                return;
+            }
+
+            const r3 = document.getElementById('row3Count').value, c3 = document.getElementById('col3Count').value;
+            const r2 = document.getElementById('row2Count').value, c2 = document.getElementById('col2Count').value;
+            const r1 = document.getElementById('row1Count').value, c1 = document.getElementById('col1Count').value;
+
+            for (let i = 0; i < headers.length; i++) {
+                const headerName = headers[i];
+                numbers3Grid = createNumbersArray(r3, c3, 3);
+                numbers2Grid = createNumbersArray(r2, c2, 2);
+                numbers1Grid = createNumbersArray(r1, c1, 1);
+                
+                draw(headerName);
+                
+                const dataUrl = canvas.toDataURL('image/png');
+                generatedImagesToZip.push({ fileName: headerName, data: dataUrl });
+                
+                const div = document.createElement('div');
+                div.className = 'preview-item';
+                
+                const removeBtn = document.createElement('button');
+                removeBtn.innerHTML = '✖';
+                removeBtn.className = 'btn-remove-preview';
+                removeBtn.title = 'คัดรูปนี้ออก';
+                removeBtn.onclick = function() {
+                    div.remove();
+                    generatedImagesToZip = generatedImagesToZip.filter(img => img.fileName !== headerName);
+                    if (generatedImagesToZip.length === 0) {
+                        document.getElementById('downloadZipBtn').style.display = 'none';
+                    }
+                };
+
+                const img = document.createElement('img');
+                img.src = dataUrl;
+                const span = document.createElement('span');
+                span.innerText = headerName;
+                
+                div.appendChild(removeBtn);
+                div.appendChild(img);
+                div.appendChild(span);
+                previewZone.appendChild(div);
+            }
+
+            document.getElementById('downloadZipBtn').style.display = 'block';
+            generatePreviewNumbers(); 
+        }
+
+        function downloadZip() {
+            if (generatedImagesToZip.length === 0) return;
+            const zip = new JSZip();
+            generatedImagesToZip.forEach(imageObj => {
+                const base64Data = imageObj.data.replace(/^data:image\/png;base64,/, "");
+                zip.file(`${imageObj.fileName}.png`, base64Data, {base64: true});
+            });
+            zip.generateAsync({type:"blob"}).then(function(content) {
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = "lucky_numbers_batch.zip";
+                link.click();
+            });
+        }
+    </script>
+</body>
+</html>
