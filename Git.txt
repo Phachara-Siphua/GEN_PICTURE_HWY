@@ -1,0 +1,4 @@
+git add .
+git commit -m "อัปเดตโค้ดล่าสุด"
+git push
+git add . && git commit -m "อัปเดตโค้ด" && git push
