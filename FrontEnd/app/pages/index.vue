@@ -312,7 +312,7 @@ const settingInputs = [
 
 const fetchFormats = async () => {
     const token = localStorage.getItem('token');
-    const res = await fetch('http://localhost:8000/formats', { headers: { 'Authorization': `Bearer ${token}` } });
+    const res = await fetch('https://gen-picture-hwy.onrender.com/formats', { headers: { 'Authorization': `Bearer ${token}` } });
     if(res.ok) {
         savedFormatsList = await res.json();
         const sel = document.getElementById('formatSelect');
@@ -378,7 +378,7 @@ const deleteSelectedFormat = async () => {
     if(!confirm(`⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบรูปแบบ '${sel}' ทิ้ง?\n(การกระทำนี้ไม่สามารถกู้คืนได้)`)) return;
     
     try {
-        const res = await fetch(`http://localhost:8000/formats/${encodeURIComponent(sel)}`, {
+        const res = await fetch(`https://gen-picture-hwy.onrender.com/formats/${encodeURIComponent(sel)}`, {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
         });
@@ -412,7 +412,7 @@ const saveFormatToDB = async () => {
     settings['selectedHeaders'] = getSelectedHeaders();
     
     try {
-        const response = await fetch('http://localhost:8000/formats', {
+        const response = await fetch('https://gen-picture-hwy.onrender.com/formats', {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
@@ -760,7 +760,7 @@ onMounted(async () => {
     if (!token) return router.push('/login');
 
     try {
-        const res = await fetch('http://localhost:8000/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
+        const res = await fetch('https://gen-picture-hwy.onrender.com/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
         if(res.ok) {
             const userData = await res.json();
             const end_date = new Date(userData.sub_end);

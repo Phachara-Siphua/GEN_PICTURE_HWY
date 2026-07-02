@@ -36,7 +36,7 @@ const handleLogin = async () => {
     formData.append('username', username.value)
     formData.append('password', password.value)
 
-    const response = await fetch('http://localhost:8000/token', {
+    const response = await fetch('https://gen-picture-hwy.onrender.com/token', {
       method: 'POST',
       body: formData
     })

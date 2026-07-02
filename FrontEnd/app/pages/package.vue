@@ -46,11 +46,11 @@ onMounted(async () => {
   if (!token) return router.push('/login')
 
   try {
-      const res = await fetch('http://localhost:8000/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
+      const res = await fetch('https://gen-picture-hwy.onrender.com/users/me', { headers: { 'Authorization': `Bearer ${token}` } });
       if (res.ok) userInfo.value = await res.json();
       else router.push('/login');
 
-      const resFormat = await fetch('http://localhost:8000/formats', { headers: { 'Authorization': `Bearer ${token}` } });
+      const resFormat = await fetch('https://gen-picture-hwy.onrender.com/formats', { headers: { 'Authorization': `Bearer ${token}` } });
       if (resFormat.ok) {
           const formats = await resFormat.json();
           formatCount.value = formats.length;

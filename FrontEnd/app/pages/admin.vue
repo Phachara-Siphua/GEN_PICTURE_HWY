@@ -122,7 +122,7 @@ const form = ref({
 
 const fetchUsers = async () => {
     const token = localStorage.getItem('token')
-    const res = await fetch('http://localhost:8000/users', { headers: { 'Authorization': `Bearer ${token}` } })
+    const res = await fetch('https://gen-picture-hwy.onrender.com/users', { headers: { 'Authorization': `Bearer ${token}` } })
     if(res.ok) users.value = await res.json()
     else router.push('/') 
 }
@@ -155,7 +155,7 @@ const cancelEdit = () => {
 const submitForm = async () => {
     const token = localStorage.getItem('token')
     
-    const url = isEditing.value ? `http://localhost:8000/users/${editId.value}` : 'http://localhost:8000/register';
+    const url = isEditing.value ? `https://gen-picture-hwy.onrender.com/users/${editId.value}` : 'https://gen-picture-hwy.onrender.com/register';
     const method = isEditing.value ? 'PUT' : 'POST';
 
     const payload = { ...form.value };
@@ -182,7 +182,7 @@ const submitForm = async () => {
 const deleteUser = async (id, name) => {
     if(!confirm(`⚠️ ต้องการลบผู้ใช้ '${name}' ทิ้งถาวรหรือไม่?`)) return
     const token = localStorage.getItem('token')
-    const res = await fetch(`http://localhost:8000/users/${id}`, {
+    const res = await fetch(`https://gen-picture-hwy.onrender.com/users/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
     })

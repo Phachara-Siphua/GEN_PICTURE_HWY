@@ -32,7 +32,7 @@ onMounted(async () => {
     const token = localStorage.getItem('token')
     if (token) {
         try {
-            const res = await fetch('http://localhost:8000/users/me', { headers: { 'Authorization': `Bearer ${token}` } })
+            const res = await fetch('https://gen-picture-hwy.onrender.com/users/me', { headers: { 'Authorization': `Bearer ${token}` } })
             if (res.ok) {
                 const data = await res.json()
                 if (data.role === 'admin') isAdmin.value = true
