@@ -12,13 +12,26 @@
       <form @submit.prevent="handleLogin">
         <div class="mb-4">
           <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">Username</label>
-          <input v-model="username" type="text" class="w-full p-3 border rounded focus:outline-none focus:border-blue-500 transition-colors" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" required>
+          <input v-model="username" type="text" class="w-full p-3 border rounded focus:outline-none focus:border-blue-500 transition-colors" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" :disabled="isLoading" required>
         </div>
         <div class="mb-6">
           <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">Password</label>
-          <input v-model="password" type="password" class="w-full p-3 border rounded focus:outline-none focus:border-blue-500 transition-colors" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" required>
+          <input v-model="password" type="password" class="w-full p-3 border rounded focus:outline-none focus:border-blue-500 transition-colors" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" :disabled="isLoading" required>
         </div>
-        <button type="submit" class="w-full bg-blue-600 text-white font-bold py-3 rounded hover:bg-blue-700 shadow-lg hover:shadow-blue-500/50 transition-all">เข้าสู่ระบบ</button>
+        
+        <!-- เปลี่ยนปุ่มให้มีสถานะหมุนโหลด -->
+        <button type="submit" :disabled="isLoading" class="w-full text-white font-bold py-3 rounded shadow-lg transition-all flex justify-center items-center gap-2" :class="isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-blue-500/50'">
+          <svg v-if="isLoading" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          {{ isLoading ? 'กำลังปลุกเซิร์ฟเวอร์...' : 'เข้าสู่ระบบ' }}
+        </button>
+
+        <!-- ข้อความแจ้งเตือนเวลาโหลดนาน -->
+        <p v-if="isLoading" class="text-xs text-center mt-4 opacity-70" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">
+          (หากไม่มีการใช้งานนาน อาจใช้เวลา 30-50 วินาที)
+        </p>
       </form>
     </div>
   </div>
@@ -44,9 +57,13 @@ onMounted(() => {
 const username = ref('')
 const password = ref('')
 const errorMsg = ref('')
+const isLoading = ref(false) // เพิ่มตัวแปรสถานะโหลด
 const router = useRouter()
 
 const handleLogin = async () => {
+  isLoading.value = true // เริ่มหมุน
+  errorMsg.value = ''    // เคลียร์ข้อความแจ้งเตือน
+  
   try {
     const formData = new URLSearchParams()
     formData.append('username', username.value)
@@ -66,6 +83,8 @@ const handleLogin = async () => {
     }
   } catch (error) {
     errorMsg.value = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"
+  } finally {
+    isLoading.value = false // ปิดหมุนเมื่อเสร็จหรือเกิดข้อผิดพลาด
   }
 }
 </script>
