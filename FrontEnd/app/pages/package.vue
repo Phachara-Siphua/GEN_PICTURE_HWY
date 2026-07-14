@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto mt-10">
-    <h1 class="text-3xl font-bold mb-6 text-blue-700 border-b pb-4">📦 ข้อมูลแพ็กเกจของคุณ</h1>
-    <div v-if="userInfo" class="text-lg space-y-5 text-gray-700">
+  <div class="p-8 rounded-lg shadow-md max-w-2xl mx-auto mt-10 transition-colors duration-300" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
+    <h1 class="text-3xl font-bold mb-6 border-b pb-4" :class="isDarkMode ? 'text-blue-400 border-gray-700' : 'text-blue-700 border-gray-200'">📦 ข้อมูลแพ็กเกจของคุณ</h1>
+    <div v-if="userInfo" class="text-lg space-y-5" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">
       <p class="flex items-center">
         <span class="w-10 text-2xl">👤</span> 
         <strong class="w-40">ชื่อผู้ใช้:</strong> {{ userInfo.username }}
@@ -9,17 +9,17 @@
       <p class="flex items-center">
         <span class="w-10 text-2xl">📅</span> 
         <strong class="w-40">วันที่เริ่มแพ็กเกจ:</strong> 
-        <span class="text-green-600 font-bold bg-green-50 px-3 py-1 rounded">{{ formatDate(userInfo.sub_start) }}</span>
+        <span class="font-bold px-3 py-1 rounded" :class="isDarkMode ? 'bg-green-900/50 text-green-400' : 'bg-green-50 text-green-600'">{{ formatDate(userInfo.sub_start) }}</span>
       </p>
       <p class="flex items-center">
         <span class="w-10 text-2xl">⏳</span> 
         <strong class="w-40">หมดอายุเมื่อ:</strong> 
-        <span class="text-red-500 font-bold bg-red-50 px-3 py-1 rounded">{{ formatDate(userInfo.sub_end) }}</span>
+        <span class="font-bold px-3 py-1 rounded" :class="isDarkMode ? 'bg-red-900/50 text-red-400' : 'bg-red-50 text-red-500'">{{ formatDate(userInfo.sub_end) }}</span>
       </p>
       <p class="flex items-center">
         <span class="w-10 text-2xl">💾</span> 
         <strong class="w-40">โควต้ารูปแบบ:</strong> 
-        <span class="font-bold text-indigo-600">{{ formatCount }} / {{ userInfo.max_formats }} รูปแบบ</span>
+        <span class="font-bold" :class="isDarkMode ? 'text-indigo-400' : 'text-indigo-600'">{{ formatCount }} / {{ userInfo.max_formats }} รูปแบบ</span>
       </p>
     </div>
   </div>
@@ -28,7 +28,9 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { useState } from '#imports'
 
+const isDarkMode = useState('darkMode')
 const userInfo = ref(null)
 const formatCount = ref(0)
 const router = useRouter()

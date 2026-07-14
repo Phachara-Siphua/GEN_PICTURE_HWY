@@ -1,31 +1,26 @@
 <template>
-  <div class="p-6 transition-colors duration-300 min-h-screen" :class="isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-gray-50 text-gray-800'">
+  <div class="transition-colors duration-300 min-h-screen">
     
-    <!-- ปุ่มสลับ Dark Mode -->
-    <button @click="toggleDarkMode" class="fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'">
-        {{ isDarkMode ? '☀️ โหมดสว่าง' : '🌙 โหมดมืด' }}
-    </button>
-
-    <!-- หน้าจอหมุนโหลด (Loading Spinner) -->
-    <div v-if="isLoading" class="flex flex-col items-center justify-center h-[80vh]">
+    <!-- หน้าจอหมุนโหลด (ใช้ v-show แทน v-if แก้บั๊กหมุนค้าง) -->
+    <div v-show="isLoading" class="flex flex-col items-center justify-center h-[80vh]">
         <div class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-blue-500 mb-6"></div>
         <h2 class="text-2xl font-bold text-blue-500 animate-pulse">กำลังโหลดข้อมูลระบบ กรุณารอสักครู่...</h2>
-        <p class="text-sm mt-2 opacity-70">(หากไม่มีการใช้งานนาน เซิร์ฟเวอร์อาจจะใช้เวลาตื่นประมาณ 30-50 วินาทีครับ)</p>
+        <p class="text-sm mt-2 opacity-70" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">(หากไม่มีการใช้งานนาน เซิร์ฟเวอร์อาจจะใช้เวลาตื่นประมาณ 30-50 วินาทีครับ)</p>
     </div>
 
     <!-- แจ้งเตือนหมดอายุ -->
-    <div v-else-if="isExpired" class="flex flex-col items-center justify-center h-[80vh]">
-        <div class="bg-white p-10 rounded-lg shadow-xl text-center max-w-lg border-t-4 border-red-500">
+    <div v-show="!isLoading && isExpired" class="flex flex-col items-center justify-center h-[80vh]">
+        <div class="p-10 rounded-lg shadow-xl text-center max-w-lg border-t-4 border-red-500 transition-colors" :class="isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'">
             <div class="text-7xl mb-4">⚠️</div>
-            <h2 class="text-3xl font-bold text-red-600 mb-2">แพ็กเกจหมดอายุแล้ว</h2>
-            <p class="text-gray-700 mb-4 text-lg">บัญชีของคุณหมดอายุเมื่อเวลา<br><strong class="text-xl text-red-500">{{ expireDateStr }}</strong></p>
-            <p class="text-gray-500 text-sm mb-6">กรุณาติดต่อแอดมินเพื่อทำการต่ออายุแพ็กเกจครับ</p>
+            <h2 class="text-3xl font-bold text-red-500 mb-2">แพ็กเกจหมดอายุแล้ว</h2>
+            <p class="mb-4 text-lg">บัญชีของคุณหมดอายุเมื่อเวลา<br><strong class="text-xl text-red-400">{{ expireDateStr }}</strong></p>
+            <p class="opacity-70 text-sm mb-6">กรุณาติดต่อแอดมินเพื่อทำการต่ออายุแพ็กเกจครับ</p>
             <a href="https://line.me/ti/p/~@yourline" target="_blank" class="inline-block bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition shadow-md text-lg">💬 ติดต่อแอดมินผ่าน Line</a>
         </div>
     </div>
 
     <!-- แอปพลิเคชันหลัก -->
-    <div v-else id="mainApp" class="flex flex-wrap gap-6 w-full max-w-[1200px] mx-auto mt-8 relative">
+    <div v-show="!isLoading && !isExpired" id="mainApp" class="flex flex-wrap gap-6 w-full max-w-[1200px] mx-auto mt-2 relative">
         
         <!-- ฝั่งซ้าย: พรีวิว -->
         <div class="canvas-container flex-1 flex flex-col items-center p-6 rounded-xl shadow-lg min-w-[300px] transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
@@ -43,7 +38,7 @@
             </div>
             
             <div id="previewZone" class="flex flex-wrap gap-4 p-6 border-2 border-dashed rounded-lg w-full justify-center min-h-[150px]" :class="isDarkMode ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-gray-50'">
-                <span class="opacity-50 my-auto text-center" :class="isDarkMode ? 'text-white' : 'text-gray-500'">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>
+                <span class="opacity-50 my-auto text-center font-bold" :class="isDarkMode ? 'text-white' : 'text-gray-500'">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>
             </div>
         </div>
 
@@ -312,7 +307,7 @@
                         <label class="block font-bold mt-2">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="180" class="w-full cursor-pointer">
                     </div>
                 </div>
-            </div> <!-- End Accordion -->
+            </div>
             
             <hr class="mt-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-300'">
             <button class="bg-green-600 text-white py-4 rounded-lg font-bold text-xl shadow-lg hover:bg-green-700 hover:scale-[1.02] transition-transform w-full" @click="generateBatchPreviews">🚀 สร้างรูปทั้งหมด</button>
@@ -325,7 +320,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { useHead } from '#imports'
+import { useHead, useState } from '#imports'
 
 useHead({
   script: [{ src: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js' }],
@@ -334,17 +329,11 @@ useHead({
 
 const router = useRouter()
 
-// สถานะการโหลด และ Dark Mode
 const isLoading = ref(true)
-const isDarkMode = ref(false)
+const isDarkMode = useState('darkMode')
 const isExpired = ref(false)
 const expireDateStr = ref('')
-const openSection = ref(1) // ใช้จัดการเปิด-ปิด Accordion
-
-const toggleDarkMode = () => {
-    isDarkMode.value = !isDarkMode.value;
-    draw(); // อัปเดตสีพื้นหลัง canvas ในโหมดมืด
-}
+const openSection = ref(1) 
 
 let canvas = null;
 let ctx = null;
@@ -366,9 +355,8 @@ const lotteryData = {
     "หวยรายวัน": ["ดาวโจนส์STAR", "ดาวโจนส์อเมริกา", "ยี่กี", "ยูโร", "สยาม"]
 };
 
-// รวมทุก input เข้าไปในอาร์เรย์ เพื่อให้ระบบเซฟกวาดข้อมูลไปเซฟให้ครบ
 const settingInputs = [
-    'showBg', 'showLogo', // เพิ่มตัวเปิดปิดใหม่เข้าไปในระบบเซฟ
+    'showBg', 'showLogo',
     'logoX', 'logoY', 'logoScale', 
     'headerX', 'headerY', 'headerFontSize', 'headerColor', 'headerStrokeWidth', 'headerStrokeColor', 'headerFontFamily', 'headerFontBold', 'headerFontItalic',
     'datePicker', 'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
@@ -415,7 +403,7 @@ const loadSelectedFormat = () => {
             });
             updateCategoryCheckboxes();
         }
-        setTimeout(draw, 50); // อัปเดตวาดใหม่
+        setTimeout(draw, 50); 
         alert(`โหลดรูปแบบ '${sel}' เสร็จสิ้น!`);
     }
 }
@@ -430,7 +418,7 @@ const clearAllPreviews = () => {
     generatedImagesToZip = [];
     const previewZone = document.getElementById('previewZone');
     if (previewZone) {
-        previewZone.innerHTML = `<span class="opacity-50 my-auto text-center ${isDarkMode.value ? 'text-white' : 'text-gray-500'}">กดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>เพื่อดูพรีวิวที่นี่ครับ</span>`;
+        previewZone.innerHTML = `<span class="opacity-50 my-auto text-center font-bold ${isDarkMode.value ? 'text-white' : 'text-gray-500'}">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>`;
     }
     document.getElementById('downloadZipBtn').classList.add('hidden');
 }
@@ -515,7 +503,7 @@ const renderLotterySelector = () => {
         const catDiv = document.createElement('div');
         catDiv.className = 'mb-1 lottery-category';
         const catHeader = document.createElement('div');
-        catHeader.className = 'flex items-center justify-between bg-gray-200/50 p-2 rounded cursor-pointer hover:bg-gray-300/50 transition-colors';
+        catHeader.className = 'flex items-center justify-between bg-gray-400/20 p-2 rounded cursor-pointer hover:bg-gray-400/40 transition-colors';
         
         const catLabel = document.createElement('label');
         catLabel.className = 'font-bold text-blue-500 flex items-center cursor-pointer text-sm m-0 flex-1';
@@ -526,7 +514,7 @@ const renderLotterySelector = () => {
         catLabel.appendChild(document.createTextNode(' ' + category));
         
         const toggleBtn = document.createElement('span');
-        toggleBtn.className = 'text-xs text-gray-500 p-1 px-3 bg-gray-300/50 rounded hover:bg-gray-400/50 transition';
+        toggleBtn.className = 'text-xs text-gray-500 p-1 px-3 bg-gray-400/20 rounded hover:bg-gray-400/50 transition font-bold';
         toggleBtn.innerHTML = '▼ เปิด'; 
         
         catHeader.appendChild(catLabel);
@@ -534,7 +522,7 @@ const renderLotterySelector = () => {
         catDiv.appendChild(catHeader);
         
         const subDiv = document.createElement('div');
-        subDiv.className = 'sub-items flex flex-col p-2 bg-transparent border border-t-0 rounded-b';
+        subDiv.className = 'sub-items flex flex-col p-2 bg-transparent border border-t-0 rounded-b border-gray-400/30';
         subDiv.style.display = 'none'; 
         
         items.forEach(item => {
@@ -618,7 +606,6 @@ const createNumbersArray = (rows, cols, digitsCount) => {
             } else if (digitsCount === 2) {
                 row.push(Math.floor(Math.random() * 100).toString().padStart(2, '0'));
             } else if (digitsCount === 1) {
-                // แก้ให้สุ่มเลขรูด (1 ตัว) ไม่เอา 0 เดี่ยวๆ ให้สุ่มได้ 1-9
                 row.push((Math.floor(Math.random() * 9) + 1).toString());
             }
         }
@@ -668,7 +655,6 @@ const draw = (currentHeader = null) => {
     }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // ตรวจสอบการเปิด/ปิด รูปภาพ
     const isShowBg = document.getElementById('showBg') ? document.getElementById('showBg').checked : true;
     if (isShowBg && bgImage) {
         ctx.drawImage(bgImage, 0, 0, canvas.width, canvas.height);
@@ -774,7 +760,7 @@ const generateBatchPreviews = () => {
         generatedImagesToZip.push({ fileName: headerName, data: dataUrl });
         
         const div = document.createElement('div');
-        div.className = 'relative flex flex-col items-center font-bold text-xs text-gray-700';
+        div.className = 'relative flex flex-col items-center font-bold text-xs';
         
         const removeBtn = document.createElement('button');
         removeBtn.innerHTML = '✖';
@@ -817,7 +803,6 @@ const downloadZip = () => {
     });
 }
 
-// แทรกลูกเล่นหน่วงเวลา (setTimeout) เวลาจับ Event ฟอนต์ ป้องกัน Canvas วาดเร็วกว่าฟอนต์โหลด
 const initApp = () => {
     document.querySelectorAll('input, select').forEach(el => {
         if(el.type !== 'file' && !el.classList.contains('sub-cb') && !el.classList.contains('cat-cb') && el.id !== 'formatSelect') {
@@ -846,7 +831,7 @@ onMounted(async () => {
             if (end_date < new Date()) {
                 isExpired.value = true;
                 expireDateStr.value = end_date.toLocaleString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                isLoading.value = false; // ปิดโหลด
+                isLoading.value = false;
                 return; 
             }
         } else {
@@ -856,7 +841,6 @@ onMounted(async () => {
         console.error(e);
     }
 
-    // เริ่มสร้างแอป
     canvas = document.getElementById('myCanvas');
     if(canvas) ctx = canvas.getContext('2d');
 
@@ -877,7 +861,6 @@ onMounted(async () => {
         setTimeout(draw, 50); 
     });
 
-    // โหลดเสร็จทั้งหมด ปิดหน้าจอหมุนโหลด
     isLoading.value = false;
 })
 </script>
