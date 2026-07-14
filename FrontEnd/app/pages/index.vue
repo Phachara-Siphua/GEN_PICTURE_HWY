@@ -1,7 +1,7 @@
 <template>
   <div class="transition-colors duration-300 min-h-screen">
     
-    <!-- หน้าจอหมุนโหลด (ใช้ v-show แทน v-if แก้บั๊กหมุนค้าง) -->
+    <!-- หน้าจอหมุนโหลด -->
     <div v-show="isLoading" class="flex flex-col items-center justify-center h-[80vh]">
         <div class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-blue-500 mb-6"></div>
         <h2 class="text-2xl font-bold text-blue-500 animate-pulse">กำลังโหลดข้อมูลระบบ กรุณารอสักครู่...</h2>
@@ -115,7 +115,7 @@
                             <div class="flex-1">
                                 <label class="block font-bold">สไตล์:</label>
                                 <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="headerFontBold" checked class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="headerFontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
                                     <label class="flex items-center cursor-pointer"><input type="checkbox" id="headerFontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
@@ -157,7 +157,7 @@
                             <div class="flex-1">
                                 <label class="block font-bold">สไตล์:</label>
                                 <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="dateFontBold" checked class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="dateFontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
                                     <label class="flex items-center cursor-pointer"><input type="checkbox" id="dateFontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                             <div class="flex-1">
                                 <label class="block font-bold">สไตล์:</label>
                                 <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num3FontBold" checked class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num3FontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
                                     <label class="flex items-center cursor-pointer"><input type="checkbox" id="num3FontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
@@ -241,7 +241,7 @@
                             <div class="flex-1">
                                 <label class="block font-bold">สไตล์:</label>
                                 <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num2FontBold" checked class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num2FontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
                                     <label class="flex items-center cursor-pointer"><input type="checkbox" id="num2FontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
@@ -285,7 +285,7 @@
                             <div class="flex-1">
                                 <label class="block font-bold">สไตล์:</label>
                                 <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num1FontBold" checked class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num1FontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
                                     <label class="flex items-center cursor-pointer"><input type="checkbox" id="num1FontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
