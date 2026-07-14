@@ -3,7 +3,7 @@
     
     <!-- ปุ่ม Theme (แสดงทุกหน้าที่มี Layout) -->
     <button @click="toggleDarkMode" class="fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white border border-gray-700'">
-        {{ isDarkMode ? '☀️ โหมดสว่าง' : '🌙 โหมดมืด' }}
+        {{ isDarkMode ? '☀️ ธีมสว่าง' : '🌙 ธีมมืด' }}
     </button>
 
     <aside :class="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'" class="w-64 shadow-lg flex flex-col border-r transition-colors duration-300">
@@ -35,7 +35,6 @@ import { useState } from '#imports'
 const router = useRouter()
 const isAdmin = ref(false)
 
-// ระบบคุมธีมแบบ Global
 const isDarkMode = useState('darkMode', () => false)
 
 const toggleDarkMode = () => {
@@ -44,7 +43,6 @@ const toggleDarkMode = () => {
 }
 
 onMounted(async () => {
-    // โหลดค่าธีมตอนเปิดเว็บ
     if (localStorage.getItem('theme') === 'dark') {
         isDarkMode.value = true
     }

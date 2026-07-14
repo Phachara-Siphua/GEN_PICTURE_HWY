@@ -2,7 +2,7 @@
   <div class="flex items-center justify-center h-screen transition-colors duration-300" :class="isDarkMode ? 'bg-gray-900' : 'bg-gray-100'">
     
     <button @click="toggleDarkMode" class="fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'">
-        {{ isDarkMode ? '☀️ โหมดสว่าง' : '🌙 โหมดมืด' }}
+        {{ isDarkMode ? '☀️ ธีมสว่าง' : '🌙 ธีมมืด' }}
     </button>
 
     <div class="p-8 rounded-xl shadow-2xl w-96 transition-colors duration-300" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">

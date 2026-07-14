@@ -44,7 +44,7 @@
 
         <!-- ฝั่งขวา: แผงควบคุม (Accordion) -->
         <div class="controls-container w-[400px] p-6 rounded-xl shadow-lg max-h-[85vh] overflow-y-auto flex flex-col gap-4 transition-colors relative" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
-            <h3 class="text-xl font-bold m-0 text-blue-500 sticky top-0 bg-inherit py-2 z-10 border-b" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">⚙️ แผงควบคุม</h3>
+            <h3 class="text-xl font-bold m-0 text-blue-500 py-2 border-b mb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">⚙️ แผงควบคุม</h3>
             
             <!-- ====== ระบบจัดการรูปแบบ ====== -->
             <div class="p-4 rounded-lg border shadow-sm mb-2 transition-colors" :class="isDarkMode ? 'bg-indigo-900/30 border-indigo-700' : 'bg-indigo-50 border-indigo-200'">
