@@ -43,7 +43,7 @@
         </div>
 
         <!-- ฝั่งขวา: แผงควบคุม (Accordion) -->
-        <div class="controls-container w-[400px] p-6 rounded-xl shadow-lg max-h-[85vh] overflow-y-auto flex flex-col gap-4 transition-colors relative" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
+        <div class="controls-container w-[400px] p-6 rounded-xl shadow-lg max-h-[85vh] overflow-y-auto flex flex-col gap-4 transition-colors relative" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'" @change="draw()" @input="draw()">
             <h3 class="text-xl font-bold m-0 text-blue-500 py-2 border-b mb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">⚙️ แผงควบคุม</h3>
             
             <!-- ====== ระบบจัดการรูปแบบ ====== -->
