@@ -8,7 +8,7 @@
 
     <aside :class="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'" class="w-64 shadow-lg flex flex-col border-r transition-colors duration-300">
       <div class="p-6 text-center border-b" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
-        <h2 class="text-2xl font-bold" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">Lottery Gen</h2>
+        <h2 class="text-2xl font-bold" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">RunBi</h2>
       </div>
       <nav class="flex-1 p-4 space-y-2">
         <NuxtLink to="/" class="block p-3 rounded font-medium transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 hover:text-blue-400' : 'hover:bg-blue-50 hover:text-blue-600'">🖼️ สร้างรูป (Generator)</NuxtLink>
