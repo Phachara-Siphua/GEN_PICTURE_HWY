@@ -313,7 +313,21 @@
             <button id="downloadZipBtn" class="bg-yellow-400 text-gray-800 py-3 rounded-lg font-bold text-lg shadow hover:bg-yellow-500 transition hidden w-full" @click="downloadZip">📥 ดาวน์โหลดไฟล์ ZIP</button>
         </div>
     </div>
+    <!-- 📦 ท่าไม้ตายกล่องล่องหน: บังคับโหลดฟอนต์ทั้งหมดล่วงหน้า -->
+    <div style="position: absolute; opacity: 0; pointer-events: none; z-index: -1;">
+        <span style="font-family: 'Kanit'">ฟอนต์</span>
+        <span style="font-family: 'Prompt'">ฟอนต์</span>
+        <span style="font-family: 'Sarabun'">ฟอนต์</span>
+        <span style="font-family: 'Mitr'">ฟอนต์</span>
+        <span style="font-family: 'Mali'">ฟอนต์</span>
+        <span style="font-family: 'Itim'">ฟอนต์</span>
+        <span style="font-family: 'Chakra Petch'">ฟอนต์</span>
+        <span style="font-family: 'Pattaya'">ฟอนต์</span>
+        <span style="font-family: 'Pridi'">ฟอนต์</span>
+        <span style="font-family: 'Charm'">ฟอนต์</span>
+    </div>
   </div>
+  
 </template>
 
 <script setup>
