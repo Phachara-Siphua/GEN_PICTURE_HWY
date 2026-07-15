@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: 'Lottery Gen', // เปลี่ยนชื่อเว็บตรงนี้ได้เลย
+      title: 'RunBi', // เปลี่ยนชื่อเว็บตรงนี้ได้เลย
       link: [
         // อ้างอิงไปที่ไฟล์รูปไอคอนของคุณ
         { rel: 'icon', type: 'image/png', href: '/img/icon.png' } 
