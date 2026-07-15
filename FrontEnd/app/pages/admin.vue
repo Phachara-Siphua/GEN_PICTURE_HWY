@@ -48,10 +48,23 @@
                           <input v-model="form.sub_end_date" type="date" required class="w-full p-2 border rounded focus:outline-purple-500 text-sm" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'">
                       </div>
                   </div>
+
+                  <!-- 🎯 ส่วนใหม่ที่เพิ่มเข้ามาตามไอเดีย: ลบรูปแบบตอนเกินโควต้า -->
+                  <div v-if="isEditing" class="mt-4 p-3 border rounded-lg" :class="isDarkMode ? 'bg-red-900/20 border-red-800' : 'bg-red-50 border-red-200'">
+                      <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-red-400' : 'text-red-700'">🗑️ จัดการรูปแบบของ User นี้ (กรณีลบโควต้า):</label>
+                      <div class="flex gap-2">
+                          <select v-model="selectedFormatToDelete" class="flex-1 p-2 border rounded text-sm focus:outline-red-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-red-300'">
+                              <option value="" disabled>-- เลือกรูปแบบที่ต้องการลบ --</option>
+                              <option v-for="f in userFormats" :key="f.format_name" :value="f.format_name">{{ f.format_name }}</option>
+                          </select>
+                          <button type="button" @click="deleteUserFormat" class="bg-red-500 text-white px-3 py-1 rounded text-sm font-bold hover:bg-red-600 shadow">ลบทิ้ง</button>
+                      </div>
+                      <p v-if="userFormats.length === 0" class="text-xs mt-1" :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'">ผู้ใช้นี้ยังไม่มีรูปแบบที่บันทึกไว้</p>
+                  </div>
                   
                   <div class="flex gap-2 mt-4 pt-2">
                       <button type="submit" class="flex-1 text-white font-bold py-2 rounded shadow transition" :class="isEditing ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-purple-600 hover:bg-purple-700'">
-                          {{ isEditing ? '💾 บันทึกการแก้ไข' : '➕ บันทึกผู้ใช้ใหม่' }}
+                          {{ isEditing ? '💾 บันทึกการแก้ไขข้อมูล' : '➕ บันทึกผู้ใช้ใหม่' }}
                       </button>
                       <button v-if="isEditing" @click="cancelEdit" type="button" class="bg-gray-500 text-white font-bold py-2 px-4 rounded hover:bg-gray-600 shadow">ยกเลิก</button>
                   </div>
@@ -86,14 +99,14 @@
                               {{ formatDate(u.sub_end) }}
                           </td>
                           <td class="p-2 text-center font-bold">
-                              <span :class="u.used_formats >= u.max_formats ? 'text-red-500' : 'text-indigo-500'">
+                              <span :class="u.used_formats > u.max_formats ? 'text-red-500 animate-pulse' : (u.used_formats === u.max_formats ? 'text-orange-500' : 'text-indigo-500')">
                                   {{ u.used_formats }}
                               </span>
                               <span class="opacity-60"> / {{ u.max_formats }}</span>
                           </td>
                           <td class="p-2 text-center flex justify-center gap-1">
-                              <button @click="startEditUser(u)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-xs">แก้ไข</button>
-                              <button v-if="u.role !== 'admin'" @click="deleteUser(u.id, u.username)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs">ลบ</button>
+                              <button @click="startEditUser(u)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-xs shadow-sm">แก้ไข</button>
+                              <button v-if="u.role !== 'admin'" @click="deleteUser(u.id, u.username)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs shadow-sm">ลบ</button>
                           </td>
                       </tr>
                   </tbody>
@@ -117,6 +130,10 @@ const users = ref([])
 const isEditing = ref(false)
 const editId = ref(null)
 
+// ตัวแปรสำหรับฟีเจอร์จัดการรูปแบบ
+const userFormats = ref([])
+const selectedFormatToDelete = ref('')
+
 const getToday = () => new Date().toISOString().split('T')[0]
 const getNextMonth = () => {
     let d = new Date(); d.setDate(d.getDate() + 30);
@@ -138,6 +155,18 @@ const fetchUsers = async () => {
 
 onMounted(() => { fetchUsers() })
 
+// โหลดรายการรูปแบบของ User คนที่กำลังโดนแก้ไข
+const fetchUserFormats = async (userId) => {
+    const token = localStorage.getItem('token')
+    const res = await fetch(`https://gen-picture-hwy.onrender.com/admin/users/${userId}/formats`, { 
+        headers: { 'Authorization': `Bearer ${token}` } 
+    })
+    if(res.ok) {
+        userFormats.value = await res.json()
+        selectedFormatToDelete.value = '' // รีเซ็ตค่า combobox
+    }
+}
+
 const startEditUser = (u) => {
     isEditing.value = true;
     editId.value = u.id;
@@ -149,16 +178,39 @@ const startEditUser = (u) => {
         sub_start_date: u.sub_start.split('T')[0], 
         sub_end_date: u.sub_end.split('T')[0]
     };
+    fetchUserFormats(u.id); // ดึงข้อมูลรูปแบบมาใส่ Combobox
     window.scrollTo(0, 0); 
 }
 
 const cancelEdit = () => {
     isEditing.value = false;
     editId.value = null;
+    userFormats.value = [];
+    selectedFormatToDelete.value = '';
     form.value = {
         username: '', password: '', role: 'user', max_formats: 2,
         sub_start_date: getToday(), sub_end_date: getNextMonth()
     };
+}
+
+// ฟังก์ชันสำหรับกดลบรูปแบบของ User ในหน้า Admin
+const deleteUserFormat = async () => {
+    if (!selectedFormatToDelete.value) return alert("กรุณาเลือกรูปแบบที่ต้องการลบใน Combobox ก่อนครับ");
+    if (!confirm(`⚠️ ยืนยันการลบรูปแบบ '${selectedFormatToDelete.value}' ของ User นี้ทิ้งแบบถาวร?`)) return;
+
+    const token = localStorage.getItem('token')
+    const res = await fetch(`https://gen-picture-hwy.onrender.com/admin/users/${editId.value}/formats/${encodeURIComponent(selectedFormatToDelete.value)}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+    })
+    
+    if(res.ok) {
+        alert('🗑️ ลบรูปแบบสำเร็จ!');
+        await fetchUserFormats(editId.value); // อัปเดตรายการใน Combobox ใหม่
+        await fetchUsers(); // ดึงข้อมูลตารางใหม่ เพื่อให้ช่อง "ใช้ไป / โควต้า" ลดลงแบบเรียลไทม์
+    } else {
+        alert('เกิดข้อผิดพลาดในการลบ');
+    }
 }
 
 const submitForm = async () => {

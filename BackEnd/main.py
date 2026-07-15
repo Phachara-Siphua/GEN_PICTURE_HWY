@@ -26,8 +26,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# def get_db_connection():
-#     return pymysql.connect(host='localhost', user='root', password='', database='lottery_db', cursorclass=pymysql.cursors.DictCursor)
 def get_db_connection():
     return pymysql.connect(
         host='dbgenpicturehwy-genpicturehwy.j.aivencloud.com',
@@ -123,7 +121,6 @@ async def get_all_users(current_user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="ไม่มีสิทธิ์เข้าถึง")
     conn = get_db_connection()
     with conn.cursor() as cursor:
-        # อัปเดตคำสั่ง SQL ให้นับจำนวนรูปแบบที่ User แต่ละคนบันทึกไว้ (used_formats)
         cursor.execute("""
             SELECT u.id, u.username, u.role, u.sub_start, u.sub_end, u.max_formats, u.created_at,
                    (SELECT COUNT(*) FROM formats f WHERE f.user_id = u.id) AS used_formats
@@ -271,6 +268,33 @@ async def delete_format(format_name: str, current_user: dict = Depends(get_curre
         return {"message": f"ลบรูปแบบ '{format_name}' สำเร็จ"}
     finally:
         conn.close()
+
+# ==========================================
+# API สำหรับ Admin เพื่อจัดการรูปแบบของ User
+# ==========================================
+@app.get("/admin/users/{target_user_id}/formats")
+def admin_get_user_formats(target_user_id: int, current_user: dict = Depends(get_current_user)):
+    if current_user.get('role') != 'admin':
+        raise HTTPException(status_code=403, detail="ไม่มีสิทธิ์เข้าถึง")
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id, format_name FROM formats WHERE user_id = %s", (target_user_id,))
+    formats = cursor.fetchall()
+    conn.close()
+    return formats
+
+@app.delete("/admin/users/{target_user_id}/formats/{format_name}")
+def admin_delete_user_format(target_user_id: int, format_name: str, current_user: dict = Depends(get_current_user)):
+    if current_user.get('role') != 'admin':
+        raise HTTPException(status_code=403, detail="ไม่มีสิทธิ์เข้าถึง")
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM formats WHERE user_id = %s AND format_name = %s", (target_user_id, format_name))
+    conn.commit()
+    conn.close()
+    return {"message": "ลบรูปแบบสำเร็จ"}
 
 if __name__ == "__main__":
     import uvicorn
