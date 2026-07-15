@@ -1,27 +1,44 @@
 <template>
-  <div class="flex h-screen font-sans transition-colors duration-300" :class="isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-900'">
+  <div class="flex h-screen font-sans transition-colors duration-300 overflow-hidden" :class="isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-900'">
     
-    <!-- ปุ่ม Theme (แสดงทุกหน้าที่มี Layout) -->
-    <button @click="toggleDarkMode" class="fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white border border-gray-700'">
+    <!-- ปุ่ม Theme -->
+    <button @click="toggleDarkMode" class="fixed top-4 right-4 lg:right-6 z-50 p-2 md:p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold text-xs md:text-base" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white border border-gray-700'">
         {{ isDarkMode ? '☀️ ธีมสว่าง' : '🌙 ธีมมืด' }}
     </button>
 
-    <aside :class="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'" class="w-64 shadow-lg flex flex-col border-r transition-colors duration-300">
-      <div class="p-6 text-center border-b" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
-        <h2 class="text-2xl font-bold" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">RunBi</h2>
+    <!-- แถบเมนูด้านบนสำหรับมือถือ (แสดงเฉพาะจอมือถือ) -->
+    <div class="lg:hidden fixed w-full z-40 flex justify-between items-center p-4 border-b transition-colors" :class="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
+        <h2 class="text-xl font-bold" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">RunBi</h2>
+        <button @click="isSidebarOpen = !isSidebarOpen" class="text-2xl px-2 rounded focus:outline-none" :class="isDarkMode ? 'text-white' : 'text-gray-800'">
+            ☰
+        </button>
+    </div>
+
+    <!-- ฉากหลังสีดำตอนเปิดเมนูมือถือ -->
+    <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
+
+    <!-- เมนู Sidebar (Responsive) -->
+    <aside :class="[
+        'w-64 shadow-xl flex flex-col border-r transition-all duration-300 fixed lg:relative z-50 h-full',
+        isSidebarOpen ? 'left-0' : '-left-64 lg:left-0',
+        isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
+    ]">
+      <div class="p-6 text-center border-b flex justify-between items-center lg:block" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+        <h2 class="text-2xl font-bold w-full" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">RunBi</h2>
+        <button @click="isSidebarOpen = false" class="lg:hidden text-gray-500 hover:text-red-500 text-xl font-bold">✕</button>
       </div>
-      <nav class="flex-1 p-4 space-y-2">
-        <NuxtLink to="/" class="block p-3 rounded font-medium transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 hover:text-blue-400' : 'hover:bg-blue-50 hover:text-blue-600'">🖼️ สร้างรูป (Generator)</NuxtLink>
-        <NuxtLink to="/package" class="block p-3 rounded font-medium transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 hover:text-blue-400' : 'hover:bg-blue-50 hover:text-blue-600'">📦 ข้อมูลแพ็กเกจ</NuxtLink>
-        <NuxtLink v-if="isAdmin" to="/admin" class="block p-3 rounded font-bold transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 text-purple-400 hover:text-purple-300' : 'hover:bg-purple-50 hover:text-purple-600 text-purple-700'">👑 จัดการผู้ใช้งาน (Admin)</NuxtLink>
-        <a href="https://line.me/ti/p/~@yourline" target="_blank" class="block p-3 rounded font-medium transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 text-green-400 hover:text-green-300' : 'hover:bg-green-50 text-green-600 hover:text-green-700'">💬 ติดต่อผ่าน Line</a>
+      <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+        <NuxtLink to="/" @click="isSidebarOpen = false" class="block p-3 rounded font-medium transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 hover:text-blue-400' : 'hover:bg-blue-50 hover:text-blue-600'">🖼️ สร้างรูป (Generator)</NuxtLink>
+        <NuxtLink to="/package" @click="isSidebarOpen = false" class="block p-3 rounded font-medium transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 hover:text-blue-400' : 'hover:bg-blue-50 hover:text-blue-600'">📦 ข้อมูลแพ็กเกจ</NuxtLink>
+        <NuxtLink v-if="isAdmin" to="/admin" @click="isSidebarOpen = false" class="block p-3 rounded font-bold transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 text-purple-400 hover:text-purple-300' : 'hover:bg-purple-50 hover:text-purple-600 text-purple-700'">👑 จัดการผู้ใช้งาน (Admin)</NuxtLink>
+        <a href="https://line.me/ti/p/~@402iopuh" target="_blank" class="block p-3 rounded font-medium transition-colors" :class="isDarkMode ? 'hover:bg-gray-700 text-green-400 hover:text-green-300' : 'hover:bg-green-50 text-green-600 hover:text-green-700'">💬 ติดต่อผ่าน Line</a>
       </nav>
       <div class="p-4 border-t" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
-        <button @click="logout" class="w-full p-2 bg-red-500 text-white rounded hover:bg-red-600 font-bold transition-colors">ออกจากระบบ</button>
+        <button @click="logout" class="w-full p-2 bg-red-500 text-white rounded hover:bg-red-600 font-bold transition-colors shadow">ออกจากระบบ</button>
       </div>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-6 relative">
+    <main class="flex-1 overflow-y-auto p-4 md:p-6 relative pt-20 lg:pt-6 w-full">
       <slot />
     </main>
   </div>
@@ -34,6 +51,7 @@ import { useState } from '#imports'
 
 const router = useRouter()
 const isAdmin = ref(false)
+const isSidebarOpen = ref(false) // สำหรับคุมเมนูมือถือ
 
 const isDarkMode = useState('darkMode', () => false)
 

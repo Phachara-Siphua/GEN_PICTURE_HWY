@@ -1,71 +1,70 @@
 <template>
   <div class="transition-colors duration-300 min-h-screen">
     
-    <!-- หน้าจอหมุนโหลด -->
     <div v-show="isLoading" class="flex flex-col items-center justify-center h-[80vh]">
         <div class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-blue-500 mb-6"></div>
         <h2 class="text-2xl font-bold text-blue-500 animate-pulse">กำลังโหลดข้อมูลระบบ กรุณารอสักครู่...</h2>
-        <p class="text-sm mt-2 opacity-70" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">(หากไม่มีการใช้งานนาน เซิร์ฟเวอร์อาจจะใช้เวลาตื่นประมาณ 30-50 วินาทีครับ)</p>
+        <p class="text-sm mt-2 opacity-70 text-center" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">(หากไม่มีการใช้งานนาน เซิร์ฟเวอร์อาจจะใช้เวลาตื่นประมาณ 30-50 วินาทีครับ)</p>
     </div>
 
-    <!-- แจ้งเตือนหมดอายุ -->
-    <div v-show="!isLoading && isExpired" class="flex flex-col items-center justify-center h-[80vh]">
-        <div class="p-10 rounded-lg shadow-xl text-center max-w-lg border-t-4 border-red-500 transition-colors" :class="isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'">
+    <!-- แจ้งเตือนหมดอายุ (เปลี่ยน Line@) -->
+    <div v-show="!isLoading && isExpired" class="flex flex-col items-center justify-center h-[80vh] px-4">
+        <div class="p-8 md:p-10 rounded-lg shadow-xl text-center w-full max-w-lg border-t-4 border-red-500 transition-colors" :class="isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'">
             <div class="text-7xl mb-4">⚠️</div>
-            <h2 class="text-3xl font-bold text-red-500 mb-2">แพ็กเกจหมดอายุแล้ว</h2>
-            <p class="mb-4 text-lg">บัญชีของคุณหมดอายุเมื่อเวลา<br><strong class="text-xl text-red-400">{{ expireDateStr }}</strong></p>
+            <h2 class="text-2xl md:text-3xl font-bold text-red-500 mb-2">แพ็กเกจหมดอายุแล้ว</h2>
+            <p class="mb-4 text-base md:text-lg">บัญชีของคุณหมดอายุเมื่อเวลา<br><strong class="text-lg md:text-xl text-red-400">{{ expireDateStr }}</strong></p>
             <p class="opacity-70 text-sm mb-6">กรุณาติดต่อแอดมินเพื่อทำการต่ออายุแพ็กเกจครับ</p>
-            <a href="https://line.me/ti/p/~@yourline" target="_blank" class="inline-block bg-green-500 text-white px-8 py-3 rounded-full font-bold hover:bg-green-600 transition shadow-md text-lg">💬 ติดต่อแอดมินผ่าน Line</a>
+            <a href="https://line.me/ti/p/~@402iopuh" target="_blank" class="inline-block bg-[#06C755] text-white px-6 md:px-8 py-3 rounded-full font-bold hover:bg-[#05b34c] transition shadow-md text-base md:text-lg">💬 ติดต่อแอดมิน (Line@)</a>
         </div>
     </div>
 
-    <!-- แอปพลิเคชันหลัก -->
-    <div v-show="!isLoading && !isExpired" id="mainApp" class="flex flex-wrap gap-6 w-full max-w-[1200px] mx-auto mt-2 relative">
+    <!-- แอปพลิเคชันหลัก (Responsive flex-col บนมือถือ) -->
+    <div v-show="!isLoading && !isExpired" id="mainApp" class="flex flex-col xl:flex-row gap-6 w-full max-w-[1200px] mx-auto mt-2 relative">
         
         <!-- ฝั่งซ้าย: พรีวิว -->
-        <div class="canvas-container flex-1 flex flex-col items-center p-6 rounded-xl shadow-lg min-w-[300px] transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
+        <div class="canvas-container flex-1 flex flex-col items-center p-4 md:p-6 rounded-xl shadow-lg w-full transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
             <h3 class="text-xl font-bold mb-4 flex items-center gap-2" :class="isDarkMode ? 'text-white' : 'text-gray-700'">👁️ ภาพพรีวิว</h3>
             
             <canvas id="myCanvas" width="600" height="600" class="w-full max-w-[450px] h-auto border-4 shadow-2xl rounded-lg" :class="isDarkMode ? 'border-gray-600' : 'border-gray-200'"></canvas>
             
-            <button class="mt-6 bg-teal-500 text-white py-3 px-6 rounded-lg font-bold shadow-lg hover:bg-teal-600 transition w-full max-w-[450px] text-lg" @click="generatePreviewNumbers">🎲 สุ่มตัวเลขใหม่ (ทดสอบดูตัวอย่าง)</button>
+            <button class="mt-6 bg-teal-500 text-white py-3 px-6 rounded-lg font-bold shadow-lg hover:bg-teal-600 transition w-full max-w-[450px] text-base md:text-lg" @click="generatePreviewNumbers">🎲 สุ่มตัวเลขใหม่ (ทดสอบดูตัวอย่าง)</button>
 
             <div class="flex justify-between items-center mt-10 mb-2 border-b-2 w-full pb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
-                <h3 class="text-lg font-bold m-0" :class="isDarkMode ? 'text-white' : 'text-gray-700'">🖼️ พรีวิวรูปภาพที่พร้อมสร้าง</h3>
-                <button @click="clearAllPreviews" class="bg-red-500 text-white px-4 py-1.5 rounded text-sm font-bold shadow hover:bg-red-600 transition flex items-center gap-1">
+                <h3 class="text-base md:text-lg font-bold m-0" :class="isDarkMode ? 'text-white' : 'text-gray-700'">🖼️ พรีวิวรูปภาพที่พร้อมสร้าง</h3>
+                <button @click="clearAllPreviews" class="bg-red-500 text-white px-3 md:px-4 py-1.5 rounded text-xs md:text-sm font-bold shadow hover:bg-red-600 transition flex items-center gap-1">
                     🗑️ ลบทั้งหมด
                 </button>
             </div>
             
-            <div id="previewZone" class="flex flex-wrap gap-4 p-6 border-2 border-dashed rounded-lg w-full justify-center min-h-[150px]" :class="isDarkMode ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-gray-50'">
-                <span class="opacity-50 my-auto text-center font-bold" :class="isDarkMode ? 'text-white' : 'text-gray-500'">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>
+            <div id="previewZone" class="flex flex-wrap gap-4 p-4 md:p-6 border-2 border-dashed rounded-lg w-full justify-center min-h-[150px]" :class="isDarkMode ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-gray-50'">
+                <span class="opacity-50 my-auto text-center font-bold text-sm md:text-base" :class="isDarkMode ? 'text-white' : 'text-gray-500'">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>
             </div>
         </div>
 
-        <!-- ฝั่งขวา: แผงควบคุม (Accordion) -->
-        <div class="controls-container w-[400px] p-6 rounded-xl shadow-lg max-h-[85vh] overflow-y-auto flex flex-col gap-4 transition-colors relative" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'" @change="draw()" @input="draw()">
+        <!-- ฝั่งขวา: แผงควบคุม (Responsive กว้างเต็มจอบนมือถือ) -->
+        <div class="controls-container w-full xl:w-[400px] p-4 md:p-6 rounded-xl shadow-lg xl:max-h-[85vh] xl:overflow-y-auto flex flex-col gap-4 transition-colors relative" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'" @change="draw()" @input="draw()">
             <h3 class="text-xl font-bold m-0 text-blue-500 py-2 border-b mb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">⚙️ แผงควบคุม</h3>
             
-            <!-- ====== ระบบจัดการรูปแบบ ====== -->
             <div class="p-4 rounded-lg border shadow-sm mb-2 transition-colors" :class="isDarkMode ? 'bg-indigo-900/30 border-indigo-700' : 'bg-indigo-50 border-indigo-200'">
                 <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-indigo-300' : 'text-indigo-800'">💾 จัดการรูปแบบที่บันทึกไว้:</label>
-                <div class="flex gap-2 mb-3">
+                <div class="flex flex-col sm:flex-row gap-2 mb-3">
                     <select id="formatSelect" class="flex-1 p-2 border rounded text-sm font-bold focus:outline-indigo-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-indigo-300'">
                         <option value="NEW">➕ สร้างรูปแบบใหม่</option>
                     </select>
-                    <button @click="loadSelectedFormat" class="bg-indigo-600 text-white px-3 py-1 rounded text-sm font-bold shadow hover:bg-indigo-700 transition">โหลด</button>
-                    <button @click="deleteSelectedFormat" class="bg-red-500 text-white px-3 py-1 rounded text-sm font-bold shadow hover:bg-red-600 transition">ลบ</button>
+                    <div class="flex gap-2">
+                        <button @click="loadSelectedFormat" class="flex-1 bg-indigo-600 text-white px-4 py-2 sm:py-1 rounded text-sm font-bold shadow hover:bg-indigo-700 transition">โหลด</button>
+                        <button @click="deleteSelectedFormat" class="flex-1 bg-red-500 text-white px-4 py-2 sm:py-1 rounded text-sm font-bold shadow hover:bg-red-600 transition">ลบ</button>
+                    </div>
                 </div>
                 
-                <div class="flex gap-2">
-                    <button @click="saveFormatToDB" class="flex-1 bg-green-600 text-white py-2 rounded font-bold hover:bg-green-700 transition shadow text-sm">💾 บันทึกการตั้งค่าทั้งหมด</button>
-                    <button @click="resetFormat" class="bg-gray-500 text-white px-4 py-2 rounded font-bold hover:bg-gray-600 transition shadow text-sm" title="เคลียร์ค่าทุกอย่างกลับเป็นค่าเริ่มต้น">🔄 รีเซ็ต</button>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <button @click="saveFormatToDB" class="flex-1 bg-green-600 text-white py-2.5 sm:py-2 rounded font-bold hover:bg-green-700 transition shadow text-sm">💾 บันทึกการตั้งค่าทั้งหมด</button>
+                    <button @click="resetFormat" class="bg-gray-500 text-white px-4 py-2.5 sm:py-2 rounded font-bold hover:bg-gray-600 transition shadow text-sm" title="เคลียร์ค่าทุกอย่างกลับเป็นค่าเริ่มต้น">🔄 รีเซ็ต</button>
                 </div>
             </div>
 
-            <!-- หมวดหมู่แบบ Combobox (Accordion) -->
+            <!-- Accordions -->
             <div class="flex flex-col gap-3">
-                
                 <!-- 1. รูปภาพ -->
                 <div class="border rounded-lg overflow-hidden transition-colors" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                     <div @click="openSection = 1" class="p-3 cursor-pointer flex justify-between items-center font-bold transition-colors" :class="openSection === 1 ? 'bg-blue-600 text-white' : (isDarkMode ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300')">
@@ -73,7 +72,7 @@
                         <span>{{ openSection === 1 ? '▲' : '▼' }}</span>
                     </div>
                     <div v-show="openSection === 1" class="p-4 space-y-3 text-sm" :class="isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'">
-                        <div class="flex items-center justify-between border-b pb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                             <label class="flex items-center gap-2 font-bold cursor-pointer text-green-500"><input type="checkbox" id="showBg" checked class="w-4 h-4 cursor-pointer"> เปิดใช้ Background</label>
                             <label class="flex items-center gap-2 font-bold cursor-pointer text-blue-500"><input type="checkbox" id="showLogo" checked class="w-4 h-4 cursor-pointer"> เปิดใช้ Logo</label>
                         </div>
@@ -105,23 +104,23 @@
                     <div v-show="openSection === 2" class="p-4 space-y-3 text-sm" :class="isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'">
                         <div id="lotterySelector" class="border rounded p-2 max-h-[250px] overflow-y-auto mt-1" :class="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-white'"></div>
                         
-                        <div class="flex justify-between items-center gap-2 mt-3">
-                            <div class="flex-1">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-3">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">เลือกฟอนต์:</label>
                                 <select id="headerFontFamily" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'">
                                     <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                                 </select>
                             </div>
-                            <div class="flex-1">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">สไตล์:</label>
-                                <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="headerFontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="headerFontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
+                                <div class="flex gap-4 mt-2">
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="headerFontBold" class="mr-2 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="headerFontItalic" class="mr-2 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div class="grid grid-cols-2 gap-3 mt-2">
                             <div><label class="block font-bold">ขนาดฟอนต์:</label><input type="number" id="headerFontSize" value="50" min="10" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold">สีตัวอักษร:</label><input type="color" id="headerColor" value="#000000" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                             <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="headerStrokeWidth" value="0" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
@@ -147,22 +146,22 @@
                             <label class="block font-bold">เลือกวันที่:</label>
                             <input type="date" id="datePicker" value="2024-11-16" class="w-full p-2 border rounded mt-1 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'">
                         </div>
-                        <div class="flex justify-between items-center gap-2 mt-2">
-                            <div class="flex-1">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-2">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">เลือกฟอนต์:</label>
                                 <select id="dateFontFamily" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'">
                                     <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                                 </select>
                             </div>
-                            <div class="flex-1">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">สไตล์:</label>
-                                <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="dateFontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="dateFontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
+                                <div class="flex gap-4 mt-2">
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="dateFontBold" class="mr-2 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="dateFontItalic" class="mr-2 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div class="grid grid-cols-2 gap-3 mt-2">
                             <div><label class="block font-bold">ขนาดฟอนต์:</label><input type="number" id="dateFontSize" value="45" min="10" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold">สีตัวอักษร:</label><input type="color" id="dateColor" value="#000000" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                             <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="dateStrokeWidth" value="3" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
@@ -187,28 +186,28 @@
                             <div class="flex-1"><label class="block font-bold">จำนวนแถว:</label><input type="number" id="row3Count" value="1" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div class="flex-1"><label class="block font-bold">จำนวนคอลัมน์:</label><input type="number" id="col3Count" value="3" min="1" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                         </div>
-                        <div class="flex justify-between items-center gap-2 mt-2">
-                            <div class="flex-1">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-2">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">เลือกฟอนต์:</label>
                                 <select id="num3FontFamily" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'">
                                     <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                                 </select>
                             </div>
-                            <div class="flex-1">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">สไตล์:</label>
-                                <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num3FontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num3FontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
+                                <div class="flex gap-4 mt-2">
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num3FontBold" class="mr-2 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num3FontItalic" class="mr-2 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div class="grid grid-cols-2 gap-3 mt-2">
                             <div><label class="block font-bold">ขนาดฟอนต์:</label><input type="number" id="num3FontSize" value="50" min="10" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold">สีอักษร:</label><input type="color" id="num3Color" value="#FFD700" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                             <div><label class="block font-bold mt-1">ขอบหนา:</label><input type="number" id="num3StrokeWidth" value="3" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold mt-1">สีขอบ:</label><input type="color" id="num3StrokeColor" value="#000000" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                         </div>
-                        <div class="flex justify-between gap-4 mt-3 p-3 border rounded" :class="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-white'">
+                        <div class="flex flex-col sm:flex-row justify-between gap-4 mt-3 p-3 border rounded" :class="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-white'">
                             <div class="flex-1"><label class="block font-bold text-red-500">ช่องไฟ ↔ (X):</label><input type="range" id="num3GapX" min="30" max="300" value="110" class="w-full cursor-pointer mt-2"></div>
                             <div class="flex-1"><label class="block font-bold text-green-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70" class="w-full cursor-pointer mt-2"></div>
                         </div>
@@ -231,28 +230,28 @@
                             <div class="flex-1"><label class="block font-bold">จำนวนแถว:</label><input type="number" id="row2Count" value="2" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div class="flex-1"><label class="block font-bold">จำนวนคอลัมน์:</label><input type="number" id="col2Count" value="2" min="1" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                         </div>
-                        <div class="flex justify-between items-center gap-2 mt-2">
-                            <div class="flex-1">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-2">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">เลือกฟอนต์:</label>
                                 <select id="num2FontFamily" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'">
                                     <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                                 </select>
                             </div>
-                            <div class="flex-1">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">สไตล์:</label>
-                                <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num2FontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num2FontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
+                                <div class="flex gap-4 mt-2">
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num2FontBold" class="mr-2 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num2FontItalic" class="mr-2 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div class="grid grid-cols-2 gap-3 mt-2">
                             <div><label class="block font-bold">ขนาดฟอนต์:</label><input type="number" id="num2FontSize" value="50" min="10" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold">สีอักษร:</label><input type="color" id="num2Color" value="#FFD700" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                             <div><label class="block font-bold mt-1">ขอบหนา:</label><input type="number" id="num2StrokeWidth" value="3" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold mt-1">สีขอบ:</label><input type="color" id="num2StrokeColor" value="#000000" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                         </div>
-                        <div class="flex justify-between gap-4 mt-3 p-3 border rounded" :class="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-white'">
+                        <div class="flex flex-col sm:flex-row justify-between gap-4 mt-3 p-3 border rounded" :class="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-white'">
                             <div class="flex-1"><label class="block font-bold text-red-500">ช่องไฟ ↔ (X):</label><input type="range" id="num2GapX" min="30" max="300" value="110" class="w-full cursor-pointer mt-2"></div>
                             <div class="flex-1"><label class="block font-bold text-green-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num2GapY" min="30" max="200" value="70" class="w-full cursor-pointer mt-2"></div>
                         </div>
@@ -275,28 +274,28 @@
                             <div class="flex-1"><label class="block font-bold">จำนวนแถว:</label><input type="number" id="row1Count" value="1" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div class="flex-1"><label class="block font-bold">จำนวนคอลัมน์:</label><input type="number" id="col1Count" value="2" min="1" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                         </div>
-                        <div class="flex justify-between items-center gap-2 mt-2">
-                            <div class="flex-1">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 mt-2">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">เลือกฟอนต์:</label>
                                 <select id="num1FontFamily" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'">
                                     <option value="Arial">Arial</option><option value="Tahoma">Tahoma</option><option value="Kanit">Kanit</option><option value="Prompt">Prompt</option><option value="Sarabun">Sarabun</option><option value="Mitr">Mitr</option><option value="Mali">Mali</option><option value="Itim">Itim</option><option value="Chakra Petch">Chakra Petch</option><option value="Pattaya">Pattaya</option><option value="Pridi">Pridi</option><option value="Charm">Charm</option>
                                 </select>
                             </div>
-                            <div class="flex-1">
+                            <div class="flex-1 w-full">
                                 <label class="block font-bold">สไตล์:</label>
-                                <div class="flex gap-2 mt-2">
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num1FontBold" class="mr-1 w-4 h-4 cursor-pointer"> หนา</label>
-                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num1FontItalic" class="mr-1 w-4 h-4 cursor-pointer"> เอียง</label>
+                                <div class="flex gap-4 mt-2">
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num1FontBold" class="mr-2 w-4 h-4 cursor-pointer"> หนา</label>
+                                    <label class="flex items-center cursor-pointer"><input type="checkbox" id="num1FontItalic" class="mr-2 w-4 h-4 cursor-pointer"> เอียง</label>
                                 </div>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2 mt-2">
+                        <div class="grid grid-cols-2 gap-3 mt-2">
                             <div><label class="block font-bold">ขนาดฟอนต์:</label><input type="number" id="num1FontSize" value="50" min="10" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold">สีอักษร:</label><input type="color" id="num1Color" value="#FFD700" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                             <div><label class="block font-bold mt-1">ขอบหนา:</label><input type="number" id="num1StrokeWidth" value="3" min="0" class="w-full p-1 border rounded mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white'"></div>
                             <div><label class="block font-bold mt-1">สีขอบ:</label><input type="color" id="num1StrokeColor" value="#000000" class="w-full h-[32px] p-0 border rounded cursor-pointer mt-1"></div>
                         </div>
-                        <div class="flex justify-between gap-4 mt-3 p-3 border rounded" :class="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-white'">
+                        <div class="flex flex-col sm:flex-row justify-between gap-4 mt-3 p-3 border rounded" :class="isDarkMode ? 'border-gray-700 bg-gray-800' : 'border-gray-300 bg-white'">
                             <div class="flex-1"><label class="block font-bold text-red-500">ช่องไฟ ↔ (X):</label><input type="range" id="num1GapX" min="30" max="300" value="80" class="w-full cursor-pointer mt-2"></div>
                             <div class="flex-1"><label class="block font-bold text-green-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num1GapY" min="30" max="200" value="70" class="w-full cursor-pointer mt-2"></div>
                         </div>
@@ -404,10 +403,9 @@ const loadSelectedFormat = () => {
             updateCategoryCheckboxes();
         }
 
-        // 🛠️ ท่าไม้ตายแก้บั๊กฟอนต์โหลดไม่ทัน
         setTimeout(() => {
-            draw(); // วาดรอบที่ 1: กระตุ้นให้เบราว์เซอร์รู้จักและเริ่มดาวน์โหลดไฟล์ฟอนต์
-            setTimeout(draw, 500); // วาดรอบที่ 2: หน่วงเวลา 0.5 วินาที เพื่อวาดทับอีกครั้งตอนฟอนต์มาแล้ว
+            draw(); 
+            setTimeout(draw, 500); 
         }, 50);
 
         alert(`โหลดรูปแบบ '${sel}' เสร็จสิ้น!`);
@@ -424,7 +422,7 @@ const clearAllPreviews = () => {
     generatedImagesToZip = [];
     const previewZone = document.getElementById('previewZone');
     if (previewZone) {
-        previewZone.innerHTML = `<span class="opacity-50 my-auto text-center font-bold ${isDarkMode.value ? 'text-white' : 'text-gray-500'}">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>`;
+        previewZone.innerHTML = `<span class="opacity-50 my-auto text-center font-bold text-sm md:text-base ${isDarkMode.value ? 'text-white' : 'text-gray-500'}">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>`;
     }
     document.getElementById('downloadZipBtn').classList.add('hidden');
 }

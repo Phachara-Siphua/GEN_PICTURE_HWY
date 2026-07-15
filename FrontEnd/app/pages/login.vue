@@ -1,11 +1,11 @@
 <template>
-  <div class="flex items-center justify-center h-screen transition-colors duration-300" :class="isDarkMode ? 'bg-gray-900' : 'bg-gray-100'">
+  <div class="flex items-center justify-center min-h-screen p-4 transition-colors duration-300" :class="isDarkMode ? 'bg-gray-900' : 'bg-gray-100'">
     
-    <button @click="toggleDarkMode" class="fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'">
+    <button @click="toggleDarkMode" class="fixed top-4 right-4 z-50 p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold text-xs md:text-base" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white'">
         {{ isDarkMode ? '☀️ ธีมสว่าง' : '🌙 ธีมมืด' }}
     </button>
 
-    <div class="p-8 rounded-xl shadow-2xl w-96 transition-colors duration-300" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
+    <div class="p-6 md:p-8 rounded-xl shadow-2xl w-full max-w-sm transition-colors duration-300" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
       <h2 class="text-2xl font-bold text-center mb-6" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">เข้าสู่ระบบ</h2>
       <p v-if="errorMsg" class="text-red-500 text-sm mb-4 text-center font-bold">{{ errorMsg }}</p>
       
@@ -19,7 +19,6 @@
           <input v-model="password" type="password" class="w-full p-3 border rounded focus:outline-none focus:border-blue-500 transition-colors" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" :disabled="isLoading" required>
         </div>
         
-        <!-- เปลี่ยนปุ่มให้มีสถานะหมุนโหลด -->
         <button type="submit" :disabled="isLoading" class="w-full text-white font-bold py-3 rounded shadow-lg transition-all flex justify-center items-center gap-2" :class="isLoading ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 hover:shadow-blue-500/50'">
           <svg v-if="isLoading" class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -28,10 +27,17 @@
           {{ isLoading ? 'กำลังปลุกเซิร์ฟเวอร์...' : 'เข้าสู่ระบบ' }}
         </button>
 
-        <!-- ข้อความแจ้งเตือนเวลาโหลดนาน -->
-        <p v-if="isLoading" class="text-xs text-center mt-4 opacity-70" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">
+        <p v-if="isLoading" class="text-xs text-center mt-3 opacity-70" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">
           (หากไม่มีการใช้งานนาน อาจใช้เวลา 30-50 วินาที)
         </p>
+
+        <!-- เพิ่มปุ่มติดต่อ Line@ ตรงหน้า Login -->
+        <div class="mt-6 border-t pt-4 text-center" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+            <p class="text-sm mb-3" :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'">พบปัญหา หรือต้องการเช่าแพ็กเกจ?</p>
+            <a href="https://line.me/ti/p/~@402iopuh" target="_blank" class="w-full inline-block bg-[#06C755] text-white font-bold py-2.5 rounded shadow hover:bg-[#05b34c] transition-colors">
+                💬 ติดต่อแอดมิน (Line@)
+            </a>
+        </div>
       </form>
     </div>
   </div>
@@ -57,12 +63,12 @@ onMounted(() => {
 const username = ref('')
 const password = ref('')
 const errorMsg = ref('')
-const isLoading = ref(false) // เพิ่มตัวแปรสถานะโหลด
+const isLoading = ref(false) 
 const router = useRouter()
 
 const handleLogin = async () => {
-  isLoading.value = true // เริ่มหมุน
-  errorMsg.value = ''    // เคลียร์ข้อความแจ้งเตือน
+  isLoading.value = true 
+  errorMsg.value = ''    
   
   try {
     const formData = new URLSearchParams()
@@ -84,7 +90,7 @@ const handleLogin = async () => {
   } catch (error) {
     errorMsg.value = "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้"
   } finally {
-    isLoading.value = false // ปิดหมุนเมื่อเสร็จหรือเกิดข้อผิดพลาด
+    isLoading.value = false 
   }
 }
 </script>
