@@ -23,7 +23,7 @@
         isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
     ]">
       <div class="p-6 text-center border-b flex justify-between items-center lg:block" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
-        <!-- ขยายโลโก้ Desktop เป็น h-24 และจัดกึ่งกลาง -->
+        <!-- ขยายโลโก้ Desktop เป็น h-36 และจัดกึ่งกลาง -->
         <div class="w-full flex justify-center">
             <img src="/img/logo.png" alt="Logo" class="h-36 w-full object-contain drop-shadow-sm mx-auto" onerror="this.outerHTML='<h2 class=\'text-2xl font-bold text-blue-500\'>Lottery Gen</h2>'">
         </div>
