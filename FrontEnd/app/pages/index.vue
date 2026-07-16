@@ -7,7 +7,6 @@
         <p class="text-sm mt-2 opacity-70 text-center" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">(หากไม่มีการใช้งานนาน เซิร์ฟเวอร์อาจจะใช้เวลาตื่นประมาณ 30-50 วินาทีครับ)</p>
     </div>
 
-    <!-- แจ้งเตือนหมดอายุ -->
     <div v-show="!isLoading && isExpired" class="flex flex-col items-center justify-center h-[80vh] px-4">
         <div class="p-8 md:p-10 rounded-lg shadow-xl text-center w-full max-w-lg border-t-4 border-red-500 transition-colors" :class="isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'">
             <div class="text-7xl mb-4">⚠️</div>
@@ -18,30 +17,23 @@
         </div>
     </div>
 
-    <!-- แอปพลิเคชันหลัก -->
     <div v-show="!isLoading && !isExpired" id="mainApp" class="flex flex-col xl:flex-row gap-6 w-full max-w-[1200px] mx-auto mt-2 relative">
         
-        <!-- ฝั่งซ้าย: พรีวิว -->
         <div class="canvas-container flex-1 flex flex-col items-center p-4 md:p-6 rounded-xl shadow-lg w-full transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
             <h3 class="text-xl font-bold mb-4 flex items-center gap-2" :class="isDarkMode ? 'text-white' : 'text-gray-700'">👁️ ภาพพรีวิว</h3>
-            
             <canvas id="myCanvas" width="600" height="600" class="w-full max-w-[450px] h-auto border-4 shadow-2xl rounded-lg" :class="isDarkMode ? 'border-gray-600' : 'border-gray-200'"></canvas>
-            
             <button class="mt-6 bg-teal-500 text-white py-3 px-6 rounded-lg font-bold shadow-lg hover:bg-teal-600 transition w-full max-w-[450px] text-base md:text-lg" @click="generatePreviewNumbers">🎲 สุ่มตัวเลขใหม่ (ทดสอบดูตัวอย่าง)</button>
-
             <div class="flex justify-between items-center mt-10 mb-2 border-b-2 w-full pb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                 <h3 class="text-base md:text-lg font-bold m-0" :class="isDarkMode ? 'text-white' : 'text-gray-700'">🖼️ พรีวิวรูปภาพที่พร้อมสร้าง</h3>
                 <button @click="clearAllPreviews" class="bg-red-500 text-white px-3 md:px-4 py-1.5 rounded text-xs md:text-sm font-bold shadow hover:bg-red-600 transition flex items-center gap-1">
                     🗑️ ลบทั้งหมด
                 </button>
             </div>
-            
             <div id="previewZone" class="flex flex-wrap gap-4 p-4 md:p-6 border-2 border-dashed rounded-lg w-full justify-center min-h-[150px]" :class="isDarkMode ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-gray-50'">
                 <span class="opacity-50 my-auto text-center font-bold text-sm md:text-base" :class="isDarkMode ? 'text-white' : 'text-gray-500'">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>
             </div>
         </div>
 
-        <!-- ฝั่งขวา: แผงควบคุม -->
         <div class="controls-container w-full xl:w-[400px] p-4 md:p-6 rounded-xl shadow-lg xl:max-h-[85vh] xl:overflow-y-auto flex flex-col gap-4 transition-colors relative" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'" @change="draw()" @input="draw()">
             <h3 class="text-xl font-bold m-0 text-blue-500 py-2 border-b mb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">⚙️ แผงควบคุม</h3>
             
@@ -63,7 +55,6 @@
                 </div>
             </div>
 
-            <!-- Accordions -->
             <div class="flex flex-col gap-3">
                 <!-- 1. รูปภาพ -->
                 <div class="border rounded-lg overflow-hidden transition-colors" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
@@ -134,8 +125,8 @@
                         <label class="block font-bold mt-2">ตำแหน่ง Y:</label><input type="range" id="headerY" min="0" max="600" value="100" class="w-full cursor-pointer">
                     </div>
                 </div>
-                
-                <!-- 3. เลข 1 ตัว (เลขรูด) -->
+
+                <!-- 3. เลข 1 ตัว -->
                 <div class="border rounded-lg overflow-hidden transition-colors" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                     <div @click="openSection = 3" class="p-3 cursor-pointer flex justify-between items-center font-bold transition-colors" :class="openSection === 3 ? 'bg-red-500 text-white' : (isDarkMode ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300')">
                         <span>3. 🎯 เลข 1 ตัว (เลขรูด)</span>
