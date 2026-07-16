@@ -1,16 +1,19 @@
 <template>
-  <div class="transition-colors duration-300 min-h-screen">
+  <div class="transition-colors duration-300 min-h-screen relative">
     
+    <!-- หน้าจอหมุนโหลด -->
     <div v-show="isLoading" class="flex flex-col items-center justify-center h-[80vh]">
         <div class="animate-spin rounded-full h-24 w-24 border-t-4 border-b-4 border-blue-500 mb-6"></div>
         <h2 class="text-2xl font-bold text-blue-500 animate-pulse">กำลังโหลดข้อมูลผู้ใช้งาน...</h2>
     </div>
 
+    <!-- ส่วนเนื้อหาหลัก -->
     <div v-show="!isLoading">
       <h1 class="text-2xl md:text-3xl font-bold mb-6" :class="isDarkMode ? 'text-purple-400' : 'text-purple-700'">👑 จัดการผู้ใช้งาน (Admin Only)</h1>
       
       <div class="flex flex-col lg:flex-row gap-6 items-start">
           
+          <!-- ฟอร์มเพิ่ม/แก้ไข (แก้ syntax :class เรียบร้อย) -->
           <div class="w-full lg:w-1/3 p-6 rounded-lg shadow-md border-t-4 transition-colors" :class="[isEditing ? 'border-yellow-400' : 'border-purple-600', isDarkMode ? 'bg-gray-800' : 'bg-white']">
               <h2 class="text-xl font-bold mb-4 border-b pb-2" :class="isDarkMode ? 'text-gray-200 border-gray-700' : 'text-gray-700 border-gray-200'">
                   {{ isEditing ? '✏️ แก้ไขข้อมูลผู้ใช้งาน' : '➕ เพิ่มผู้ใช้งานใหม่' }}
@@ -74,6 +77,7 @@
               </form>
           </div>
 
+          <!-- ตารางรายชื่อ -->
           <div class="w-full lg:w-2/3 p-4 md:p-6 rounded-lg shadow-md transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
               <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 border-b pb-4 gap-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                   <h2 class="text-xl font-bold whitespace-nowrap" :class="isDarkMode ? 'text-gray-200' : 'text-gray-700'">👥 รายชื่อผู้ใช้งานทั้งหมด</h2>
@@ -131,6 +135,7 @@
     </div>
 
     <!-- 🔔 โมดอล (Popup) แจ้งเตือนระบบแบบ Custom -->
+    <!-- (แก้บั๊กไวยากรณ์ในส่วนนี้เรียบร้อยครับ) -->
     <div v-if="sysModal.show" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="closeSysModal">
         <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all text-center" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
             <div class="text-5xl mb-4">{{ sysModal.icon }}</div>
@@ -165,9 +170,11 @@ const selectedFormatToDelete = ref('')
 
 // ระบบ Popup Custom 
 const sysModal = ref({ show: false, title: '', message: '', type: 'alert', icon: '🔔', onConfirm: null })
+
 const showAlert = (title, message, icon='🔔') => {
     sysModal.value = { show: true, title, message, type: 'alert', icon, onConfirm: null }
 }
+
 const showConfirm = (title, message, onConfirmCallback, icon='⚠️') => {
     sysModal.value = { show: true, title, message, type: 'confirm', icon, onConfirm: () => {
         sysModal.value.show = false;
