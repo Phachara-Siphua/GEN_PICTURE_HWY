@@ -74,7 +74,7 @@
                     <div v-show="openSection === 1" class="p-4 space-y-3 text-sm" :class="isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b pb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                             <label class="flex items-center gap-2 font-bold cursor-pointer text-green-500"><input type="checkbox" id="showBg" checked class="w-4 h-4 cursor-pointer"> เปิดใช้ Background</label>
-                            <label class="flex items-center gap-2 font-bold cursor-pointer text-blue-500"><input type="checkbox" id="showLogo" checked class="w-4 h-4 cursor-pointer"> เปิดใช้ Logo</label>
+                            <label class="flex items-center gap-2 font-bold cursor-pointer text-blue-500"><input type="checkbox" id="showLogo"  class="w-4 h-4 cursor-pointer"> เปิดใช้ Logo</label>
                         </div>
                         <div>
                             <label class="block font-bold mt-2">อัปโหลด Background:</label>
