@@ -7,6 +7,7 @@
         <p class="text-sm mt-2 opacity-70 text-center" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">(หากไม่มีการใช้งานนาน เซิร์ฟเวอร์อาจจะใช้เวลาตื่นประมาณ 30-50 วินาทีครับ)</p>
     </div>
 
+    <!-- แจ้งเตือนหมดอายุ -->
     <div v-show="!isLoading && isExpired" class="flex flex-col items-center justify-center h-[80vh] px-4">
         <div class="p-8 md:p-10 rounded-lg shadow-xl text-center w-full max-w-lg border-t-4 border-red-500 transition-colors" :class="isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'">
             <div class="text-7xl mb-4">⚠️</div>
@@ -17,8 +18,10 @@
         </div>
     </div>
 
+    <!-- แอปพลิเคชันหลัก -->
     <div v-show="!isLoading && !isExpired" id="mainApp" class="flex flex-col xl:flex-row gap-6 w-full max-w-[1200px] mx-auto mt-2 relative">
         
+        <!-- ฝั่งซ้าย: พรีวิว -->
         <div class="canvas-container flex-1 flex flex-col items-center p-4 md:p-6 rounded-xl shadow-lg w-full transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
             <h3 class="text-xl font-bold mb-4 flex items-center gap-2" :class="isDarkMode ? 'text-white' : 'text-gray-700'">👁️ ภาพพรีวิว</h3>
             <canvas id="myCanvas" width="600" height="600" class="w-full max-w-[450px] h-auto border-4 shadow-2xl rounded-lg" :class="isDarkMode ? 'border-gray-600' : 'border-gray-200'"></canvas>
@@ -34,6 +37,7 @@
             </div>
         </div>
 
+        <!-- ฝั่งขวา: แผงควบคุม -->
         <div class="controls-container w-full xl:w-[400px] p-4 md:p-6 rounded-xl shadow-lg xl:max-h-[85vh] xl:overflow-y-auto flex flex-col gap-4 transition-colors relative" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'" @change="draw()" @input="draw()">
             <h3 class="text-xl font-bold m-0 text-blue-500 py-2 border-b mb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">⚙️ แผงควบคุม</h3>
             
@@ -307,7 +311,7 @@
     </div>
 
     <!-- 📦 โมดอล (Popup) บันทึกรูปแบบ -->
-    <div v-if="showSaveModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4" @click.self="showSaveModal = false">
+    <div v-if="showSaveModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="showSaveModal = false">
         <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all animate-fade-in" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
             <h3 class="text-xl font-bold mb-4" :class="isDarkMode ? 'text-white' : 'text-gray-800'">💾 บันทึกรูปแบบใหม่</h3>
             <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">ตั้งชื่อรูปแบบของคุณ:</label>
@@ -320,7 +324,7 @@
     </div>
 
     <!-- 🔔 โมดอล (Popup) แจ้งเตือนระบบแบบ Custom -->
-    <div v-if="sysModal.show" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="closeSysModal">
+    <div v-if="sysModal.show" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/60 px-4" @click.self="closeSysModal">
         <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all text-center" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
             <div class="text-5xl mb-4">{{ sysModal.icon }}</div>
             <h3 class="text-xl font-bold mb-2" :class="isDarkMode ? 'text-white' : 'text-gray-800'">{{ sysModal.title }}</h3>
