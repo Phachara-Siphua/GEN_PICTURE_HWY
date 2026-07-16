@@ -11,7 +11,7 @@
       
       <div class="flex flex-col lg:flex-row gap-6 items-start">
           
-          <div class="w-full lg:w-1/3 p-6 rounded-lg shadow-md border-t-4 transition-colors" :class="isEditing ? 'border-yellow-400' : 'border-purple-600', isDarkMode ? 'bg-gray-800' : 'bg-white'">
+          <div class="w-full lg:w-1/3 p-6 rounded-lg shadow-md border-t-4 transition-colors" :class="[isEditing ? 'border-yellow-400' : 'border-purple-600', isDarkMode ? 'bg-gray-800' : 'bg-white']">
               <h2 class="text-xl font-bold mb-4 border-b pb-2" :class="isDarkMode ? 'text-gray-200 border-gray-700' : 'text-gray-700 border-gray-200'">
                   {{ isEditing ? '✏️ แก้ไขข้อมูลผู้ใช้งาน' : '➕ เพิ่มผู้ใช้งานใหม่' }}
               </h2>
@@ -131,7 +131,7 @@
     </div>
 
     <!-- 🔔 โมดอล (Popup) แจ้งเตือนระบบแบบ Custom -->
-    <div v-if="sysModal.show" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="if(sysModal.type === 'alert') sysModal.show = false">
+    <div v-if="sysModal.show" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="closeSysModal">
         <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all text-center" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
             <div class="text-5xl mb-4">{{ sysModal.icon }}</div>
             <h3 class="text-xl font-bold mb-2" :class="isDarkMode ? 'text-white' : 'text-gray-800'">{{ sysModal.title }}</h3>
@@ -173,6 +173,12 @@ const showConfirm = (title, message, onConfirmCallback, icon='⚠️') => {
         sysModal.value.show = false;
         onConfirmCallback();
     }}
+}
+
+const closeSysModal = () => {
+    if (sysModal.value.type === 'alert') {
+        sysModal.value.show = false;
+    }
 }
 
 const filteredUsers = computed(() => {

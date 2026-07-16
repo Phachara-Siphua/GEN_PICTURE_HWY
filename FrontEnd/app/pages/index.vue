@@ -24,14 +24,18 @@
         <!-- ฝั่งซ้าย: พรีวิว -->
         <div class="canvas-container flex-1 flex flex-col items-center p-4 md:p-6 rounded-xl shadow-lg w-full transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
             <h3 class="text-xl font-bold mb-4 flex items-center gap-2" :class="isDarkMode ? 'text-white' : 'text-gray-700'">👁️ ภาพพรีวิว</h3>
+            
             <canvas id="myCanvas" width="600" height="600" class="w-full max-w-[450px] h-auto border-4 shadow-2xl rounded-lg" :class="isDarkMode ? 'border-gray-600' : 'border-gray-200'"></canvas>
+            
             <button class="mt-6 bg-teal-500 text-white py-3 px-6 rounded-lg font-bold shadow-lg hover:bg-teal-600 transition w-full max-w-[450px] text-base md:text-lg" @click="generatePreviewNumbers">🎲 สุ่มตัวเลขใหม่ (ทดสอบดูตัวอย่าง)</button>
+
             <div class="flex justify-between items-center mt-10 mb-2 border-b-2 w-full pb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                 <h3 class="text-base md:text-lg font-bold m-0" :class="isDarkMode ? 'text-white' : 'text-gray-700'">🖼️ พรีวิวรูปภาพที่พร้อมสร้าง</h3>
                 <button @click="clearAllPreviews" class="bg-red-500 text-white px-3 md:px-4 py-1.5 rounded text-xs md:text-sm font-bold shadow hover:bg-red-600 transition flex items-center gap-1">
                     🗑️ ลบทั้งหมด
                 </button>
             </div>
+            
             <div id="previewZone" class="flex flex-wrap gap-4 p-4 md:p-6 border-2 border-dashed rounded-lg w-full justify-center min-h-[150px]" :class="isDarkMode ? 'border-gray-600 bg-gray-900' : 'border-gray-300 bg-gray-50'">
                 <span class="opacity-50 my-auto text-center font-bold text-sm md:text-base" :class="isDarkMode ? 'text-white' : 'text-gray-500'">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>
             </div>
@@ -59,7 +63,7 @@
                 </div>
             </div>
 
-            <!-- จัดเรียง Accordions ใหม่ตามสั่ง -->
+            <!-- Accordions -->
             <div class="flex flex-col gap-3">
                 <!-- 1. รูปภาพ -->
                 <div class="border rounded-lg overflow-hidden transition-colors" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
@@ -130,7 +134,7 @@
                         <label class="block font-bold mt-2">ตำแหน่ง Y:</label><input type="range" id="headerY" min="0" max="600" value="100" class="w-full cursor-pointer">
                     </div>
                 </div>
-
+                
                 <!-- 3. เลข 1 ตัว (เลขรูด) -->
                 <div class="border rounded-lg overflow-hidden transition-colors" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                     <div @click="openSection = 3" class="p-3 cursor-pointer flex justify-between items-center font-bold transition-colors" :class="openSection === 3 ? 'bg-red-500 text-white' : (isDarkMode ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300')">
@@ -313,7 +317,7 @@
 
     <!-- 📦 โมดอล (Popup) บันทึกรูปแบบ -->
     <div v-if="showSaveModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 px-4" @click.self="showSaveModal = false">
-        <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
+        <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all animate-fade-in" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
             <h3 class="text-xl font-bold mb-4" :class="isDarkMode ? 'text-white' : 'text-gray-800'">💾 บันทึกรูปแบบใหม่</h3>
             <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">ตั้งชื่อรูปแบบของคุณ:</label>
             <input v-model="newFormatName" type="text" placeholder="เช่น หวยไทยรูปแบบ 1" class="w-full p-3 border rounded focus:outline-blue-500 mb-6" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" @keyup.enter="confirmSaveNew">
@@ -324,7 +328,19 @@
         </div>
     </div>
 
-    <!-- บังคับโหลดฟอนต์ทั้งหมดล่วงหน้า -->
+    <!-- 🔔 โมดอล (Popup) แจ้งเตือนระบบแบบ Custom -->
+    <div v-if="sysModal.show" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="closeSysModal">
+        <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all text-center" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
+            <div class="text-5xl mb-4">{{ sysModal.icon }}</div>
+            <h3 class="text-xl font-bold mb-2" :class="isDarkMode ? 'text-white' : 'text-gray-800'">{{ sysModal.title }}</h3>
+            <p class="mb-6 text-sm whitespace-pre-line" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">{{ sysModal.message }}</p>
+            <div class="flex gap-3 justify-center">
+                <button v-if="sysModal.type === 'confirm'" @click="sysModal.onConfirm" class="flex-1 bg-green-600 text-white py-2.5 rounded font-bold hover:bg-green-700 transition shadow">ยืนยัน</button>
+                <button @click="sysModal.show = false" class="bg-gray-500 text-white px-5 py-2.5 rounded font-bold hover:bg-gray-600 transition shadow flex-1">{{ sysModal.type === 'confirm' ? 'ยกเลิก' : 'ตกลง' }}</button>
+            </div>
+        </div>
+    </div>
+
     <div style="position: absolute; opacity: 0; pointer-events: none; z-index: -1;">
         <span style="font-family: 'Kanit'">ฟอนต์</span>
         <span style="font-family: 'Prompt'">ฟอนต์</span>
@@ -358,9 +374,26 @@ const isExpired = ref(false)
 const expireDateStr = ref('')
 const openSection = ref(1) 
 
-// ตัวแปรสำหรับ Popup บันทึกรูปแบบ
 const showSaveModal = ref(false)
 const newFormatName = ref('')
+
+// ระบบ Popup Custom 
+const sysModal = ref({ show: false, title: '', message: '', type: 'alert', icon: '🔔', onConfirm: null })
+const showAlert = (title, message, icon='🔔') => {
+    sysModal.value = { show: true, title, message, type: 'alert', icon, onConfirm: null }
+}
+const showConfirm = (title, message, onConfirmCallback, icon='⚠️') => {
+    sysModal.value = { show: true, title, message, type: 'confirm', icon, onConfirm: () => {
+        sysModal.value.show = false;
+        onConfirmCallback();
+    }}
+}
+
+const closeSysModal = () => {
+    if (sysModal.value.type === 'alert') {
+        sysModal.value.show = false;
+    }
+}
 
 let canvas = null;
 let ctx = null;
@@ -372,7 +405,11 @@ let logoImage = null;
 let generatedImagesToZip = [];
 let savedFormatsList = []; 
 
-const getTodayStr = () => new Date().toISOString().split('T')[0];
+const getTodayStr = () => {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+};
 
 const lotteryData = {
     "หวยหุ้น": ["เกาหลี", "จีนเช้า", "จีนบ่าย", "จีนรอบเช้า", "ดาวโจนส์", "ไต้หวัน", "ไทยเย็น", "น้ำมันปิด", "น้ำมันเปิด", "นิเคอิเช้า", "นิเคอิบ่าย", "มาเลย์", "เยอรมัน", "รัสเซีย", "สิงคโปร์", "หุ้นทองปิด", "หุ้นทองเปิด", "หุ้นฮั่งเส็งเช้า", "หุ้นฮั่งเส็งบ่าย", "อังกฤษ", "อินเดีย", "อียิปต์", "ฮั่งเส็งเช้า", "ฮั่งเส็งบ่าย"],
@@ -412,7 +449,7 @@ const fetchFormats = async () => {
 
 const loadSelectedFormat = () => {
     const sel = document.getElementById('formatSelect').value;
-    if(sel === 'NEW') return alert('กรุณาเลือกชื่อรูปแบบด้านซ้ายก่อนโหลดครับ');
+    if(sel === 'NEW') return showAlert('แจ้งเตือน', 'กรุณาเลือกชื่อรูปแบบด้านซ้ายก่อนโหลดครับ', 'ℹ️');
     
     const format = savedFormatsList.find(f => f.format_name === sel);
     if(format) {
@@ -438,69 +475,66 @@ const loadSelectedFormat = () => {
             setTimeout(draw, 500); 
         }, 50);
 
-        alert(`โหลดรูปแบบ '${sel}' เสร็จสิ้น!`);
+        showAlert('สำเร็จ', `โหลดรูปแบบ '${sel}' เสร็จสิ้น!`, '✅');
     }
 }
 
 const clearAllPreviews = () => {
-    if (generatedImagesToZip.length === 0) {
-        alert('ยังไม่มีรูปภาพพรีวิวให้ลบครับ');
-        return;
-    }
-    if (!confirm('⚠️ คุณแน่ใจหรือไม่ว่าต้องการเคลียร์รูปพรีวิวทั้งหมดทิ้ง?')) return;
+    if (generatedImagesToZip.length === 0) return showAlert('แจ้งเตือน', 'ยังไม่มีรูปภาพพรีวิวให้ลบครับ', 'ℹ️');
     
-    generatedImagesToZip = [];
-    const previewZone = document.getElementById('previewZone');
-    if (previewZone) {
-        previewZone.innerHTML = `<span class="opacity-50 my-auto text-center font-bold text-sm md:text-base ${isDarkMode.value ? 'text-white' : 'text-gray-500'}">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>`;
-    }
-    document.getElementById('downloadZipBtn').classList.add('hidden');
+    showConfirm('ยืนยันการลบ', '⚠️ คุณแน่ใจหรือไม่ว่าต้องการเคลียร์รูปพรีวิวทั้งหมดทิ้ง?', () => {
+        generatedImagesToZip = [];
+        const previewZone = document.getElementById('previewZone');
+        if (previewZone) {
+            previewZone.innerHTML = `<span class="opacity-50 my-auto text-center font-bold text-sm md:text-base ${isDarkMode.value ? 'text-white' : 'text-gray-500'}">เมื่อกดปุ่ม "🚀 สร้างรูปทั้งหมด"<br>รูปพรีวิวทั้งหมดจะมาแสดงที่นี่ครับ</span>`;
+        }
+        document.getElementById('downloadZipBtn').classList.add('hidden');
+    }, '🗑️');
 }
 
 const deleteSelectedFormat = async () => {
     const token = localStorage.getItem('token');
     const sel = document.getElementById('formatSelect').value;
     
-    if(sel === 'NEW') return alert('ไม่สามารถลบรายการนี้ได้ กรุณาเลือกรูปแบบที่บันทึกไว้ครับ');
-    if(!confirm(`⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบรูปแบบ '${sel}' ทิ้ง?\n(การกระทำนี้ไม่สามารถกู้คืนได้)`)) return;
+    if(sel === 'NEW') return showAlert('แจ้งเตือน', 'ไม่สามารถลบรายการนี้ได้ กรุณาเลือกรูปแบบที่บันทึกไว้ครับ', '❌');
     
-    try {
-        const res = await fetch(`https://gen-picture-hwy.onrender.com/formats/${encodeURIComponent(sel)}`, {
-            method: 'DELETE',
-            headers: { 'Authorization': `Bearer ${token}` }
-        });
-        if(res.ok) {
-            alert('ลบรูปแบบสำเร็จ!');
-            await fetchFormats();
-            document.getElementById('formatSelect').value = 'NEW';
-        } else {
-            alert('เกิดข้อผิดพลาดในการลบ');
+    showConfirm('ยืนยันการลบ', `⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบรูปแบบ '${sel}' ทิ้ง?\n(การกระทำนี้ไม่สามารถกู้คืนได้)`, async () => {
+        try {
+            const res = await fetch(`https://gen-picture-hwy.onrender.com/formats/${encodeURIComponent(sel)}`, {
+                method: 'DELETE',
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            if(res.ok) {
+                showAlert('สำเร็จ', 'ลบรูปแบบสำเร็จ!', '✅');
+                await fetchFormats();
+                document.getElementById('formatSelect').value = 'NEW';
+            } else {
+                showAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการลบ', '❌');
+            }
+        } catch(e) {
+            console.error(e);
         }
-    } catch(e) {
-        console.error(e);
-    }
+    }, '🗑️');
 }
 
-// 🎯 ฟังก์ชันจัดการ UI การกด Save
 const triggerSaveFormat = () => {
     const sel = document.getElementById('formatSelect').value;
     if (sel === 'NEW') {
         newFormatName.value = '';
         showSaveModal.value = true;
     } else {
-        if (confirm(`คุณต้องการอัปเดตและบันทึกทับรูปแบบ '${sel}' ใช่หรือไม่?`)) {
+        showConfirm('อัปเดตรูปแบบ', `คุณต้องการอัปเดตและบันทึกทับรูปแบบ '${sel}' ใช่หรือไม่?`, () => {
             executeSaveFormat(sel);
-        }
+        }, '💾');
     }
 }
 
 const confirmSaveNew = () => {
-    if (!newFormatName.value.trim()) return alert('กรุณากรอกชื่อรูปแบบ!');
+    if (!newFormatName.value.trim()) return showAlert('แจ้งเตือน', 'กรุณากรอกชื่อรูปแบบ!', 'ℹ️');
     showSaveModal.value = false;
     executeSaveFormat(newFormatName.value.trim());
 }
 
-// ฟังก์ชัน API เซฟของจริง
 const executeSaveFormat = async (formatName) => {
     const token = localStorage.getItem('token');
     let settings = {};
@@ -524,21 +558,22 @@ const executeSaveFormat = async (formatName) => {
         });
         const data = await response.json();
         if(response.ok) {
-            alert(data.message);
+            showAlert('สำเร็จ', data.message, '✅');
             await fetchFormats(); 
             document.getElementById('formatSelect').value = formatName; 
         } else {
-            alert('❌ ' + data.detail);
+            showAlert('ข้อผิดพลาด', '❌ ' + data.detail, '❌');
         }
     } catch(e) {
-        alert('ไม่สามารถเชื่อมต่อฐานข้อมูลได้');
+        showAlert('ข้อผิดพลาด', 'ไม่สามารถเชื่อมต่อฐานข้อมูลได้', '🔌');
     }
 }
 
 const resetFormat = () => {
-    if(!confirm('⚠️ คุณแน่ใจหรือไม่ที่จะ "รีเซ็ต" การตั้งค่าปัจจุบันทั้งหมดให้กลับเป็นค่าเริ่มต้น?')) return;
-    localStorage.removeItem('lotterySettings'); 
-    window.location.reload(); 
+    showConfirm('รีเซ็ตการตั้งค่า', '⚠️ คุณแน่ใจหรือไม่ที่จะ "รีเซ็ต" การตั้งค่าปัจจุบันทั้งหมดให้กลับเป็นค่าเริ่มต้น?', () => {
+        localStorage.removeItem('lotterySettings'); 
+        window.location.reload(); 
+    }, '🔄');
 }
 
 const renderLotterySelector = () => {
@@ -644,7 +679,7 @@ const handleImageUpload = (e, type) => {
 
 const createNumbersArray = (rows, cols, digitsCount) => {
     let grid = [];
-    let used1Digits = new Set(); // ตะกร้าเก็บเลขรูดที่ถูกใช้ไปแล้ว
+    let used1Digits = new Set(); 
 
     for (let i = 0; i < rows; i++) {
         let row = [];
@@ -654,13 +689,12 @@ const createNumbersArray = (rows, cols, digitsCount) => {
             } else if (digitsCount === 2) {
                 row.push(Math.floor(Math.random() * 100).toString().padStart(2, '0'));
             } else if (digitsCount === 1) {
-                // 🎯 บังคับสุ่มเลข 1-9 ไม่ให้ซ้ำกัน
                 let num;
                 let attempts = 0;
                 do {
                     num = (Math.floor(Math.random() * 9) + 1).toString();
                     attempts++;
-                    if(attempts > 50) break; // กันระบบค้างถ้าสุ่มเกินโควต้า 9 ตัว
+                    if(attempts > 50) break; 
                 } while (used1Digits.has(num));
                 
                 used1Digits.add(num);
@@ -800,7 +834,7 @@ const generateBatchPreviews = () => {
     generatedImagesToZip = []; 
     
     const headers = getSelectedHeaders();
-    if(headers.length === 0) return alert("กรุณาติ๊กเลือกชื่อหัวข้ออย่างน้อย 1 ชื่อครับ");
+    if(headers.length === 0) return showAlert('แจ้งเตือน', "กรุณาติ๊กเลือกชื่อหัวข้ออย่างน้อย 1 ชื่อครับ", 'ℹ️');
 
     const r3 = document.getElementById('row3Count').value, c3 = document.getElementById('col3Count').value;
     const r2 = document.getElementById('row2Count').value, c2 = document.getElementById('col2Count').value;
@@ -862,15 +896,19 @@ const downloadZip = () => {
 }
 
 const initApp = () => {
-    // 🎯 เซ็ตค่าวันที่เริ่มต้นเป็น วันนี้ (Today)
     const dateInput = document.getElementById('datePicker');
     if(dateInput) dateInput.value = getTodayStr();
 
     document.querySelectorAll('input, select').forEach(el => {
         if(el.type !== 'file' && !el.classList.contains('sub-cb') && !el.classList.contains('cat-cb') && el.id !== 'formatSelect') {
-            el.addEventListener('input', () => { setTimeout(draw, 50); });
-            if (el.type === 'checkbox' || el.tagName.toLowerCase() === 'select') {
-                el.addEventListener('change', () => { setTimeout(draw, 50); });
+            if (el.id.includes('Count')) {
+                el.addEventListener('input', () => { setTimeout(generatePreviewNumbers, 50); });
+                el.addEventListener('change', () => { setTimeout(generatePreviewNumbers, 50); });
+            } else {
+                el.addEventListener('input', () => { setTimeout(draw, 50); });
+                if (el.type === 'checkbox' || el.tagName.toLowerCase() === 'select') {
+                    el.addEventListener('change', () => { setTimeout(draw, 50); });
+                }
             }
         }
     });
