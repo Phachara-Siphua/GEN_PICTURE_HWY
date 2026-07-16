@@ -75,7 +75,6 @@
           </div>
 
           <div class="w-full lg:w-2/3 p-4 md:p-6 rounded-lg shadow-md transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
-              <!-- ส่วนหัวตารางและระบบ Search -->
               <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 border-b pb-4 gap-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                   <h2 class="text-xl font-bold whitespace-nowrap" :class="isDarkMode ? 'text-gray-200' : 'text-gray-700'">👥 รายชื่อผู้ใช้งานทั้งหมด</h2>
                   <div class="w-full md:w-64 relative">
@@ -84,7 +83,6 @@
                   </div>
               </div>
 
-              <!-- ตาราง -->
               <div class="overflow-x-auto">
                   <table class="w-full text-left border-collapse min-w-[600px]">
                       <thead>
@@ -131,6 +129,20 @@
           </div>
       </div>
     </div>
+
+    <!-- 🔔 โมดอล (Popup) แจ้งเตือนระบบแบบ Custom -->
+    <div v-if="sysModal.show" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="if(sysModal.type === 'alert') sysModal.show = false">
+        <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all text-center" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
+            <div class="text-5xl mb-4">{{ sysModal.icon }}</div>
+            <h3 class="text-xl font-bold mb-2" :class="isDarkMode ? 'text-white' : 'text-gray-800'">{{ sysModal.title }}</h3>
+            <p class="mb-6 text-sm whitespace-pre-line" :class="isDarkMode ? 'text-gray-300' : 'text-gray-600'">{{ sysModal.message }}</p>
+            <div class="flex gap-3 justify-center">
+                <button v-if="sysModal.type === 'confirm'" @click="sysModal.onConfirm" class="flex-1 bg-green-600 text-white py-2.5 rounded font-bold hover:bg-green-700 transition shadow">ยืนยัน</button>
+                <button @click="sysModal.show = false" class="bg-gray-500 text-white px-5 py-2.5 rounded font-bold hover:bg-gray-600 transition shadow flex-1">{{ sysModal.type === 'confirm' ? 'ยกเลิก' : 'ตกลง' }}</button>
+            </div>
+        </div>
+    </div>
+
   </div>
 </template>
 
@@ -151,19 +163,34 @@ const editId = ref(null)
 const userFormats = ref([])
 const selectedFormatToDelete = ref('')
 
-// Computed Property สำหรับช่อง Search
+// ระบบ Popup Custom 
+const sysModal = ref({ show: false, title: '', message: '', type: 'alert', icon: '🔔', onConfirm: null })
+const showAlert = (title, message, icon='🔔') => {
+    sysModal.value = { show: true, title, message, type: 'alert', icon, onConfirm: null }
+}
+const showConfirm = (title, message, onConfirmCallback, icon='⚠️') => {
+    sysModal.value = { show: true, title, message, type: 'confirm', icon, onConfirm: () => {
+        sysModal.value.show = false;
+        onConfirmCallback();
+    }}
+}
+
 const filteredUsers = computed(() => {
     if (!searchQuery.value) return users.value;
     return users.value.filter(u => u.username.toLowerCase().includes(searchQuery.value.toLowerCase()));
 })
 
-const getToday = () => new Date().toISOString().split('T')[0]
+const getToday = () => {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().split('T')[0];
+};
+
 const getNextMonth = () => {
     let d = new Date(); d.setDate(d.getDate() + 30);
     return d.toISOString().split('T')[0];
 }
 
-// ตั้งค่า Default max_formats ให้เป็น 1
 const form = ref({
     username: '', password: '', role: 'user', max_formats: 1,
     sub_start_date: getToday(), sub_end_date: getNextMonth()
@@ -217,32 +244,26 @@ const cancelEdit = () => {
 }
 
 const deleteUserFormat = async () => {
-    if (!selectedFormatToDelete.value) return alert("กรุณาเลือกรูปแบบที่ต้องการลบใน Combobox ก่อนครับ");
-    if (!confirm(`⚠️ ยืนยันการลบรูปแบบ '${selectedFormatToDelete.value}' ของ User นี้ทิ้งแบบถาวร?`)) return;
-
-    const token = localStorage.getItem('token')
-    const res = await fetch(`https://gen-picture-hwy.onrender.com/admin/users/${editId.value}/formats/${encodeURIComponent(selectedFormatToDelete.value)}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-    })
+    if (!selectedFormatToDelete.value) return showAlert('แจ้งเตือน', "กรุณาเลือกรูปแบบที่ต้องการลบใน Combobox ก่อนครับ", 'ℹ️');
     
-    if(res.ok) {
-        alert('🗑️ ลบรูปแบบสำเร็จ!');
-        await fetchUserFormats(editId.value); 
-        await fetchUsers(); 
-    } else {
-        alert('เกิดข้อผิดพลาดในการลบ');
-    }
+    showConfirm('ยืนยันการลบ', `⚠️ ยืนยันการลบรูปแบบ '${selectedFormatToDelete.value}' ของ User นี้ทิ้งแบบถาวร?`, async () => {
+        const token = localStorage.getItem('token')
+        const res = await fetch(`https://gen-picture-hwy.onrender.com/admin/users/${editId.value}/formats/${encodeURIComponent(selectedFormatToDelete.value)}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+        
+        if(res.ok) {
+            showAlert('สำเร็จ', '🗑️ ลบรูปแบบสำเร็จ!', '✅');
+            await fetchUserFormats(editId.value); 
+            await fetchUsers(); 
+        } else {
+            showAlert('ข้อผิดพลาด', 'เกิดข้อผิดพลาดในการลบ', '❌');
+        }
+    }, '🗑️');
 }
 
-const submitForm = async () => {
-    if (isEditing.value && form.value.max_formats < userFormats.value.length) {
-        const forceSave = confirm(
-            `⚠️ คำเตือน!\nคุณกำลังจะลดโควต้าลงเหลือ ${form.value.max_formats} แต่ User นี้มีรูปแบบบันทึกไว้ถึง ${userFormats.value.length} อัน\n\nระบบแนะนำให้คุณ "ยกเลิก" และกลับไปลบรูปแบบของ User ออกก่อน (เพื่อไม่ให้โควต้าแสดงผลเกินและบั๊ก)\n\nคุณแน่ใจหรือไม่ที่จะฝืนบันทึกข้อมูลโดยไม่ลบรูปแบบก่อน?`
-        );
-        if (!forceSave) return; 
-    }
-
+const executeSubmitForm = async () => {
     const token = localStorage.getItem('token')
     const url = isEditing.value ? `https://gen-picture-hwy.onrender.com/users/${editId.value}` : 'https://gen-picture-hwy.onrender.com/register';
     const method = isEditing.value ? 'PUT' : 'POST';
@@ -260,22 +281,36 @@ const submitForm = async () => {
     
     const data = await res.json()
     if(res.ok) {
-        alert(data.message)
+        showAlert('สำเร็จ', data.message, '✅')
         cancelEdit() 
         fetchUsers() 
     } else {
-        alert('❌ ' + data.detail)
+        showAlert('ข้อผิดพลาด', '❌ ' + data.detail, '❌')
     }
 }
 
+const submitForm = async () => {
+    if (isEditing.value && form.value.max_formats < userFormats.value.length) {
+        showConfirm('⚠️ โควต้าขัดแย้งกัน', `คุณกำลังจะลดโควต้าลงเหลือ ${form.value.max_formats} แต่ User นี้มีรูปแบบบันทึกไว้ถึง ${userFormats.value.length} อัน\n\nระบบแนะนำให้ "ยกเลิก" และกลับไปลบรูปแบบของ User ออกก่อนเพื่อไม่ให้โควต้าแสดงผลเกิน\n\nคุณแน่ใจหรือไม่ที่จะฝืนบันทึกข้อมูลโดยไม่ลบรูปแบบก่อน?`, () => {
+            executeSubmitForm();
+        }, '🚨');
+        return;
+    }
+    executeSubmitForm();
+}
+
 const deleteUser = async (id, name) => {
-    if(!confirm(`⚠️ ต้องการลบผู้ใช้ '${name}' ทิ้งถาวรหรือไม่?`)) return
-    const token = localStorage.getItem('token')
-    const res = await fetch(`https://gen-picture-hwy.onrender.com/users/${id}`, {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${token}` }
-    })
-    if(res.ok) { alert('ลบสำเร็จ!'); fetchUsers() }
+    showConfirm('ลบผู้ใช้งาน', `⚠️ ต้องการลบผู้ใช้ '${name}' ทิ้งถาวรหรือไม่?`, async () => {
+        const token = localStorage.getItem('token')
+        const res = await fetch(`https://gen-picture-hwy.onrender.com/users/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        })
+        if(res.ok) { 
+            showAlert('สำเร็จ', 'ลบผู้ใช้สำเร็จ!', '✅'); 
+            fetchUsers() 
+        }
+    }, '🗑️');
 }
 
 const formatDate = (dateStr) => {

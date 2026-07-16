@@ -6,8 +6,10 @@
     </button>
 
     <div class="lg:hidden fixed w-full z-40 flex justify-between items-center p-4 border-b transition-colors" :class="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
-        <!-- เปลี่ยนเป็น Logo -->
-        <img src="/img/logo.png" alt="Logo" class="h-8 object-contain drop-shadow-sm" onerror="this.outerHTML='<h2 class=\'text-xl font-bold text-blue-500\'>Lottery Gen</h2>'">
+        <!-- ขยายโลโก้มือถือเป็น h-12 และจัดกึ่งกลาง -->
+        <div class="flex-1 flex justify-center pl-8">
+            <img src="/img/logo.png" alt="Logo" class="h-12 object-contain drop-shadow-sm" onerror="this.outerHTML='<h2 class=\'text-xl font-bold text-blue-500\'>Lottery Gen</h2>'">
+        </div>
         <button @click="isSidebarOpen = !isSidebarOpen" class="text-2xl px-2 rounded focus:outline-none" :class="isDarkMode ? 'text-white' : 'text-gray-800'">
             ☰
         </button>
@@ -21,9 +23,9 @@
         isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
     ]">
       <div class="p-6 text-center border-b flex justify-between items-center lg:block" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
-        <!-- เปลี่ยนเป็น Logo -->
-        <div class="w-full flex justify-center lg:justify-start">
-            <img src="/img/logo.png" alt="Logo" class="h-12 object-contain drop-shadow-sm" onerror="this.outerHTML='<h2 class=\'text-2xl font-bold text-blue-500\'>Lottery Gen</h2>'">
+        <!-- ขยายโลโก้ Desktop เป็น h-24 และจัดกึ่งกลาง -->
+        <div class="w-full flex justify-center">
+            <img src="/img/logo.png" alt="Logo" class="h-24 w-full object-contain drop-shadow-sm mx-auto" onerror="this.outerHTML='<h2 class=\'text-2xl font-bold text-blue-500\'>Lottery Gen</h2>'">
         </div>
         <button @click="isSidebarOpen = false" class="lg:hidden text-gray-500 hover:text-red-500 text-xl font-bold">✕</button>
       </div>
