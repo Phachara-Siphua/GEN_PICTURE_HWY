@@ -9,7 +9,6 @@
     <div v-show="!isLoading">
       <h1 class="text-2xl md:text-3xl font-bold mb-6" :class="isDarkMode ? 'text-purple-400' : 'text-purple-700'">👑 จัดการผู้ใช้งาน (Admin Only)</h1>
       
-      <!-- ใช้ flex-col บนมือถือ และ flex-row บนจอใหญ่ -->
       <div class="flex flex-col lg:flex-row gap-6 items-start">
           
           <div class="w-full lg:w-1/3 p-6 rounded-lg shadow-md border-t-4 transition-colors" :class="isEditing ? 'border-yellow-400' : 'border-purple-600', isDarkMode ? 'bg-gray-800' : 'bg-white'">
@@ -39,7 +38,6 @@
                       <label class="block text-sm font-bold" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">โควต้ารูปแบบ (จำกัด):</label>
                       <input v-model="form.max_formats" type="number" min="1" required class="w-full p-2 border rounded focus:outline-purple-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'">
                       
-                      <!-- 🚨 แจ้งเตือนแอดมินทันทีที่ลดโควต้าลงต่ำกว่าจำนวนที่มีอยู่ 🚨 -->
                       <p v-if="isEditing && form.max_formats < userFormats.length" class="text-xs text-red-500 font-bold mt-2 p-2 rounded animate-pulse" :class="isDarkMode ? 'bg-red-900/30' : 'bg-red-100'">
                           ⚠️ คำเตือน: โควต้าใหม่น้อยกว่ารูปแบบที่ User บันทึกไว้ (มี {{ userFormats.length }} อัน) กรุณาลบออกด้านล่างด้วยครับ!
                       </p>
@@ -76,46 +74,60 @@
               </form>
           </div>
 
-          <div class="w-full lg:w-2/3 p-4 md:p-6 rounded-lg shadow-md overflow-x-auto transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
-              <h2 class="text-xl font-bold mb-4 border-b pb-2 whitespace-nowrap" :class="isDarkMode ? 'text-gray-200 border-gray-700' : 'text-gray-700 border-gray-200'">👥 รายชื่อผู้ใช้งานทั้งหมด</h2>
-              <table class="w-full text-left border-collapse min-w-[600px]">
-                  <thead>
-                      <tr class="text-sm border-b" :class="isDarkMode ? 'bg-gray-700 text-gray-300 border-gray-600' : 'bg-gray-100 text-gray-600 border-gray-200'">
-                          <th class="p-2">ID</th>
-                          <th class="p-2">Username</th>
-                          <th class="p-2">Role</th>
-                          <th class="p-2">วันที่เริ่ม</th>
-                          <th class="p-2">วันหมดอายุ</th>
-                          <th class="p-2 text-center">ใช้ / โควต้า</th>
-                          <th class="p-2 text-center">จัดการ</th>
-                      </tr>
-                  </thead>
-                  <tbody :class="isDarkMode ? 'text-gray-200' : 'text-gray-800'">
-                      <tr v-for="u in users" :key="u.id" class="border-b text-sm transition-colors" :class="[isDarkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50', {'bg-yellow-100 dark:bg-yellow-900/40': isEditing && editId === u.id}]">
-                          <td class="p-2">{{ u.id }}</td>
-                          <td class="p-2 font-bold">{{ u.username }}</td>
-                          <td class="p-2">
-                              <span :class="[u.role === 'admin' ? 'text-purple-600' : 'text-blue-600', isDarkMode ? 'bg-gray-900' : 'bg-gray-100']" class="px-2 py-1 rounded text-xs font-bold">
-                                  {{ u.role }}
-                              </span>
-                          </td>
-                          <td class="p-2 opacity-70">{{ formatDate(u.sub_start) }}</td>
-                          <td class="p-2" :class="isExpired(u.sub_end) ? 'text-red-500 font-bold' : 'text-green-500'">
-                              {{ formatDate(u.sub_end) }}
-                          </td>
-                          <td class="p-2 text-center font-bold">
-                              <span :class="u.used_formats > u.max_formats ? 'text-red-500 animate-pulse' : (u.used_formats === u.max_formats ? 'text-orange-500' : 'text-indigo-500')">
-                                  {{ u.used_formats }}
-                              </span>
-                              <span class="opacity-60"> / {{ u.max_formats }}</span>
-                          </td>
-                          <td class="p-2 text-center flex justify-center gap-1">
-                              <button @click="startEditUser(u)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-xs shadow-sm">แก้ไข</button>
-                              <button v-if="u.role !== 'admin'" @click="deleteUser(u.id, u.username)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs shadow-sm">ลบ</button>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
+          <div class="w-full lg:w-2/3 p-4 md:p-6 rounded-lg shadow-md transition-colors" :class="isDarkMode ? 'bg-gray-800' : 'bg-white'">
+              <!-- ส่วนหัวตารางและระบบ Search -->
+              <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 border-b pb-4 gap-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
+                  <h2 class="text-xl font-bold whitespace-nowrap" :class="isDarkMode ? 'text-gray-200' : 'text-gray-700'">👥 รายชื่อผู้ใช้งานทั้งหมด</h2>
+                  <div class="w-full md:w-64 relative">
+                      <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+                      <input v-model="searchQuery" type="text" placeholder="ค้นหาชื่อผู้ใช้..." class="w-full pl-9 p-2 border rounded-full text-sm focus:outline-purple-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'">
+                  </div>
+              </div>
+
+              <!-- ตาราง -->
+              <div class="overflow-x-auto">
+                  <table class="w-full text-left border-collapse min-w-[600px]">
+                      <thead>
+                          <tr class="text-sm border-b" :class="isDarkMode ? 'bg-gray-700 text-gray-300 border-gray-600' : 'bg-gray-100 text-gray-600 border-gray-200'">
+                              <th class="p-2">ID</th>
+                              <th class="p-2">Username</th>
+                              <th class="p-2">Role</th>
+                              <th class="p-2">วันที่เริ่ม</th>
+                              <th class="p-2">วันหมดอายุ</th>
+                              <th class="p-2 text-center">ใช้ / โควต้า</th>
+                              <th class="p-2 text-center">จัดการ</th>
+                          </tr>
+                      </thead>
+                      <tbody :class="isDarkMode ? 'text-gray-200' : 'text-gray-800'">
+                          <tr v-for="u in filteredUsers" :key="u.id" class="border-b text-sm transition-colors" :class="[isDarkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50', {'bg-yellow-100 dark:bg-yellow-900/40': isEditing && editId === u.id}]">
+                              <td class="p-2">{{ u.id }}</td>
+                              <td class="p-2 font-bold">{{ u.username }}</td>
+                              <td class="p-2">
+                                  <span :class="[u.role === 'admin' ? 'text-purple-600' : 'text-blue-600', isDarkMode ? 'bg-gray-900' : 'bg-gray-100']" class="px-2 py-1 rounded text-xs font-bold">
+                                      {{ u.role }}
+                                  </span>
+                              </td>
+                              <td class="p-2 opacity-70">{{ formatDate(u.sub_start) }}</td>
+                              <td class="p-2" :class="isExpired(u.sub_end) ? 'text-red-500 font-bold' : 'text-green-500'">
+                                  {{ formatDate(u.sub_end) }}
+                              </td>
+                              <td class="p-2 text-center font-bold">
+                                  <span :class="u.used_formats > u.max_formats ? 'text-red-500 animate-pulse' : (u.used_formats === u.max_formats ? 'text-orange-500' : 'text-indigo-500')">
+                                      {{ u.used_formats }}
+                                  </span>
+                                  <span class="opacity-60"> / {{ u.max_formats }}</span>
+                              </td>
+                              <td class="p-2 text-center flex justify-center gap-1">
+                                  <button @click="startEditUser(u)" class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 text-xs shadow-sm">แก้ไข</button>
+                                  <button v-if="u.role !== 'admin'" @click="deleteUser(u.id, u.username)" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-xs shadow-sm">ลบ</button>
+                              </td>
+                          </tr>
+                          <tr v-if="filteredUsers.length === 0">
+                              <td colspan="7" class="text-center p-4 opacity-50">ไม่พบผู้ใช้งานที่ค้นหา</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
           </div>
       </div>
     </div>
@@ -123,7 +135,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useState } from '#imports'
 
@@ -132,11 +144,18 @@ const isDarkMode = useState('darkMode')
 const router = useRouter()
 const users = ref([])
 
+const searchQuery = ref('')
 const isEditing = ref(false)
 const editId = ref(null)
 
 const userFormats = ref([])
 const selectedFormatToDelete = ref('')
+
+// Computed Property สำหรับช่อง Search
+const filteredUsers = computed(() => {
+    if (!searchQuery.value) return users.value;
+    return users.value.filter(u => u.username.toLowerCase().includes(searchQuery.value.toLowerCase()));
+})
 
 const getToday = () => new Date().toISOString().split('T')[0]
 const getNextMonth = () => {
@@ -144,8 +163,9 @@ const getNextMonth = () => {
     return d.toISOString().split('T')[0];
 }
 
+// ตั้งค่า Default max_formats ให้เป็น 1
 const form = ref({
-    username: '', password: '', role: 'user', max_formats: 2,
+    username: '', password: '', role: 'user', max_formats: 1,
     sub_start_date: getToday(), sub_end_date: getNextMonth()
 })
 
@@ -191,7 +211,7 @@ const cancelEdit = () => {
     userFormats.value = [];
     selectedFormatToDelete.value = '';
     form.value = {
-        username: '', password: '', role: 'user', max_formats: 2,
+        username: '', password: '', role: 'user', max_formats: 1,
         sub_start_date: getToday(), sub_end_date: getNextMonth()
     };
 }
@@ -216,12 +236,11 @@ const deleteUserFormat = async () => {
 }
 
 const submitForm = async () => {
-    // 🚨 ดักจับเวลาแอดมินลืมลบรูปแบบที่เกินโควต้า 🚨
     if (isEditing.value && form.value.max_formats < userFormats.value.length) {
         const forceSave = confirm(
             `⚠️ คำเตือน!\nคุณกำลังจะลดโควต้าลงเหลือ ${form.value.max_formats} แต่ User นี้มีรูปแบบบันทึกไว้ถึง ${userFormats.value.length} อัน\n\nระบบแนะนำให้คุณ "ยกเลิก" และกลับไปลบรูปแบบของ User ออกก่อน (เพื่อไม่ให้โควต้าแสดงผลเกินและบั๊ก)\n\nคุณแน่ใจหรือไม่ที่จะฝืนบันทึกข้อมูลโดยไม่ลบรูปแบบก่อน?`
         );
-        if (!forceSave) return; // ถ้ายกเลิก ก็ให้หยุดการทำงาน
+        if (!forceSave) return; 
     }
 
     const token = localStorage.getItem('token')

@@ -1,30 +1,30 @@
 <template>
   <div class="flex h-screen font-sans transition-colors duration-300 overflow-hidden" :class="isDarkMode ? 'bg-gray-900 text-gray-200' : 'bg-gray-100 text-gray-900'">
     
-    <!-- ปุ่ม Theme -->
     <button @click="toggleDarkMode" class="fixed top-4 right-4 lg:right-6 z-50 p-2 md:p-3 rounded-full shadow-lg transition-transform hover:scale-110 font-bold text-xs md:text-base" :class="isDarkMode ? 'bg-yellow-400 text-gray-900' : 'bg-gray-800 text-white border border-gray-700'">
         {{ isDarkMode ? '☀️ ธีมสว่าง' : '🌙 ธีมมืด' }}
     </button>
 
-    <!-- แถบเมนูด้านบนสำหรับมือถือ (แสดงเฉพาะจอมือถือ) -->
     <div class="lg:hidden fixed w-full z-40 flex justify-between items-center p-4 border-b transition-colors" :class="isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'">
-        <h2 class="text-xl font-bold" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">RunBi</h2>
+        <!-- เปลี่ยนเป็น Logo -->
+        <img src="/img/logo.png" alt="Logo" class="h-8 object-contain drop-shadow-sm" onerror="this.outerHTML='<h2 class=\'text-xl font-bold text-blue-500\'>Lottery Gen</h2>'">
         <button @click="isSidebarOpen = !isSidebarOpen" class="text-2xl px-2 rounded focus:outline-none" :class="isDarkMode ? 'text-white' : 'text-gray-800'">
             ☰
         </button>
     </div>
 
-    <!-- ฉากหลังสีดำตอนเปิดเมนูมือถือ -->
     <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-black/50 z-40 lg:hidden"></div>
 
-    <!-- เมนู Sidebar (Responsive) -->
     <aside :class="[
         'w-64 shadow-xl flex flex-col border-r transition-all duration-300 fixed lg:relative z-50 h-full',
         isSidebarOpen ? 'left-0' : '-left-64 lg:left-0',
         isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'
     ]">
       <div class="p-6 text-center border-b flex justify-between items-center lg:block" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
-        <h2 class="text-2xl font-bold w-full" :class="isDarkMode ? 'text-blue-400' : 'text-blue-600'">RunBi</h2>
+        <!-- เปลี่ยนเป็น Logo -->
+        <div class="w-full flex justify-center lg:justify-start">
+            <img src="/img/logo.png" alt="Logo" class="h-12 object-contain drop-shadow-sm" onerror="this.outerHTML='<h2 class=\'text-2xl font-bold text-blue-500\'>Lottery Gen</h2>'">
+        </div>
         <button @click="isSidebarOpen = false" class="lg:hidden text-gray-500 hover:text-red-500 text-xl font-bold">✕</button>
       </div>
       <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
@@ -51,7 +51,7 @@ import { useState } from '#imports'
 
 const router = useRouter()
 const isAdmin = ref(false)
-const isSidebarOpen = ref(false) // สำหรับคุมเมนูมือถือ
+const isSidebarOpen = ref(false)
 
 const isDarkMode = useState('darkMode', () => false)
 
