@@ -42,10 +42,10 @@
             <h3 class="text-xl font-bold m-0 text-blue-500 py-2 border-b mb-2" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">⚙️ แผงควบคุม</h3>
             
             <div class="p-4 rounded-lg border shadow-sm mb-2 transition-colors" :class="isDarkMode ? 'bg-indigo-900/30 border-indigo-700' : 'bg-indigo-50 border-indigo-200'">
-                <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-indigo-300' : 'text-indigo-800'">💾 จัดการรูปแบบที่บันทึกไว้:</label>
+                <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-indigo-300' : 'text-indigo-800'">💾 จัดการเทมเพลตที่บันทึกไว้:</label>
                 <div class="flex flex-col sm:flex-row gap-2 mb-3">
                     <select id="formatSelect" class="flex-1 p-2 border rounded text-sm font-bold focus:outline-indigo-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-indigo-300'">
-                        <option value="NEW">➕ สร้างรูปแบบใหม่</option>
+                        <option value="NEW">➕ สร้างเทมเพลตใหม่</option>
                     </select>
                     <div class="flex gap-2">
                         <button @click="loadSelectedFormat" class="flex-1 bg-indigo-600 text-white px-4 py-2 sm:py-1 rounded text-sm font-bold shadow hover:bg-indigo-700 transition">โหลด</button>
@@ -54,11 +54,12 @@
                 </div>
                 
                 <div class="flex flex-col sm:flex-row gap-2">
-                    <button @click="triggerSaveFormat" class="flex-1 bg-green-600 text-white py-2.5 sm:py-2 rounded font-bold hover:bg-green-700 transition shadow text-sm">💾 บันทึกรูปแบบนี้</button>
+                    <button @click="triggerSaveFormat" class="flex-1 bg-green-600 text-white py-2.5 sm:py-2 rounded font-bold hover:bg-green-700 transition shadow text-sm">💾 บันทึกเทมเพลตนี้</button>
                     <button @click="resetFormat" class="bg-gray-500 text-white px-4 py-2.5 sm:py-2 rounded font-bold hover:bg-gray-600 transition shadow text-sm" title="เคลียร์ค่าทุกอย่างกลับเป็นค่าเริ่มต้น">🔄 รีเซ็ต</button>
                 </div>
             </div>
 
+            <!-- จัดเรียงใหม่ตามสั่ง -->
             <div class="flex flex-col gap-3">
                 <!-- 1. รูปภาพ -->
                 <div class="border rounded-lg overflow-hidden transition-colors" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
@@ -130,7 +131,7 @@
                     </div>
                 </div>
 
-                <!-- 3. เลข 1 ตัว -->
+                <!-- 3. เลข 1 ตัว (เลขรูด) -->
                 <div class="border rounded-lg overflow-hidden transition-colors" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">
                     <div @click="openSection = 3" class="p-3 cursor-pointer flex justify-between items-center font-bold transition-colors" :class="openSection === 3 ? 'bg-red-500 text-white' : (isDarkMode ? 'bg-gray-700 text-gray-200 hover:bg-gray-600' : 'bg-gray-200 text-gray-700 hover:bg-gray-300')">
                         <span>3. 🎯 เลข 1 ตัว (เลขรูด)</span>
@@ -310,12 +311,12 @@
         </div>
     </div>
 
-    <!-- 📦 โมดอล (Popup) บันทึกรูปแบบ -->
+    <!-- 📦 โมดอล (Popup) บันทึกเทมเพลต -->
     <div v-if="showSaveModal" class="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 px-4" @click.self="showSaveModal = false">
         <div class="p-6 rounded-xl shadow-2xl w-full max-w-sm transform scale-100 transition-all animate-fade-in" :class="isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white'">
-            <h3 class="text-xl font-bold mb-4" :class="isDarkMode ? 'text-white' : 'text-gray-800'">💾 บันทึกรูปแบบใหม่</h3>
-            <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">ตั้งชื่อรูปแบบของคุณ:</label>
-            <input v-model="newFormatName" type="text" placeholder="เช่น หวยไทยรูปแบบ 1" class="w-full p-3 border rounded focus:outline-blue-500 mb-6" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" @keyup.enter="confirmSaveNew">
+            <h3 class="text-xl font-bold mb-4" :class="isDarkMode ? 'text-white' : 'text-gray-800'">💾 บันทึกเทมเพลตใหม่</h3>
+            <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">ตั้งชื่อเทมเพลตของคุณ:</label>
+            <input v-model="newFormatName" type="text" placeholder="เช่น หวยไทย 1" class="w-full p-3 border rounded focus:outline-blue-500 mb-6" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'" @keyup.enter="confirmSaveNew">
             <div class="flex gap-3">
                 <button @click="confirmSaveNew" class="flex-1 bg-green-600 text-white py-2.5 rounded font-bold hover:bg-green-700 transition shadow">บันทึก</button>
                 <button @click="showSaveModal = false" class="bg-gray-500 text-white px-5 py-2.5 rounded font-bold hover:bg-gray-600 transition shadow">ยกเลิก</button>
@@ -372,8 +373,12 @@ const openSection = ref(1)
 const showSaveModal = ref(false)
 const newFormatName = ref('')
 
-// ระบบ Popup Custom 
+// ระบบจัดการ Base64 สำหรับรูปภาพ
+const bgBase64 = ref(null);
+const logoBase64 = ref(null);
+
 const sysModal = ref({ show: false, title: '', message: '', type: 'alert', icon: '🔔', onConfirm: null })
+
 const showAlert = (title, message, icon='🔔') => {
     sysModal.value = { show: true, title, message, type: 'alert', icon, onConfirm: null }
 }
@@ -432,7 +437,7 @@ const fetchFormats = async () => {
     if(res.ok) {
         savedFormatsList = await res.json();
         const sel = document.getElementById('formatSelect');
-        sel.innerHTML = '<option value="NEW">➕ สร้างรูปแบบใหม่</option>';
+        sel.innerHTML = '<option value="NEW">➕ สร้างเทมเพลตใหม่</option>';
         savedFormatsList.forEach(f => {
             const opt = document.createElement('option');
             opt.value = f.format_name;
@@ -444,7 +449,7 @@ const fetchFormats = async () => {
 
 const loadSelectedFormat = () => {
     const sel = document.getElementById('formatSelect').value;
-    if(sel === 'NEW') return showAlert('แจ้งเตือน', 'กรุณาเลือกชื่อรูปแบบด้านซ้ายก่อนโหลดครับ', 'ℹ️');
+    if(sel === 'NEW') return showAlert('แจ้งเตือน', 'กรุณาเลือกชื่อเทมเพลตด้านซ้ายก่อนโหลดครับ', 'ℹ️');
     
     const format = savedFormatsList.find(f => f.format_name === sel);
     if(format) {
@@ -465,12 +470,37 @@ const loadSelectedFormat = () => {
             updateCategoryCheckboxes();
         }
 
-        setTimeout(() => {
-            draw(); 
-            setTimeout(draw, 500); 
-        }, 50);
+        // ดึงรูป Background กลับมา
+        if(settings['bgBase64']) {
+            bgBase64.value = settings['bgBase64'];
+            const img = new Image();
+            img.onload = () => { bgImage = img; setTimeout(draw, 50); };
+            img.src = settings['bgBase64'];
+        } else {
+            bgBase64.value = null;
+            const defBg = new Image();
+            defBg.src = '/img/default-bg.png';
+            defBg.onload = () => { bgImage = defBg; setTimeout(draw, 50); };
+        }
 
-        showAlert('สำเร็จ', `โหลดรูปแบบ '${sel}' เสร็จสิ้น!`, '✅');
+        // ดึงรูป Logo กลับมา
+        if(settings['logoBase64']) {
+            logoBase64.value = settings['logoBase64'];
+            const img2 = new Image();
+            img2.onload = () => { logoImage = img2; setTimeout(draw, 50); };
+            img2.src = settings['logoBase64'];
+        } else {
+            logoBase64.value = null;
+            const defLogo = new Image();
+            defLogo.src = '/img/default-logo.png';
+            defLogo.onload = () => { logoImage = defLogo; setTimeout(draw, 50); };
+        }
+
+        setTimeout(() => {
+            generatePreviewNumbers(); 
+        }, 100);
+
+        showAlert('สำเร็จ', `โหลดเทมเพลต '${sel}' เสร็จสิ้น!`, '✅');
     }
 }
 
@@ -491,16 +521,16 @@ const deleteSelectedFormat = async () => {
     const token = localStorage.getItem('token');
     const sel = document.getElementById('formatSelect').value;
     
-    if(sel === 'NEW') return showAlert('แจ้งเตือน', 'ไม่สามารถลบรายการนี้ได้ กรุณาเลือกรูปแบบที่บันทึกไว้ครับ', '❌');
+    if(sel === 'NEW') return showAlert('แจ้งเตือน', 'ไม่สามารถลบรายการนี้ได้ กรุณาเลือกเทมเพลตที่บันทึกไว้ครับ', '❌');
     
-    showConfirm('ยืนยันการลบ', `⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบรูปแบบ '${sel}' ทิ้ง?\n(การกระทำนี้ไม่สามารถกู้คืนได้)`, async () => {
+    showConfirm('ยืนยันการลบ', `⚠️ คุณแน่ใจหรือไม่ว่าต้องการลบเทมเพลต '${sel}' ทิ้ง?\n(การกระทำนี้ไม่สามารถกู้คืนได้)`, async () => {
         try {
             const res = await fetch(`https://gen-picture-hwy.onrender.com/formats/${encodeURIComponent(sel)}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` }
             });
             if(res.ok) {
-                showAlert('สำเร็จ', 'ลบรูปแบบสำเร็จ!', '✅');
+                showAlert('สำเร็จ', 'ลบเทมเพลตสำเร็จ!', '✅');
                 await fetchFormats();
                 document.getElementById('formatSelect').value = 'NEW';
             } else {
@@ -518,14 +548,14 @@ const triggerSaveFormat = () => {
         newFormatName.value = '';
         showSaveModal.value = true;
     } else {
-        showConfirm('อัปเดตรูปแบบ', `คุณต้องการอัปเดตและบันทึกทับรูปแบบ '${sel}' ใช่หรือไม่?`, () => {
+        showConfirm('อัปเดตเทมเพลต', `คุณต้องการอัปเดตและบันทึกทับเทมเพลต '${sel}' ใช่หรือไม่?`, () => {
             executeSaveFormat(sel);
         }, '💾');
     }
 }
 
 const confirmSaveNew = () => {
-    if (!newFormatName.value.trim()) return showAlert('แจ้งเตือน', 'กรุณากรอกชื่อรูปแบบ!', 'ℹ️');
+    if (!newFormatName.value.trim()) return showAlert('แจ้งเตือน', 'กรุณากรอกชื่อเทมเพลต!', 'ℹ️');
     showSaveModal.value = false;
     executeSaveFormat(newFormatName.value.trim());
 }
@@ -539,6 +569,10 @@ const executeSaveFormat = async (formatName) => {
     });
     settings['selectedHeaders'] = getSelectedHeaders();
     
+    // บันทึกรูปเข้าไปในฐานข้อมูล
+    settings['bgBase64'] = bgBase64.value;
+    settings['logoBase64'] = logoBase64.value;
+
     try {
         const response = await fetch('https://gen-picture-hwy.onrender.com/formats', {
             method: 'POST',
@@ -553,7 +587,7 @@ const executeSaveFormat = async (formatName) => {
         });
         const data = await response.json();
         if(response.ok) {
-            showAlert('สำเร็จ', data.message, '✅');
+            showAlert('สำเร็จ', data.message.replace('รูปแบบ', 'เทมเพลต'), '✅');
             await fetchFormats(); 
             document.getElementById('formatSelect').value = formatName; 
         } else {
@@ -656,18 +690,53 @@ const getSelectedHeaders = () => {
     return Array.from(checkboxes).map(cb => cb.value);
 }
 
+// 🎯 ระบบบีบอัดรูปก่อนเซฟลงฐานข้อมูล ป้องกันข้อมูลใหญ่เกินไป
+const compressImage = (imgSrc, maxWidth, callback) => {
+    const img = new Image();
+    img.onload = () => {
+        const canvas = document.createElement('canvas');
+        let width = img.width;
+        let height = img.height;
+        if (width > maxWidth) {
+            height = Math.round((height * maxWidth) / width);
+            width = maxWidth;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        callback(canvas.toDataURL('image/jpeg', 0.6));
+    };
+    img.src = imgSrc;
+};
+
 const handleImageUpload = (e, type) => {
     const file = e.target.files[0];
     if (!file) return;
+    
+    if (file.size > 2 * 1024 * 1024) {
+        showAlert('ไฟล์ใหญ่เกินไป', 'กรุณาอัปโหลดรูปภาพขนาดไม่เกิน 2MB เพื่อป้องกันระบบหน่วงครับ', '⚠️');
+        e.target.value = '';
+        return;
+    }
+
     const reader = new FileReader();
     reader.onload = function(event) {
-        const img = new Image();
-        img.onload = function() {
-            if (type === 'bg') bgImage = img;
-            if (type === 'logo') logoImage = img;
-            setTimeout(draw, 50);
-        }
-        img.src = event.target.result;
+        compressImage(event.target.result, type === 'bg' ? 800 : 400, (compressedBase64) => {
+            const img = new Image();
+            img.onload = function() {
+                if (type === 'bg') {
+                    bgImage = img;
+                    bgBase64.value = compressedBase64;
+                }
+                if (type === 'logo') {
+                    logoImage = img;
+                    logoBase64.value = compressedBase64;
+                }
+                setTimeout(draw, 50);
+            }
+            img.src = compressedBase64;
+        });
     }
     reader.readAsDataURL(file);
 }

@@ -35,11 +35,11 @@
                       </select>
                   </div>
                   <div>
-                      <label class="block text-sm font-bold" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">โควต้ารูปแบบ (จำกัด):</label>
+                      <label class="block text-sm font-bold" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">โควต้าเทมเพลต (จำกัด):</label>
                       <input v-model="form.max_formats" type="number" min="1" required class="w-full p-2 border rounded focus:outline-purple-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-gray-50 border-gray-300'">
                       
                       <p v-if="isEditing && form.max_formats < userFormats.length" class="text-xs text-red-500 font-bold mt-2 p-2 rounded animate-pulse" :class="isDarkMode ? 'bg-red-900/30' : 'bg-red-100'">
-                          ⚠️ คำเตือน: โควต้าใหม่น้อยกว่ารูปแบบที่ User บันทึกไว้ (มี {{ userFormats.length }} อัน) กรุณาลบออกด้านล่างด้วยครับ!
+                          ⚠️ คำเตือน: โควต้าใหม่น้อยกว่าเทมเพลตที่ User บันทึกไว้ (มี {{ userFormats.length }} อัน) กรุณาลบออกด้านล่างด้วยครับ!
                       </p>
                   </div>
                   <div class="flex gap-2">
@@ -54,15 +54,15 @@
                   </div>
 
                   <div v-if="isEditing" class="mt-4 p-3 border rounded-lg" :class="isDarkMode ? 'bg-red-900/20 border-red-800' : 'bg-red-50 border-red-200'">
-                      <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-red-400' : 'text-red-700'">🗑️ จัดการรูปแบบของ User นี้:</label>
+                      <label class="block text-sm font-bold mb-2" :class="isDarkMode ? 'text-red-400' : 'text-red-700'">🗑️ จัดการเทมเพลตของ User นี้:</label>
                       <div class="flex flex-col md:flex-row gap-2">
                           <select v-model="selectedFormatToDelete" class="flex-1 p-2 border rounded text-sm focus:outline-red-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-red-300'">
-                              <option value="" disabled>-- เลือกรูปแบบที่ต้องการลบ --</option>
+                              <option value="" disabled>-- เลือกเทมเพลตที่ต้องการลบ --</option>
                               <option v-for="f in userFormats" :key="f.format_name" :value="f.format_name">{{ f.format_name }}</option>
                           </select>
                           <button type="button" @click="deleteUserFormat" class="bg-red-500 text-white px-3 py-2 md:py-1 rounded text-sm font-bold hover:bg-red-600 shadow">ลบทิ้ง</button>
                       </div>
-                      <p v-if="userFormats.length === 0" class="text-xs mt-2 text-center" :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'">ไม่มีรูปแบบที่บันทึกไว้</p>
+                      <p v-if="userFormats.length === 0" class="text-xs mt-2 text-center" :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'">ไม่มีเทมเพลตที่บันทึกไว้</p>
                   </div>
                   
                   <div class="flex gap-2 mt-4 pt-2">
@@ -87,21 +87,26 @@
                   <table class="w-full text-left border-collapse min-w-[600px]">
                       <thead>
                           <tr class="text-sm border-b" :class="isDarkMode ? 'bg-gray-700 text-gray-300 border-gray-600' : 'bg-gray-100 text-gray-600 border-gray-200'">
-                              <th class="p-2">ID</th>
+                              <!-- 🎯 เปลี่ยนจาก ID เป็น คำว่า ลำดับ -->
+                              <th class="p-2 text-center w-16">ลำดับ</th>
                               <th class="p-2">Username</th>
                               <th class="p-2">Role</th>
                               <th class="p-2">วันที่เริ่ม</th>
                               <th class="p-2">วันหมดอายุ</th>
-                              <th class="p-2 text-center">ใช้ / โควต้า</th>
+                              <th class="p-2 text-center">โควต้าเทมเพลต</th>
                               <th class="p-2 text-center">จัดการ</th>
                           </tr>
                       </thead>
                       <tbody :class="isDarkMode ? 'text-gray-200' : 'text-gray-800'">
-                          <tr v-for="u in filteredUsers" :key="u.id" class="border-b text-sm transition-colors" :class="[isDarkMode ? 'border-gray-700 hover:bg-gray-700' : 'border-gray-200 hover:bg-gray-50', {'bg-yellow-100 dark:bg-yellow-900/40': isEditing && editId === u.id}]">
-                              <td class="p-2">{{ u.id }}</td>
+                          <!-- 🎯 เพิ่ม (u, index) เข้าไปใน v-for เพื่อใช้นับลำดับ -->
+                          <tr v-for="(u, index) in filteredUsers" :key="u.id" class="border-b text-sm transition-colors" :class="(isDarkMode ? 'border-gray-700 hover:bg-gray-700 ' : 'border-gray-200 hover:bg-gray-50 ') + (isEditing && editId === u.id ? (isDarkMode ? 'bg-yellow-900/40' : 'bg-yellow-100') : '')">
+                              
+                              <!-- 🎯 แสดง index + 1 เพื่อให้รันเลข 1, 2, 3, 4... สวยงามเสมอ -->
+                              <td class="p-2 text-center font-bold text-gray-400">{{ index + 1 }}</td>
+                              
                               <td class="p-2 font-bold">{{ u.username }}</td>
                               <td class="p-2">
-                                  <span :class="[u.role === 'admin' ? 'text-purple-600' : 'text-blue-600', isDarkMode ? 'bg-gray-900' : 'bg-gray-100']" class="px-2 py-1 rounded text-xs font-bold">
+                                  <span :class="(u.role === 'admin' ? 'text-purple-600 ' : 'text-blue-600 ') + (isDarkMode ? 'bg-gray-900' : 'bg-gray-100')" class="px-2 py-1 rounded text-xs font-bold">
                                       {{ u.role }}
                                   </span>
                               </td>
@@ -163,7 +168,6 @@ const editId = ref(null)
 const userFormats = ref([])
 const selectedFormatToDelete = ref('')
 
-// ระบบ Popup Custom 
 const sysModal = ref({ show: false, title: '', message: '', type: 'alert', icon: '🔔', onConfirm: null })
 
 const showAlert = (title, message, icon='🔔') => {
@@ -252,9 +256,9 @@ const cancelEdit = () => {
 }
 
 const deleteUserFormat = async () => {
-    if (!selectedFormatToDelete.value) return showAlert('แจ้งเตือน', "กรุณาเลือกรูปแบบที่ต้องการลบใน Combobox ก่อนครับ", 'ℹ️');
+    if (!selectedFormatToDelete.value) return showAlert('แจ้งเตือน', "กรุณาเลือกเทมเพลตที่ต้องการลบใน Combobox ก่อนครับ", 'ℹ️');
     
-    showConfirm('ยืนยันการลบ', `⚠️ ยืนยันการลบรูปแบบ '${selectedFormatToDelete.value}' ของ User นี้ทิ้งแบบถาวร?`, async () => {
+    showConfirm('ยืนยันการลบ', `⚠️ ยืนยันการลบเทมเพลต '${selectedFormatToDelete.value}' ของ User นี้ทิ้งแบบถาวร?`, async () => {
         const token = localStorage.getItem('token')
         const res = await fetch(`https://gen-picture-hwy.onrender.com/admin/users/${editId.value}/formats/${encodeURIComponent(selectedFormatToDelete.value)}`, {
             method: 'DELETE',
@@ -262,7 +266,7 @@ const deleteUserFormat = async () => {
         })
         
         if(res.ok) {
-            showAlert('สำเร็จ', '🗑️ ลบรูปแบบสำเร็จ!', '✅');
+            showAlert('สำเร็จ', '🗑️ ลบเทมเพลตสำเร็จ!', '✅');
             await fetchUserFormats(editId.value); 
             await fetchUsers(); 
         } else {
@@ -299,7 +303,7 @@ const executeSubmitForm = async () => {
 
 const submitForm = async () => {
     if (isEditing.value && form.value.max_formats < userFormats.value.length) {
-        showConfirm('⚠️ โควต้าขัดแย้งกัน', `คุณกำลังจะลดโควต้าลงเหลือ ${form.value.max_formats} แต่ User นี้มีรูปแบบบันทึกไว้ถึง ${userFormats.value.length} อัน\n\nระบบแนะนำให้ "ยกเลิก" และกลับไปลบรูปแบบของ User ออกก่อนเพื่อไม่ให้โควต้าแสดงผลเกิน\n\nคุณแน่ใจหรือไม่ที่จะฝืนบันทึกข้อมูลโดยไม่ลบรูปแบบก่อน?`, () => {
+        showConfirm('⚠️ โควต้าขัดแย้งกัน', `คุณกำลังจะลดโควต้าลงเหลือ ${form.value.max_formats} แต่ User นี้มีเทมเพลตบันทึกไว้ถึง ${userFormats.value.length} อัน\n\nระบบแนะนำให้ "ยกเลิก" และกลับไปลบเทมเพลตของ User ออกก่อนเพื่อไม่ให้โควต้าแสดงผลเกิน\n\nคุณแน่ใจหรือไม่ที่จะฝืนบันทึกข้อมูลโดยไม่ลบเทมเพลตก่อน?`, () => {
             executeSubmitForm();
         }, '🚨');
         return;

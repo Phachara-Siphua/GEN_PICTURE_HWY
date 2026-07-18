@@ -24,7 +24,7 @@
           <span class="mt-1 md:mt-0 font-bold px-3 py-1 rounded w-fit" :class="isDarkMode ? 'bg-red-900/50 text-red-400' : 'bg-red-50 text-red-500'">{{ formatDate(userInfo.sub_end) }}</span>
         </p>
         <p class="flex flex-col md:flex-row md:items-center">
-          <span class="flex items-center w-40"><span class="w-10 text-2xl">💾</span> <strong>โควต้ารูปแบบ:</strong></span> 
+          <span class="flex items-center w-40"><span class="w-10 text-2xl">💾</span> <strong>โควต้าเทมเพลต:</strong></span> 
           <span class="mt-1 md:mt-0 font-bold" :class="isDarkMode ? 'text-indigo-400' : 'text-indigo-600'">{{ formatCount }} / {{ userInfo.max_formats }} รูปแบบ</span>
         </p>
       </div>
