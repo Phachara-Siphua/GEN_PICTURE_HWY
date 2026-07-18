@@ -70,7 +70,6 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                     จัดการเทมเพลตที่บันทึกไว้:
                 </label>
-                <!-- 🎯 ตัดปุ่มโหลดออก โหลดทันทีที่เลือก -->
                 <div class="flex flex-col sm:flex-row gap-2 mb-4">
                     <select id="formatSelect" @change="loadSelectedFormat" class="flex-1 p-2.5 border rounded-xl text-sm font-bold focus:outline-indigo-500 transition-colors cursor-pointer" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-indigo-200'">
                         <option value="NEW">➕ สร้างเทมเพลตใหม่</option>
@@ -90,7 +89,6 @@
                 </div>
             </div>
 
-            <!-- หมวดหมู่แบบมี Transition Slide -->
             <div class="flex flex-col gap-3">
                 
                 <!-- 1. รูปภาพ -->
@@ -156,7 +154,6 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">สไตล์:</label>
                                     <div class="flex gap-4 mt-3">
-                                        <!-- 🎯 เอา Default ติ๊กตัวหน้าออกทั้งหมด -->
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="headerFontBold" class="mr-2 w-4 h-4 text-purple-600 rounded"> หนา</label>
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="headerFontItalic" class="mr-2 w-4 h-4 text-purple-600 rounded"> เอียง</label>
                                     </div>
@@ -168,9 +165,8 @@
                                 <div>
                                     <label class="block font-bold">สีตัวอักษร:</label>
                                     <input type="color" id="headerColor" value="#000000" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
-                                    <!-- 🎨 จานสีสี่เหลี่ยม แถวเดียว -->
                                     <div class="flex flex-row gap-1.5 mt-2 justify-start">
-                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }" title="คลิกเพื่อเลือกสี"></button>
+                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
                                     </div>
                                 </div>
                                 <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="headerStrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-purple-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
@@ -178,7 +174,7 @@
                                     <label class="block font-bold mt-1">สีขอบ:</label>
                                     <input type="color" id="headerStrokeColor" value="#FFFFFF" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
                                     <div class="flex flex-row gap-1.5 mt-2 justify-start">
-                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerStrokeColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }" title="คลิกเพื่อเลือกสี"></button>
+                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerStrokeColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +185,6 @@
                                     จัดหัวข้อกึ่งกลาง
                                 </button>
                             </div>
-                            <!-- 🎯 ขยับ X ขึ้นและไปซ้าย ให้ตรง Default ภาพ -->
                             <label class="block font-bold mt-3">ตำแหน่ง X:</label><input type="range" id="headerX" min="0" max="600" value="295" class="w-full mt-2 accent-purple-500">
                             <label class="block font-bold mt-3">ตำแหน่ง Y:</label><input type="range" id="headerY" min="0" max="600" value="95" class="w-full mt-2 accent-purple-500">
                         </div>
@@ -221,7 +216,6 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">สไตล์:</label>
                                     <div class="flex gap-4 mt-3">
-                                        <!-- 🎯 เอา Default ติ๊กตัวหน้าออกทั้งหมด -->
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="num1FontBold" class="mr-2 w-4 h-4 text-rose-500 rounded"> หนา</label>
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="num1FontItalic" class="mr-2 w-4 h-4 text-rose-500 rounded"> เอียง</label>
                                     </div>
@@ -255,8 +249,9 @@
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
+                            <!-- 🎯 ปรับให้ลงมาตามรูป X:260 Y:230 -->
                             <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="num1X" min="0" max="600" value="260" class="w-full mt-2 accent-rose-500">
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="180" class="w-full mt-2 accent-rose-500">
+                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="230" class="w-full mt-2 accent-rose-500">
                         </div>
                     </transition>
                 </div>
@@ -286,7 +281,6 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">สไตล์:</label>
                                     <div class="flex gap-4 mt-3">
-                                        <!-- 🎯 เอา Default ติ๊กตัวหน้าออกทั้งหมด -->
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="num2FontBold" class="mr-2 w-4 h-4 text-orange-500 rounded"> หนา</label>
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="num2FontItalic" class="mr-2 w-4 h-4 text-orange-500 rounded"> เอียง</label>
                                     </div>
@@ -351,7 +345,6 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">สไตล์:</label>
                                     <div class="flex gap-4 mt-3">
-                                        <!-- 🎯 เอา Default ติ๊กตัวหน้าออกทั้งหมด -->
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="num3FontBold" class="mr-2 w-4 h-4 text-yellow-500 rounded"> หนา</label>
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="num3FontItalic" class="mr-2 w-4 h-4 text-yellow-500 rounded"> เอียง</label>
                                     </div>
@@ -380,8 +373,8 @@
                                 <div class="flex-1"><label class="block font-bold text-emerald-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
                             </div>
                             <div class="text-center mt-5">
-                                <button class="w-full bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold py-3 rounded-xl border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
-                                    <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                    <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
@@ -403,7 +396,7 @@
                     <transition name="slide-fade">
                         <div v-show="openSection === 6" class="p-5 space-y-4 text-sm">
                             
-                            <!-- 🎯 ระบบปฏิทินที่ซ้อนกล่องไว้หลอกตา: กดเลือกปฏิทิน แต่แสดง พ.ศ. อัตโนมัติ -->
+                            <!-- 🎯 ระบบปฏิทินไทย (พ.ศ.) แบบ Custom เขียนเอง -->
                             <div class="relative custom-calendar-container">
                                 <label class="block font-bold text-teal-600 dark:text-teal-400 mb-2">เลือกวันที่: <span class="text-xs font-normal ml-2">(บนรูปจะแสดงเป็น พ.ศ. อัตโนมัติ)</span></label>
                                 
@@ -453,7 +446,6 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">สไตล์:</label>
                                     <div class="flex gap-4 mt-3">
-                                        <!-- 🎯 เอา Default ติ๊กตัวหน้าออกทั้งหมด -->
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="dateFontBold" class="mr-2 w-4 h-4 text-teal-500 rounded"> หนา</label>
                                         <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="dateFontItalic" class="mr-2 w-4 h-4 text-teal-500 rounded"> เอียง</label>
                                     </div>
@@ -483,7 +475,6 @@
                                     จัดวันที่กึ่งกลาง
                                 </button>
                             </div>
-                            <!-- 🎯 ขยับ X ลงไปทางขวาล่าง ตามรูป -->
                             <label class="block font-bold mt-3">ตำแหน่ง X:</label><input type="range" id="dateX" min="0" max="600" value="485" class="w-full mt-2 accent-teal-500">
                             <label class="block font-bold mt-3">ตำแหน่ง Y:</label><input type="range" id="dateY" min="0" max="600" value="550" class="w-full mt-2 accent-teal-500">
                         </div>
@@ -566,6 +557,7 @@
         </div>
     </transition>
 
+    <!-- 🎯 ฐานเก็บฟอนต์ที่บังคับให้โหลดแน่นอน -->
     <div style="position: absolute; left: -9999px; top: -9999px; visibility: hidden; font-size: 20px;">
         <span style="font-family: 'Prompt'">โหลด</span><span style="font-family: 'Kanit'">โหลด</span><span style="font-family: 'Sarabun'">โหลด</span><span style="font-family: 'Mitr'">โหลด</span><span style="font-family: 'Mali'">โหลด</span><span style="font-family: 'Itim'">โหลด</span><span style="font-family: 'Chakra Petch'">โหลด</span><span style="font-family: 'Pattaya'">โหลด</span><span style="font-family: 'Pridi'">โหลด</span><span style="font-family: 'Charm'">โหลด</span><span style="font-family: 'Arial'">โหลด</span><span style="font-family: 'Tahoma'">โหลด</span>
     </div>
@@ -1192,7 +1184,6 @@ const draw = (currentHeader = null) => {
     ctx.fillText(displayHeader, headerX, headerY);
     if (headerStrokeWidth > 0) ctx.strokeText(displayHeader, headerX, headerY);
     
-    // 🎯 ดึงวันที่จาก State (แปลงเป็น พ.ศ. เรียบร้อย) เพื่อวาดลง Canvas
     const dateVal = formattedNativeDate.value;
     if (dateVal) {
         const parts = dateVal.split('-');
@@ -1344,12 +1335,10 @@ const downloadZip = () => {
 }
 
 const initApp = () => {
-    // 🎯 เซ็ต Default ปฏิทิน พ.ศ. 
     selectedDateObj.value = new Date();
     calMonth.value = selectedDateObj.value.getMonth();
     calYear.value = selectedDateObj.value.getFullYear();
 
-    // 🎯 เคลียร์ตัวหนา
     document.getElementById('headerFontBold').checked = false;
     document.getElementById('num1FontBold').checked = false;
     document.getElementById('num2FontBold').checked = false;
