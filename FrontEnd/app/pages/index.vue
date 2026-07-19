@@ -59,7 +59,7 @@
         </div>
 
         <!-- ฝั่งขวา: แผงควบคุม -->
-        <div class="controls-container w-full xl:w-[420px] p-4 md:p-6 rounded-3xl shadow-xl xl:max-h-[85vh] xl:overflow-y-auto flex flex-col gap-4 transition-all backdrop-blur-xl border relative" :class="isDarkMode ? 'bg-gray-800/80 border-gray-700/50 shadow-black/20' : 'bg-white/80 border-white/50 shadow-indigo-500/5'" @change="handleUpdate" @input="handleUpdate">
+        <div id="controlsContainer" class="controls-container w-full xl:w-[420px] p-4 md:p-6 rounded-3xl shadow-xl xl:max-h-[85vh] xl:overflow-y-auto flex flex-col gap-4 transition-all backdrop-blur-xl border relative scroll-smooth" :class="isDarkMode ? 'bg-gray-800/80 border-gray-700/50 shadow-black/20' : 'bg-white/80 border-white/50 shadow-indigo-500/5'" @change="handleUpdate" @input="handleUpdate">
             <h3 class="text-xl font-bold m-0 text-indigo-600 py-3 border-b mb-1 flex items-center gap-2" :class="isDarkMode ? 'border-gray-700 text-indigo-400' : 'border-gray-200'">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                 แผงควบคุม
@@ -70,6 +70,7 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                     จัดการเทมเพลตที่บันทึกไว้:
                 </label>
+                <!-- ตัดปุ่มโหลดออก โหลดทันทีที่เลือก -->
                 <div class="flex flex-col sm:flex-row gap-2 mb-4">
                     <select id="formatSelect" @change="loadSelectedFormat" class="flex-1 p-2.5 border rounded-xl text-sm font-bold focus:outline-indigo-500 transition-colors cursor-pointer" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-indigo-200'">
                         <option value="NEW">➕ สร้างเทมเพลตใหม่</option>
@@ -89,11 +90,12 @@
                 </div>
             </div>
 
+            <!-- หมวดหมู่แบบมี Transition Slide และเลื่อนอัตโนมัติแบบใหม่ -->
             <div class="flex flex-col gap-3">
                 
                 <!-- 1. รูปภาพ -->
-                <div class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
-                    <div @click="openSection = 1" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 1 ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                <div id="section-1-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
+                    <div @click="toggleSection(1)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 1 ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             1. รูปภาพ (Background & Logo)
@@ -132,8 +134,8 @@
                 </div>
 
                 <!-- 2. หัวข้อ -->
-                <div class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
-                    <div @click="openSection = 2" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 2 ? 'bg-gradient-to-r from-purple-500 to-fuchsia-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                <div id="section-2-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
+                    <div @click="toggleSection(2)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 2 ? 'bg-gradient-to-r from-purple-500 to-fuchsia-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                             2. รายชื่อหัวข้อ & ฟอนต์
@@ -166,7 +168,7 @@
                                     <label class="block font-bold">สีตัวอักษร:</label>
                                     <input type="color" id="headerColor" value="#000000" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
                                     <div class="flex flex-row gap-1.5 mt-2 justify-start">
-                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
+                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }" title="คลิกเพื่อเลือกสี"></button>
                                     </div>
                                 </div>
                                 <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="headerStrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-purple-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
@@ -174,7 +176,7 @@
                                     <label class="block font-bold mt-1">สีขอบ:</label>
                                     <input type="color" id="headerStrokeColor" value="#FFFFFF" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
                                     <div class="flex flex-row gap-1.5 mt-2 justify-start">
-                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerStrokeColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
+                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('headerStrokeColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }" title="คลิกเพื่อเลือกสี"></button>
                                     </div>
                                 </div>
                             </div>
@@ -192,8 +194,8 @@
                 </div>
 
                 <!-- 3. เลข 1 ตัว -->
-                <div class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
-                    <div @click="openSection = 3" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 3 ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                <div id="section-3-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
+                    <div @click="toggleSection(3)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 3 ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                             3. เลข 1 ตัว (เลขรูด)
@@ -249,16 +251,16 @@
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
-                            <!-- 🎯 ปรับให้ลงมาตามรูป X:260 Y:230 -->
+                            <!-- 🎯 ปรับให้ลงมาเป็น Y:270 ตามที่ขอ -->
                             <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="num1X" min="0" max="600" value="260" class="w-full mt-2 accent-rose-500">
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="230" class="w-full mt-2 accent-rose-500">
+                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="270" class="w-full mt-2 accent-rose-500">
                         </div>
                     </transition>
                 </div>
 
                 <!-- 4. เลข 2 ตัว -->
-                <div class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
-                    <div @click="openSection = 4" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 4 ? 'bg-gradient-to-r from-orange-400 to-amber-500 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                <div id="section-4-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
+                    <div @click="toggleSection(4)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 4 ? 'bg-gradient-to-r from-orange-400 to-amber-500 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"></path></svg>
                             4. เลข 2 ตัว
@@ -321,8 +323,8 @@
                 </div>
 
                 <!-- 5. เลข 3 ตัว -->
-                <div class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
-                    <div @click="openSection = 5" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 5 ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                <div id="section-5-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
+                    <div @click="toggleSection(5)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 5 ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
                             5. เลข 3 ตัว
@@ -385,8 +387,8 @@
                 </div>
 
                 <!-- 6. วันที่ -->
-                <div class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
-                    <div @click="openSection = 6" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 6 ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                <div id="section-6-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
+                    <div @click="toggleSection(6)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 6 ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                             6. ตั้งค่าวันที่
@@ -591,6 +593,33 @@ const logoBase64 = ref(null);
 const showPromoAd = ref(false);
 const hidePromoToday = ref(false);
 
+// 🎯 ระบบวันที่แปลงเป็น พ.ศ. แบบ Native
+const rawDate = ref('');
+const displayDateStr = computed(() => {
+    if (!rawDate.value) return '';
+    const parts = rawDate.value.split('-');
+    if (parts.length === 3) {
+        const yearBE = parseInt(parts[0]) + 543;
+        return `${parts[2]}/${parts[1]}/${yearBE}`;
+    }
+    return rawDate.value;
+});
+
+// 🎯 ฟังก์ชันช่วยกดเลือกหัวข้อแล้วพับขึ้นให้สมูท (รอให้กล่องกางเสร็จแล้วเลื่อนให้พอดีขอบบน)
+const toggleSection = (num) => {
+    if (openSection.value === num) return; 
+    
+    openSection.value = num;
+    
+    setTimeout(() => {
+        const el = document.getElementById(`section-${num}-header`);
+        const container = document.getElementById('controlsContainer');
+        if (el && container) {
+            container.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' });
+        }
+    }, 320); 
+}
+
 const getTodayStr = () => {
     const d = new Date();
     d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
@@ -735,7 +764,7 @@ const settingInputs = [
     'showBg', 'showLogo',
     'logoX', 'logoY', 'logoScale', 
     'headerX', 'headerY', 'headerFontSize', 'headerColor', 'headerStrokeWidth', 'headerStrokeColor', 'headerFontFamily', 'headerFontBold', 'headerFontItalic',
-    'datePicker', 'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
+    'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
     'row3Count', 'col3Count', 'num3X', 'num3Y', 'num3FontSize', 'num3Color', 'num3GapX', 'num3GapY', 'num3StrokeWidth', 'num3StrokeColor', 'num3FontFamily', 'num3FontBold', 'num3FontItalic',
     'row2Count', 'col2Count', 'num2X', 'num2Y', 'num2FontSize', 'num2Color', 'num2GapX', 'num2GapY', 'num2StrokeWidth', 'num2StrokeColor', 'num2FontFamily', 'num2FontBold', 'num2FontItalic',
     'row1Count', 'col1Count', 'num1X', 'num1Y', 'num1FontSize', 'num1Color', 'num1GapX', 'num1GapY', 'num1StrokeWidth', 'num1StrokeColor', 'num1FontFamily', 'num1FontBold', 'num1FontItalic'
@@ -793,14 +822,9 @@ const loadSelectedFormat = (e) => {
             updateCategoryCheckboxes();
         }
 
-        // อัปเดตปฏิทินที่โหลดมา
+        // โหลดวันที่กลับมา
         if(settings['datePicker']) {
-            const parts = settings['datePicker'].split('-');
-            if(parts.length === 3) {
-                selectedDateObj.value = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
-                calMonth.value = selectedDateObj.value.getMonth();
-                calYear.value = selectedDateObj.value.getFullYear();
-            }
+            rawDate.value = settings['datePicker'];
         }
 
         if(settings['bgBase64']) {
@@ -900,7 +924,7 @@ const executeSaveFormat = async (formatName) => {
         if(el) settings[id] = el.type === 'checkbox' ? el.checked : el.value;
     });
     settings['selectedHeaders'] = getSelectedHeaders();
-    
+    settings['datePicker'] = rawDate.value; 
     settings['bgBase64'] = bgBase64.value;
     settings['logoBase64'] = logoBase64.value;
 
@@ -1184,7 +1208,7 @@ const draw = (currentHeader = null) => {
     ctx.fillText(displayHeader, headerX, headerY);
     if (headerStrokeWidth > 0) ctx.strokeText(displayHeader, headerX, headerY);
     
-    const dateVal = formattedNativeDate.value;
+    const dateVal = rawDate.value;
     if (dateVal) {
         const parts = dateVal.split('-');
         let displayDate = dateVal;
@@ -1253,11 +1277,10 @@ const generateBatchPreviews = () => {
     const headers = getSelectedHeaders();
     if(headers.length === 0) {
         showAlert('แจ้งเตือน', "กรุณาติ๊กเลือกชื่อหัวข้ออย่างน้อย 1 ชื่อครับ", 'warning');
-        openSection.value = 2;
+        toggleSection(2); // เลื่อนไปที่หัวข้อแบบสมูท
         setTimeout(() => {
             const selector = document.getElementById('lotterySelector');
             if (selector) {
-                selector.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 selector.classList.add('ring-4', 'ring-red-500', 'bg-red-50', 'dark:bg-red-900/30');
                 setTimeout(() => {
                     selector.classList.remove('ring-4', 'ring-red-500', 'bg-red-50', 'dark:bg-red-900/30');
@@ -1335,9 +1358,7 @@ const downloadZip = () => {
 }
 
 const initApp = () => {
-    selectedDateObj.value = new Date();
-    calMonth.value = selectedDateObj.value.getMonth();
-    calYear.value = selectedDateObj.value.getFullYear();
+    rawDate.value = getTodayStr();
 
     document.getElementById('headerFontBold').checked = false;
     document.getElementById('num1FontBold').checked = false;
