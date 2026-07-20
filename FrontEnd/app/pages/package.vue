@@ -27,9 +27,20 @@
           <span class="mt-2 md:mt-0 font-bold px-4 py-1.5 rounded-xl shadow-sm w-fit" :class="isDarkMode ? 'bg-emerald-900/40 text-emerald-400 border border-emerald-800' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'">{{ formatDate(userInfo.sub_start) }}</span>
         </div>
         
-        <div class="flex flex-col md:flex-row md:items-center p-4 rounded-2xl transition-colors" :class="isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'">
-          <span class="flex items-center w-48 text-gray-500 dark:text-gray-400 font-medium"><svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>หมดอายุเมื่อ:</span> 
-          <span class="mt-2 md:mt-0 font-bold px-4 py-1.5 rounded-xl shadow-sm w-fit" :class="isDarkMode ? 'bg-rose-900/40 text-rose-400 border border-rose-800' : 'bg-rose-50 text-rose-700 border border-rose-200'">{{ formatDate(userInfo.sub_end) }}</span>
+        <!-- 🎯 ปรับโครงสร้างเพื่อรองรับคำอธิบาย -->
+        <div class="flex flex-col md:flex-row p-4 rounded-2xl transition-colors" :class="isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'">
+            <span class="flex items-center w-48 text-gray-500 dark:text-gray-400 font-medium shrink-0 h-fit mt-1.5">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>หมดอายุเมื่อ:
+            </span> 
+            <div class="flex flex-col mt-2 md:mt-0">
+                <span class="font-bold px-4 py-1.5 rounded-xl shadow-sm w-fit" :class="isDarkMode ? 'bg-rose-900/40 text-rose-400 border border-rose-800' : 'bg-rose-50 text-rose-700 border border-rose-200'">
+                    {{ formatDate(userInfo.sub_end) }}
+                </span>
+                <!-- 🎯 คำอธิบายเพิ่มด้านล่าง -->
+                <p class="text-sm mt-3 font-medium opacity-90" :class="isDarkMode ? 'text-rose-400' : 'text-rose-500'">
+                    * หมายเหตุ: ระบบจะทำการตัดสิทธิ์การใช้งานแพ็กเกจในเวลา 23:59 น. ของวันที่ระบุ
+                </p>
+            </div>
         </div>
         
         <div class="flex flex-col md:flex-row md:items-center p-4 rounded-2xl transition-colors" :class="isDarkMode ? 'bg-gray-900/50' : 'bg-gray-50'">
@@ -53,11 +64,11 @@ const userInfo = ref(null)
 const formatCount = ref(0)
 const router = useRouter()
 
+// 🎯 ปรับให้แสดงแค่วันที่ ไม่เอาเวลา
 const formatDate = (dateStr) => {
     if(!dateStr) return '-';
     return new Date(dateStr).toLocaleString('th-TH', { 
-        year: 'numeric', month: 'long', day: 'numeric', 
-        hour: '2-digit', minute: '2-digit', second: '2-digit' 
+        year: 'numeric', month: 'long', day: 'numeric' 
     });
 }
 

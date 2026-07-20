@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time # 🎯 เพิ่มการดึงฟังก์ชัน time
 from typing import Optional
 from jose import JWTError, jwt
 import pymysql
@@ -96,11 +96,6 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
     if not user or not verify_password(form_data.password, user['password']):
         raise HTTPException(status_code=401, detail="Username หรือ Password ไม่ถูกต้อง")
-    
-    # 🎯 ปิดการเช็กวันหมดอายุตรงนี้ออก เพื่อให้ระบบแจก Token ให้ทุกคนที่รหัสถูก
-    # ให้หน้าเว็บ (Frontend) เอา Token ไปตรวจเองว่าหมดอายุไหม จะได้เข้าดูหน้าอื่นๆ ได้
-    # if user['sub_end'] and user['sub_end'] < datetime.now():
-    #     raise HTTPException(status_code=403, detail="แพ็กเกจของคุณหมดอายุแล้ว โปรดติดต่อแอดมิน")
 
     access_token = create_access_token(data={"sub": user['username']})
     return {"access_token": access_token, "token_type": "bearer"}
@@ -151,9 +146,12 @@ async def register_user(user: UserCreate, current_user: dict = Depends(get_curre
 
         if user.sub_end_date:
             end_date_obj = datetime.strptime(user.sub_end_date, "%Y-%m-%d").date()
-            sub_end = datetime.combine(end_date_obj, now_time)
+            # 🎯 ล็อกเวลาเป็น 23:59:59 
+            sub_end = datetime.combine(end_date_obj, time(23, 59, 59))
         else:
             sub_end = sub_start + timedelta(days=365)
+            # 🎯 ล็อกเวลาเป็น 23:59:59 
+            sub_end = sub_end.replace(hour=23, minute=59, second=59)
             
         with conn.cursor() as cursor:
             cursor.execute(
@@ -181,7 +179,8 @@ async def update_user(user_id: int, user: UserUpdate, current_user: dict = Depen
         sub_start = datetime.combine(start_date_obj, now_time)
         
         end_date_obj = datetime.strptime(user.sub_end_date, "%Y-%m-%d").date()
-        sub_end = datetime.combine(end_date_obj, now_time)
+        # 🎯 ล็อกเวลาเป็น 23:59:59
+        sub_end = datetime.combine(end_date_obj, time(23, 59, 59))
         
         with conn.cursor() as cursor:
             if user.password: 
