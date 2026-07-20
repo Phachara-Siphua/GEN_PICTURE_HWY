@@ -64,7 +64,7 @@ const userInfo = ref(null)
 const formatCount = ref(0)
 const router = useRouter()
 
-// 🎯 ปรับให้แสดงแค่วันที่ ไม่เอาเวลา
+// 🎯 ปรับให้แสดงแค่วันที่ ไม่เอาเวลา.
 const formatDate = (dateStr) => {
     if(!dateStr) return '-';
     return new Date(dateStr).toLocaleString('th-TH', { 

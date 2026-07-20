@@ -53,7 +53,7 @@ const isDarkMode = useState('darkMode', () => false)
 const isLoading = ref(true)
 
 onMounted(() => {
-    // หน่วงเวลาโหลดเล็กน้อยให้ดูสมูท
+    // หน่วงเวลาโหลดเล็กน้อยให้ดูสมูท.
     setTimeout(() => {
         isLoading.value = false;
     }, 500);

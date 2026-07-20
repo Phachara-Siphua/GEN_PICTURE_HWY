@@ -833,7 +833,7 @@ const loadSelectedFormat = (e) => {
                 } else {
                     // 🎯 ป้องกันบั๊กข้ามเทมเพลต (ถ้าเทมเพลตเก่าไม่มีค่านี้ ให้กลับเป็นค่าเริ่มต้น)
                     if (id.startsWith('show')) {
-                        el.checked = true; // ค่า default ของปุ่มเปิดปิดคือ เปิด (true)
+                        el.checked = true; // ค่า default ของปุ่มเปิดปิดคือ เปิด (true).
                     } else if (el.type === 'checkbox') {
                         el.checked = false; // พวกตัวหนา ตัวเอียง default คือ ปิด (false)
                     }

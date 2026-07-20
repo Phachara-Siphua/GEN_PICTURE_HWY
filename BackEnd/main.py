@@ -271,7 +271,7 @@ async def delete_format(format_name: str, current_user: dict = Depends(get_curre
         conn.close()
 
 # ==========================================
-# API สำหรับ Admin เพื่อจัดการรูปแบบของ User
+# API สำหรับ Admin เพื่อจัดการรูปแบบของ User.
 # ==========================================
 @app.get("/admin/users/{target_user_id}/formats")
 def admin_get_user_formats(target_user_id: int, current_user: dict = Depends(get_current_user)):

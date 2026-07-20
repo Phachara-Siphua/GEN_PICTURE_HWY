@@ -143,7 +143,7 @@
       </div>
     </div>
 
-    <!-- 🔔 โมดอล (Popup) แจ้งเตือนระบบแบบ Custom -->
+    <!-- 🔔 โมดอล (Popup) แจ้งเตือนระบบแบบ Custom. -->
     <transition name="fade">
         <div v-if="sysModal.show" class="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4" @click.self="closeSysModal">
             <div class="p-8 rounded-3xl shadow-2xl w-full max-w-sm transform scale-100 transition-all text-center border" :class="isDarkMode ? 'bg-gray-800 border-gray-700 shadow-black/50' : 'bg-white border-white'">
