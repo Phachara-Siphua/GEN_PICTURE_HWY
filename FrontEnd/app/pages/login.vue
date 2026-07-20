@@ -33,7 +33,7 @@
         </button>
 
         <p v-if="isLoading" class="text-xs text-center mt-4 opacity-70" :class="isDarkMode ? 'text-gray-400' : 'text-gray-500'">
-          (หากไม่ได้ใช้งานนาน อาจใช้เวลาปลุกเซิร์ฟเวอร์ 30 วินาที)
+          (กำลังเตรียมระบบ...)
         </p>
 
         <div class="mt-8 pt-6 border-t text-center" :class="isDarkMode ? 'border-gray-700' : 'border-gray-200'">

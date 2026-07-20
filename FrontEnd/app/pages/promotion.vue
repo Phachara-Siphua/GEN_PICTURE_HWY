@@ -1,6 +1,14 @@
 <template>
   <div class="min-h-screen transition-colors duration-300 pb-20 font-prompt" :class="isDarkMode ? 'bg-gray-900 text-white' : 'bg-gray-50 text-gray-800'">
-    <div class="max-w-5xl mx-auto pt-12">
+    
+    <!-- หน้าจอหมุนโหลด -->
+    <div v-show="isLoading" class="flex flex-col items-center justify-center h-[80vh]">
+        <div class="animate-spin rounded-full h-20 w-20 border-t-4 border-b-4 border-orange-500 mb-6"></div>
+        <h2 class="text-2xl font-bold text-orange-500 animate-pulse">กำลังโหลดโปรโมชั่น...</h2>
+    </div>
+
+    <!-- เนื้อหาหลัก -->
+    <div v-show="!isLoading" class="max-w-5xl mx-auto pt-12">
       
       <div class="text-center mb-12 px-4">
           <span class="inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-bold text-sm tracking-widest uppercase bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow-lg shadow-orange-500/30 mb-6">
@@ -38,6 +46,16 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useState } from '#imports'
+
 const isDarkMode = useState('darkMode', () => false)
+const isLoading = ref(true)
+
+onMounted(() => {
+    // หน่วงเวลาโหลดเล็กน้อยให้ดูสมูท
+    setTimeout(() => {
+        isLoading.value = false;
+    }, 500);
+})
 </script>

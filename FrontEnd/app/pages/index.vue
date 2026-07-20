@@ -70,7 +70,6 @@
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
                     จัดการเทมเพลตที่บันทึกไว้:
                 </label>
-                <!-- ตัดปุ่มโหลดออก โหลดทันทีที่เลือก -->
                 <div class="flex flex-col sm:flex-row gap-2 mb-4">
                     <select id="formatSelect" @change="loadSelectedFormat" class="flex-1 p-2.5 border rounded-xl text-sm font-bold focus:outline-indigo-500 transition-colors cursor-pointer" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-indigo-200'">
                         <option value="NEW">➕ สร้างเทมเพลตใหม่</option>
@@ -90,7 +89,6 @@
                 </div>
             </div>
 
-            <!-- หมวดหมู่แบบมี Transition Slide และเลื่อนอัตโนมัติแบบใหม่ -->
             <div class="flex flex-col gap-3">
                 
                 <!-- 1. รูปภาพ -->
@@ -106,7 +104,7 @@
                         <div v-show="openSection === 1" class="p-5 space-y-4 text-sm">
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
                                 <label class="flex items-center gap-2 font-bold cursor-pointer text-emerald-500"><input type="checkbox" id="showBg" checked class="w-4 h-4 rounded text-emerald-500 focus:ring-emerald-500"> เปิดใช้ Background</label>
-                                <label class="flex items-center gap-2 font-bold cursor-pointer text-blue-500"><input type="checkbox" id="showLogo" class="w-4 h-4 rounded text-blue-500 focus:ring-blue-500"> เปิดใช้ Logo</label>
+                                <label class="flex items-center gap-2 font-bold cursor-pointer text-blue-500"><input type="checkbox" id="showLogo" checked class="w-4 h-4 rounded text-blue-500 focus:ring-blue-500"> เปิดใช้ Logo</label>
                             </div>
                             <div>
                                 <label class="block font-bold mt-2">อัปโหลด Background:</label>
@@ -187,8 +185,8 @@
                                     จัดหัวข้อกึ่งกลาง
                                 </button>
                             </div>
-                            <label class="block font-bold mt-3">ตำแหน่ง X:</label><input type="range" id="headerX" min="0" max="600" value="295" class="w-full mt-2 accent-purple-500">
-                            <label class="block font-bold mt-3">ตำแหน่ง Y:</label><input type="range" id="headerY" min="0" max="600" value="95" class="w-full mt-2 accent-purple-500">
+                            <label class="block font-bold mt-3">ตำแหน่ง X:</label><input type="range" id="headerX" min="0" max="600" value="290" class="w-full mt-2 accent-purple-500">
+                            <label class="block font-bold mt-3">ตำแหน่ง Y:</label><input type="range" id="headerY" min="0" max="600" value="85" class="w-full mt-2 accent-purple-500">
                         </div>
                     </transition>
                 </div>
@@ -204,6 +202,13 @@
                     </div>
                     <transition name="slide-fade">
                         <div v-show="openSection === 3" class="p-5 space-y-4 text-sm">
+                            <!-- 🎯 ปุ่มเปิดปิดการใช้งาน (Toggle) -->
+                            <div class="flex justify-between items-center border-b pb-4 mb-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
+                                <label class="flex items-center gap-2 font-bold cursor-pointer text-rose-500">
+                                    <input type="checkbox" id="showNum1" checked class="w-4 h-4 rounded text-rose-500 focus:ring-rose-500"> เปิดใช้งานเลข 1 ตัว (เลขรูด)
+                                </label>
+                            </div>
+
                             <div class="flex justify-between gap-4">
                                 <div class="flex-1"><label class="block font-bold">จำนวนแถว:</label><input type="number" id="row1Count" value="1" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-rose-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
                                 <div class="flex-1"><label class="block font-bold">จำนวนคอลัมน์:</label><input type="number" id="col1Count" value="2" min="1" class="w-full p-2 border rounded-xl mt-1 focus:ring-rose-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
@@ -251,9 +256,8 @@
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
-                            <!-- 🎯 ปรับให้ลงมาเป็น Y:270 ตามที่ขอ -->
                             <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="num1X" min="0" max="600" value="260" class="w-full mt-2 accent-rose-500">
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="270" class="w-full mt-2 accent-rose-500">
+                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="260" class="w-full mt-2 accent-rose-500">
                         </div>
                     </transition>
                 </div>
@@ -269,6 +273,13 @@
                     </div>
                     <transition name="slide-fade">
                         <div v-show="openSection === 4" class="p-5 space-y-4 text-sm">
+                            <!-- 🎯 ปุ่มเปิดปิดการใช้งาน (Toggle) -->
+                            <div class="flex justify-between items-center border-b pb-4 mb-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
+                                <label class="flex items-center gap-2 font-bold cursor-pointer text-orange-500">
+                                    <input type="checkbox" id="showNum2" checked class="w-4 h-4 rounded text-orange-500 focus:ring-orange-500"> เปิดใช้งานเลข 2 ตัว
+                                </label>
+                            </div>
+
                             <div class="flex justify-between gap-4">
                                 <div class="flex-1"><label class="block font-bold">จำนวนแถว:</label><input type="number" id="row2Count" value="2" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-orange-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
                                 <div class="flex-1"><label class="block font-bold">จำนวนคอลัมน์:</label><input type="number" id="col2Count" value="2" min="1" class="w-full p-2 border rounded-xl mt-1 focus:ring-orange-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
@@ -333,6 +344,13 @@
                     </div>
                     <transition name="slide-fade">
                         <div v-show="openSection === 5" class="p-5 space-y-4 text-sm">
+                            <!-- 🎯 ปุ่มเปิดปิดการใช้งาน (Toggle) -->
+                            <div class="flex justify-between items-center border-b pb-4 mb-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
+                                <label class="flex items-center gap-2 font-bold cursor-pointer text-yellow-500">
+                                    <input type="checkbox" id="showNum3" checked class="w-4 h-4 rounded text-yellow-500 focus:ring-yellow-500"> เปิดใช้งานเลข 3 ตัว
+                                </label>
+                            </div>
+
                             <div class="flex justify-between gap-4">
                                 <div class="flex-1"><label class="block font-bold">จำนวนแถว:</label><input type="number" id="row3Count" value="1" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-yellow-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
                                 <div class="flex-1"><label class="block font-bold">จำนวนคอลัมน์:</label><input type="number" id="col3Count" value="3" min="1" class="w-full p-2 border rounded-xl mt-1 focus:ring-yellow-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
@@ -375,8 +393,8 @@
                                 <div class="flex-1"><label class="block font-bold text-emerald-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
                             </div>
                             <div class="text-center mt-5">
-                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
-                                    <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                    <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
@@ -398,7 +416,13 @@
                     <transition name="slide-fade">
                         <div v-show="openSection === 6" class="p-5 space-y-4 text-sm">
                             
-                            <!-- 🎯 ระบบปฏิทินไทย (พ.ศ.) แบบ Custom เขียนเอง -->
+                            <!-- 🎯 ปุ่มเปิดปิดการใช้งาน (Toggle) -->
+                            <div class="flex justify-between items-center border-b pb-4 mb-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
+                                <label class="flex items-center gap-2 font-bold cursor-pointer text-teal-500">
+                                    <input type="checkbox" id="showDate" checked class="w-4 h-4 rounded text-teal-500 focus:ring-teal-500"> เปิดใช้วันที่
+                                </label>
+                            </div>
+
                             <div class="relative custom-calendar-container">
                                 <label class="block font-bold text-teal-600 dark:text-teal-400 mb-2">เลือกวันที่: <span class="text-xs font-normal ml-2">(บนรูปจะแสดงเป็น พ.ศ. อัตโนมัติ)</span></label>
                                 
@@ -605,19 +629,20 @@ const displayDateStr = computed(() => {
     return rawDate.value;
 });
 
-// 🎯 ฟังก์ชันช่วยกดเลือกหัวข้อแล้วพับขึ้นให้สมูท (รอให้กล่องกางเสร็จแล้วเลื่อนให้พอดีขอบบน)
+// 🎯 ฟังก์ชันช่วยกดเลือกหัวข้อแล้วพับขึ้นให้สมูท
 const toggleSection = (num) => {
     if (openSection.value === num) return; 
     
     openSection.value = num;
     
+    // 🎯 เพิ่มเวลาดีเลย์ให้กล่องด้านบน "หดเสร็จก่อน" (350ms) แล้วค่อยดึงตำแหน่งเลื่อนหน้าจอ
     setTimeout(() => {
         const el = document.getElementById(`section-${num}-header`);
         const container = document.getElementById('controlsContainer');
         if (el && container) {
             container.scrollTo({ top: el.offsetTop - 24, behavior: 'smooth' });
         }
-    }, 320); 
+    }, 350); 
 }
 
 const getTodayStr = () => {
@@ -764,10 +789,10 @@ const settingInputs = [
     'showBg', 'showLogo',
     'logoX', 'logoY', 'logoScale', 
     'headerX', 'headerY', 'headerFontSize', 'headerColor', 'headerStrokeWidth', 'headerStrokeColor', 'headerFontFamily', 'headerFontBold', 'headerFontItalic',
-    'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
-    'row3Count', 'col3Count', 'num3X', 'num3Y', 'num3FontSize', 'num3Color', 'num3GapX', 'num3GapY', 'num3StrokeWidth', 'num3StrokeColor', 'num3FontFamily', 'num3FontBold', 'num3FontItalic',
-    'row2Count', 'col2Count', 'num2X', 'num2Y', 'num2FontSize', 'num2Color', 'num2GapX', 'num2GapY', 'num2StrokeWidth', 'num2StrokeColor', 'num2FontFamily', 'num2FontBold', 'num2FontItalic',
-    'row1Count', 'col1Count', 'num1X', 'num1Y', 'num1FontSize', 'num1Color', 'num1GapX', 'num1GapY', 'num1StrokeWidth', 'num1StrokeColor', 'num1FontFamily', 'num1FontBold', 'num1FontItalic'
+    'datePicker', 'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
+    'showNum3', 'row3Count', 'col3Count', 'num3X', 'num3Y', 'num3FontSize', 'num3Color', 'num3GapX', 'num3GapY', 'num3StrokeWidth', 'num3StrokeColor', 'num3FontFamily', 'num3FontBold', 'num3FontItalic',
+    'showNum2', 'row2Count', 'col2Count', 'num2X', 'num2Y', 'num2FontSize', 'num2Color', 'num2GapX', 'num2GapY', 'num2StrokeWidth', 'num2StrokeColor', 'num2FontFamily', 'num2FontBold', 'num2FontItalic',
+    'showNum1', 'row1Count', 'col1Count', 'num1X', 'num1Y', 'num1FontSize', 'num1Color', 'num1GapX', 'num1GapY', 'num1StrokeWidth', 'num1StrokeColor', 'num1FontFamily', 'num1FontBold', 'num1FontItalic'
 ];
 
 const setQuickColor = (id, colorHex) => {
@@ -825,6 +850,12 @@ const loadSelectedFormat = (e) => {
         // โหลดวันที่กลับมา
         if(settings['datePicker']) {
             rawDate.value = settings['datePicker'];
+            const parts = settings['datePicker'].split('-');
+            if(parts.length === 3) {
+                selectedDateObj.value = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+                calMonth.value = selectedDateObj.value.getMonth();
+                calYear.value = selectedDateObj.value.getFullYear();
+            }
         }
 
         if(settings['bgBase64']) {
@@ -1208,8 +1239,10 @@ const draw = (currentHeader = null) => {
     ctx.fillText(displayHeader, headerX, headerY);
     if (headerStrokeWidth > 0) ctx.strokeText(displayHeader, headerX, headerY);
     
+    // 🎯 ดึงวันที่จาก State (แปลงเป็น พ.ศ. เรียบร้อย) เพื่อวาดลง Canvas
+    const showDate = document.getElementById('showDate') ? document.getElementById('showDate').checked : true;
     const dateVal = rawDate.value;
-    if (dateVal) {
+    if (showDate && dateVal) {
         const parts = dateVal.split('-');
         let displayDate = dateVal;
         if (parts.length === 3) {
@@ -1253,9 +1286,14 @@ const draw = (currentHeader = null) => {
         });
     };
 
-    drawNumbers(numbers3Grid, 'num3');
-    drawNumbers(numbers2Grid, 'num2');
-    drawNumbers(numbers1Grid, 'num1');
+    const showNum3 = document.getElementById('showNum3') ? document.getElementById('showNum3').checked : true;
+    if (showNum3) drawNumbers(numbers3Grid, 'num3');
+    
+    const showNum2 = document.getElementById('showNum2') ? document.getElementById('showNum2').checked : true;
+    if (showNum2) drawNumbers(numbers2Grid, 'num2');
+    
+    const showNum1 = document.getElementById('showNum1') ? document.getElementById('showNum1').checked : true;
+    if (showNum1) drawNumbers(numbers1Grid, 'num1');
 }
 
 const preloadFonts = () => {
