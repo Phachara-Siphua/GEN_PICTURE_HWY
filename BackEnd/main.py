@@ -97,8 +97,10 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     if not user or not verify_password(form_data.password, user['password']):
         raise HTTPException(status_code=401, detail="Username หรือ Password ไม่ถูกต้อง")
     
-    if user['sub_end'] and user['sub_end'] < datetime.now():
-        raise HTTPException(status_code=403, detail="แพ็กเกจของคุณหมดอายุแล้ว โปรดติดต่อแอดมิน")
+    # 🎯 ปิดการเช็กวันหมดอายุตรงนี้ออก เพื่อให้ระบบแจก Token ให้ทุกคนที่รหัสถูก
+    # ให้หน้าเว็บ (Frontend) เอา Token ไปตรวจเองว่าหมดอายุไหม จะได้เข้าดูหน้าอื่นๆ ได้
+    # if user['sub_end'] and user['sub_end'] < datetime.now():
+    #     raise HTTPException(status_code=403, detail="แพ็กเกจของคุณหมดอายุแล้ว โปรดติดต่อแอดมิน")
 
     access_token = create_access_token(data={"sub": user['username']})
     return {"access_token": access_token, "token_type": "bearer"}
