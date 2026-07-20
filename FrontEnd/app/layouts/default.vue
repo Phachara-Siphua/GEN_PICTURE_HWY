@@ -5,13 +5,14 @@
         {{ isDarkMode ? '☀️ ธีมสว่าง' : '🌙 ธีมมืด' }}
     </button>
 
-    <div class="lg:hidden fixed w-full z-40 flex justify-between items-center p-4 border-b backdrop-blur-xl transition-colors shadow-sm" :class="isDarkMode ? 'bg-gray-900/80 border-gray-700' : 'bg-white/80 border-white/50'">
-        <div class="flex-1 flex justify-center pl-8">
-            <img src="/img/logo.png" alt="Logo" class="h-10 object-contain drop-shadow-md" onerror="this.outerHTML='<h2 class=\'text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600\'>RunBi</h2>'">
-        </div>
+    <!-- 🎯 ย้ายปุ่ม ☰ มาไว้ซ้ายบน -->
+    <div class="lg:hidden fixed w-full z-40 flex items-center p-4 border-b backdrop-blur-xl transition-colors shadow-sm" :class="isDarkMode ? 'bg-gray-900/80 border-gray-700' : 'bg-white/80 border-white/50'">
         <button @click="isSidebarOpen = !isSidebarOpen" class="text-2xl px-2 rounded focus:outline-none" :class="isDarkMode ? 'text-white' : 'text-gray-800'">
             ☰
         </button>
+        <div class="flex-1 flex justify-center pr-8">
+            <img src="/img/logo.png" alt="Logo" class="h-10 object-contain drop-shadow-md" onerror="this.outerHTML='<h2 class=\'text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600\'>RunBi</h2>'">
+        </div>
     </div>
 
     <div v-if="isSidebarOpen" @click="isSidebarOpen = false" class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden transition-opacity"></div>
@@ -94,7 +95,7 @@ onMounted(async () => {
         } catch (e) {}
     }
 })
-//
+
 const logout = () => {
   localStorage.removeItem('token')
   router.push('/login')
