@@ -160,7 +160,6 @@
                                         <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
                                         <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
                                         <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
-                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
                                         <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
                                         <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
                                         <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
@@ -203,7 +202,7 @@
                             
                             <div class="text-center mt-5 pt-4 border-t" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
                                 <button class="w-full bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 rounded-xl border-b-4 border-purple-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('header')">
-                                    <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                                    <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดหัวข้อกึ่งกลาง
                                 </button>
                             </div>
@@ -250,7 +249,6 @@
                                         <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
                                         <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
                                         <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
-                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
                                         <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
                                         <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
                                         <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
@@ -342,7 +340,6 @@
                                         <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
                                         <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
                                         <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
-                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
                                         <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
                                         <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
                                         <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
@@ -434,7 +431,6 @@
                                         <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
                                         <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
                                         <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
-                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
                                         <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
                                         <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
                                         <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
@@ -478,8 +474,8 @@
                                 <div class="flex-1"><label class="block font-bold text-emerald-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
                             </div>
                             <div class="text-center mt-5">
-                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
-                                    <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                    <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
@@ -874,9 +870,17 @@ const prevYear = () => { calYear.value-- }
 const nextYear = () => { calYear.value++ }
 
 const selectDate = (day) => {
-    selectedDateObj.value = new Date(calYear.value, calMonth.value, day)
-    showCalendar.value = false
-    handleUpdate()
+    selectedDateObj.value = new Date(calYear.value, calMonth.value, day);
+    showCalendar.value = false;
+    
+    // 🎯 แปลงวันที่กลับไปเป็น YYYY-MM-DD เพื่อส่งให้ Canvas รู้ตัว
+    const d = selectedDateObj.value;
+    const yyyy = d.getFullYear();
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const dd = String(d.getDate()).padStart(2, '0');
+    rawDate.value = `${yyyy}-${mm}-${dd}`;
+    
+    handleUpdate();
 }
 
 const setToday = () => {
