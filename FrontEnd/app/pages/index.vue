@@ -721,19 +721,14 @@ import { useHead, useState } from '#imports'
 
 // 🎯 อัปเดตลิงก์ดึง Google Fonts เพิ่มเข้าไปอีก 10 ฟอนต์ยอดนิยม
 useHead({
-    // 1. ตั้งชื่อเว็บ (ที่จะโชว์ตัวใหญ่ๆ บน Google)
   title: 'RunBi - โปรแกรมสุ่มตัวเลขและสร้างรูปภาพอัตโนมัติ',
-  
   meta: [
-    // 2. คำอธิบายเว็บ (ที่จะโชว์เป็นตัวหนังสือเล็กๆ ใต้ชื่อเว็บ)
     { name: 'description', content: 'ตัวช่วยสร้างรูปภาพแจกเลขเด็ด หวยหุ้น ฮานอย ลาว ใช้งานง่าย ปรับแต่งฟอนต์และสีได้ตามใจชอบ' },
-    // 3. คีย์เวิร์ด (คำที่คนพิมพ์ค้นหาใน Google แล้วจะเจอเว็บเรา)
     { name: 'keywords', content: 'สร้างรูปหวย, สุ่มเลขเด็ด, โปรแกรมทำรูปหวย, RunBi, หวยหุ้น, ฮานอย, ลาว' },
     
-    // 4. วางรหัสยืนยันของ Google ตรงนี้!! (เอาแค่ข้อความในกรอบ content="..." มาใส่)
-    { name: 'google-site-verification', content: '<meta name="google-site-verification" content="_SNH2YvEerZYtI3exrHTD8MVTPD4SXKSI7ITc0ZPVTg" />' },
+    // 🎯 แก้ไขตรงนี้: ใส่เฉพาะรหัสที่เป็นตัวอักษรเท่านั้นครับ
+    { name: 'google-site-verification', content: '_SNH2YvEerZYtI3exrHTD8MVTPD4SXKSI7ITc0ZPVTg' },
     
-    // ตั้งค่าสำหรับแชร์ลง Facebook/Line แล้วมีรูป+ชื่อเว็บขึ้น
     { property: 'og:title', content: 'RunBi - โปรแกรมสุ่มตัวเลขและสร้างรูปภาพ' },
     { property: 'og:description', content: 'ตัวช่วยสร้างรูปภาพแจกเลขเด็ด ใช้งานง่าย' },
     { property: 'og:image', content: 'https://runbi.vercel.app/img/logo.png' }
