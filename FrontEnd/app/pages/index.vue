@@ -148,7 +148,29 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">เลือกฟอนต์:</label>
                                     <select id="headerFontFamily" @change="e => { e.target.style.fontFamily = e.target.value; handleUpdate(); }" class="w-full p-2.5 border rounded-xl mt-1 focus:ring-purple-500 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'">
-                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option><option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option><option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option><option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option><option value="Mali" style="font-family: 'Mali', cursive;">Mali</option><option value="Itim" style="font-family: 'Itim', cursive;">Itim</option><option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option><option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option><option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option><option value="Charm" style="font-family: 'Charm', cursive;">Charm</option><option value="Arial" style="font-family: Arial, sans-serif;">Arial</option><option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option>
+                                        <option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option>
+                                        <option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option>
+                                        <option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option>
+                                        <option value="Mali" style="font-family: 'Mali', cursive;">Mali</option>
+                                        <option value="Itim" style="font-family: 'Itim', cursive;">Itim</option>
+                                        <option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option>
+                                        <option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option>
+                                        <option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option>
+                                        <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
+                                        <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
+                                        <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
+                                        <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
+                                        <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
+                                        <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
+                                        <option value="Krub" style="font-family: 'Krub', sans-serif;">Krub</option>
+                                        <option value="Taviraj" style="font-family: 'Taviraj', serif;">Taviraj</option>
+                                        <option value="Chonburi" style="font-family: 'Chonburi', cursive;">Chonburi</option>
+                                        <option value="Sriracha" style="font-family: 'Sriracha', cursive;">Sriracha</option>
+                                        <option value="Thasadith" style="font-family: 'Thasadith', sans-serif;">Thasadith</option>
+                                        <option value="Srisakdi" style="font-family: 'Srisakdi', cursive;">Srisakdi</option>
+                                        <option value="IBM Plex Sans Thai" style="font-family: 'IBM Plex Sans Thai', sans-serif;">IBM Plex Sans Thai</option>
                                     </select>
                                 </div>
                                 <div class="flex-1 w-full">
@@ -216,7 +238,29 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">เลือกฟอนต์:</label>
                                     <select id="num1FontFamily" @change="e => { e.target.style.fontFamily = e.target.value; handleUpdate(); }" class="w-full p-2.5 border rounded-xl mt-1 focus:ring-rose-500 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'">
-                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option><option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option><option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option><option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option><option value="Mali" style="font-family: 'Mali', cursive;">Mali</option><option value="Itim" style="font-family: 'Itim', cursive;">Itim</option><option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option><option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option><option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option><option value="Charm" style="font-family: 'Charm', cursive;">Charm</option><option value="Arial" style="font-family: Arial, sans-serif;">Arial</option><option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option>
+                                        <option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option>
+                                        <option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option>
+                                        <option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option>
+                                        <option value="Mali" style="font-family: 'Mali', cursive;">Mali</option>
+                                        <option value="Itim" style="font-family: 'Itim', cursive;">Itim</option>
+                                        <option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option>
+                                        <option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option>
+                                        <option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option>
+                                        <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
+                                        <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
+                                        <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
+                                        <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
+                                        <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
+                                        <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
+                                        <option value="Krub" style="font-family: 'Krub', sans-serif;">Krub</option>
+                                        <option value="Taviraj" style="font-family: 'Taviraj', serif;">Taviraj</option>
+                                        <option value="Chonburi" style="font-family: 'Chonburi', cursive;">Chonburi</option>
+                                        <option value="Sriracha" style="font-family: 'Sriracha', cursive;">Sriracha</option>
+                                        <option value="Thasadith" style="font-family: 'Thasadith', sans-serif;">Thasadith</option>
+                                        <option value="Srisakdi" style="font-family: 'Srisakdi', cursive;">Srisakdi</option>
+                                        <option value="IBM Plex Sans Thai" style="font-family: 'IBM Plex Sans Thai', sans-serif;">IBM Plex Sans Thai</option>
                                     </select>
                                 </div>
                                 <div class="flex-1 w-full">
@@ -286,7 +330,29 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">เลือกฟอนต์:</label>
                                     <select id="num2FontFamily" @change="e => { e.target.style.fontFamily = e.target.value; handleUpdate(); }" class="w-full p-2.5 border rounded-xl mt-1 focus:ring-orange-500 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'">
-                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option><option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option><option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option><option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option><option value="Mali" style="font-family: 'Mali', cursive;">Mali</option><option value="Itim" style="font-family: 'Itim', cursive;">Itim</option><option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option><option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option><option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option><option value="Charm" style="font-family: 'Charm', cursive;">Charm</option><option value="Arial" style="font-family: Arial, sans-serif;">Arial</option><option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option>
+                                        <option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option>
+                                        <option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option>
+                                        <option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option>
+                                        <option value="Mali" style="font-family: 'Mali', cursive;">Mali</option>
+                                        <option value="Itim" style="font-family: 'Itim', cursive;">Itim</option>
+                                        <option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option>
+                                        <option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option>
+                                        <option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option>
+                                        <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
+                                        <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
+                                        <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
+                                        <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
+                                        <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
+                                        <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
+                                        <option value="Krub" style="font-family: 'Krub', sans-serif;">Krub</option>
+                                        <option value="Taviraj" style="font-family: 'Taviraj', serif;">Taviraj</option>
+                                        <option value="Chonburi" style="font-family: 'Chonburi', cursive;">Chonburi</option>
+                                        <option value="Sriracha" style="font-family: 'Sriracha', cursive;">Sriracha</option>
+                                        <option value="Thasadith" style="font-family: 'Thasadith', sans-serif;">Thasadith</option>
+                                        <option value="Srisakdi" style="font-family: 'Srisakdi', cursive;">Srisakdi</option>
+                                        <option value="IBM Plex Sans Thai" style="font-family: 'IBM Plex Sans Thai', sans-serif;">IBM Plex Sans Thai</option>
                                     </select>
                                 </div>
                                 <div class="flex-1 w-full">
@@ -356,7 +422,29 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">เลือกฟอนต์:</label>
                                     <select id="num3FontFamily" @change="e => { e.target.style.fontFamily = e.target.value; handleUpdate(); }" class="w-full p-2.5 border rounded-xl mt-1 focus:ring-yellow-500 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'">
-                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option><option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option><option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option><option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option><option value="Mali" style="font-family: 'Mali', cursive;">Mali</option><option value="Itim" style="font-family: 'Itim', cursive;">Itim</option><option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option><option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option><option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option><option value="Charm" style="font-family: 'Charm', cursive;">Charm</option><option value="Arial" style="font-family: Arial, sans-serif;">Arial</option><option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option>
+                                        <option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option>
+                                        <option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option>
+                                        <option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option>
+                                        <option value="Mali" style="font-family: 'Mali', cursive;">Mali</option>
+                                        <option value="Itim" style="font-family: 'Itim', cursive;">Itim</option>
+                                        <option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option>
+                                        <option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option>
+                                        <option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option>
+                                        <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
+                                        <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
+                                        <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
+                                        <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
+                                        <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
+                                        <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
+                                        <option value="Krub" style="font-family: 'Krub', sans-serif;">Krub</option>
+                                        <option value="Taviraj" style="font-family: 'Taviraj', serif;">Taviraj</option>
+                                        <option value="Chonburi" style="font-family: 'Chonburi', cursive;">Chonburi</option>
+                                        <option value="Sriracha" style="font-family: 'Sriracha', cursive;">Sriracha</option>
+                                        <option value="Thasadith" style="font-family: 'Thasadith', sans-serif;">Thasadith</option>
+                                        <option value="Srisakdi" style="font-family: 'Srisakdi', cursive;">Srisakdi</option>
+                                        <option value="IBM Plex Sans Thai" style="font-family: 'IBM Plex Sans Thai', sans-serif;">IBM Plex Sans Thai</option>
                                     </select>
                                 </div>
                                 <div class="flex-1 w-full">
@@ -462,7 +550,29 @@
                                 <div class="flex-1 w-full">
                                     <label class="block font-bold">เลือกฟอนต์:</label>
                                     <select id="dateFontFamily" @change="e => { e.target.style.fontFamily = e.target.value; handleUpdate(); }" class="w-full p-2.5 border rounded-xl mt-1 focus:ring-teal-500 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'">
-                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option><option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option><option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option><option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option><option value="Mali" style="font-family: 'Mali', cursive;">Mali</option><option value="Itim" style="font-family: 'Itim', cursive;">Itim</option><option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option><option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option><option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option><option value="Charm" style="font-family: 'Charm', cursive;">Charm</option><option value="Arial" style="font-family: Arial, sans-serif;">Arial</option><option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option>
+                                        <option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option>
+                                        <option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option>
+                                        <option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option>
+                                        <option value="Mali" style="font-family: 'Mali', cursive;">Mali</option>
+                                        <option value="Itim" style="font-family: 'Itim', cursive;">Itim</option>
+                                        <option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option>
+                                        <option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option>
+                                        <option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option>
+                                        <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
+                                        <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
+                                        <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
+                                        <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
+                                        <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
+                                        <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
+                                        <option value="Krub" style="font-family: 'Krub', sans-serif;">Krub</option>
+                                        <option value="Taviraj" style="font-family: 'Taviraj', serif;">Taviraj</option>
+                                        <option value="Chonburi" style="font-family: 'Chonburi', cursive;">Chonburi</option>
+                                        <option value="Sriracha" style="font-family: 'Sriracha', cursive;">Sriracha</option>
+                                        <option value="Thasadith" style="font-family: 'Thasadith', sans-serif;">Thasadith</option>
+                                        <option value="Srisakdi" style="font-family: 'Srisakdi', cursive;">Srisakdi</option>
+                                        <option value="IBM Plex Sans Thai" style="font-family: 'IBM Plex Sans Thai', sans-serif;">IBM Plex Sans Thai</option>
                                     </select>
                                 </div>
                                 <div class="flex-1 w-full">
@@ -579,9 +689,31 @@
         </div>
     </transition>
 
-    <!-- 🎯 ฐานเก็บฟอนต์ที่บังคับให้โหลดแน่นอน -->
+    <!-- 🎯 ฐานเก็บฟอนต์ที่บังคับให้โหลดแน่นอน (เพิ่ม 10 ฟอนต์ใหม่) -->
     <div style="position: absolute; left: -9999px; top: -9999px; visibility: hidden; font-size: 20px;">
-        <span style="font-family: 'Prompt'">โหลด</span><span style="font-family: 'Kanit'">โหลด</span><span style="font-family: 'Sarabun'">โหลด</span><span style="font-family: 'Mitr'">โหลด</span><span style="font-family: 'Mali'">โหลด</span><span style="font-family: 'Itim'">โหลด</span><span style="font-family: 'Chakra Petch'">โหลด</span><span style="font-family: 'Pattaya'">โหลด</span><span style="font-family: 'Pridi'">โหลด</span><span style="font-family: 'Charm'">โหลด</span><span style="font-family: 'Arial'">โหลด</span><span style="font-family: 'Tahoma'">โหลด</span>
+        <span style="font-family: 'Prompt'">โหลด</span>
+        <span style="font-family: 'Kanit'">โหลด</span>
+        <span style="font-family: 'Sarabun'">โหลด</span>
+        <span style="font-family: 'Mitr'">โหลด</span>
+        <span style="font-family: 'Mali'">โหลด</span>
+        <span style="font-family: 'Itim'">โหลด</span>
+        <span style="font-family: 'Chakra Petch'">โหลด</span>
+        <span style="font-family: 'Pattaya'">โหลด</span>
+        <span style="font-family: 'Pridi'">โหลด</span>
+        <span style="font-family: 'Charm'">โหลด</span>
+        <span style="font-family: 'Arial'">โหลด</span>
+        <span style="font-family: 'Tahoma'">โหลด</span>
+        <!-- ฟอนต์ใหม่ -->
+        <span style="font-family: 'Noto Sans Thai'">โหลด</span>
+        <span style="font-family: 'Bai Jamjuree'">โหลด</span>
+        <span style="font-family: 'K2D'">โหลด</span>
+        <span style="font-family: 'Krub'">โหลด</span>
+        <span style="font-family: 'Taviraj'">โหลด</span>
+        <span style="font-family: 'Chonburi'">โหลด</span>
+        <span style="font-family: 'Sriracha'">โหลด</span>
+        <span style="font-family: 'Thasadith'">โหลด</span>
+        <span style="font-family: 'Srisakdi'">โหลด</span>
+        <span style="font-family: 'IBM Plex Sans Thai'">โหลด</span>
     </div>
   </div>
 </template>
@@ -591,9 +723,10 @@ import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useHead, useState } from '#imports'
 
+// 🎯 อัปเดตลิงก์ดึง Google Fonts เพิ่มเข้าไปอีก 10 ฟอนต์ยอดนิยม
 useHead({
   script: [{ src: 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js' }],
-  link: [{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,700;1,400;1,700&family=Charm:wght@400;700&family=Itim&family=Kanit:ital,wght@0,400;0,700;1,400;1,700&family=Mali:ital,wght@0,400;0,700;1,400;1,700&family=Mitr:wght@400;700&family=Pattaya&family=Pridi:wght@400;700&family=Prompt:ital,wght@0,400;0,700;1,400;1,700&family=Sarabun:ital,wght@0,400;0,700;1,400;1,700&display=swap' }]
+  link: [{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,700;1,400;1,700&family=Charm:wght@400;700&family=Itim&family=Kanit:ital,wght@0,400;0,700;1,400;1,700&family=Mali:ital,wght@0,400;0,700;1,400;1,700&family=Mitr:wght@400;700&family=Pattaya&family=Pridi:wght@400;700&family=Prompt:ital,wght@0,400;0,700;1,400;1,700&family=Sarabun:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans+Thai:wght@400;700&family=Bai+Jamjuree:ital,wght@0,400;0,700;1,400;1,700&family=K2D:ital,wght@0,400;0,700;1,400;1,700&family=Krub:ital,wght@0,400;0,700;1,400;1,700&family=Taviraj:ital,wght@0,400;0,700;1,400;1,700&family=Chonburi&family=Sriracha&family=Thasadith:ital,wght@0,400;0,700;1,400;1,700&family=Srisakdi:wght@400;700&family=IBM+Plex+Sans+Thai:wght@400;700&display=swap' }]
 })
 
 const router = useRouter()
@@ -624,7 +757,6 @@ const displayDateStr = computed(() => {
     return rawDate.value;
 });
 
-// 🎯 แก้บั๊กเลื่อนจอ: หน่วงเวลา 0.35 วิ รอให้กล่องเก่าหดเสร็จแบบ 100% แล้วค่อยคำนวณตำแหน่ง
 const toggleSection = (num) => {
     if (openSection.value === num) return; 
     
@@ -778,7 +910,6 @@ const lotteryData = {
     "หวยรายวัน": ["ดาวโจนส์STAR", "ดาวโจนส์อเมริกา", "ยี่กี", "ยูโร", "สยาม"]
 };
 
-// 🎯 เพิ่มรายชื่อที่ให้ระบบเซฟลง Database (ป้องกันบั๊กรั่วไหล)
 const settingInputs = [
     'showBg', 'showLogo',
     'logoX', 'logoY', 'logoScale', 
@@ -831,11 +962,10 @@ const loadSelectedFormat = (e) => {
                         if(id.includes('FontFamily')) el.style.fontFamily = settings[id];
                     }
                 } else {
-                    // 🎯 ป้องกันบั๊กข้ามเทมเพลต (ถ้าเทมเพลตเก่าไม่มีค่านี้ ให้กลับเป็นค่าเริ่มต้น)
                     if (id.startsWith('show')) {
-                        el.checked = true; // ค่า default ของปุ่มเปิดปิดคือ เปิด (true).
+                        el.checked = true;
                     } else if (el.type === 'checkbox') {
-                        el.checked = false; // พวกตัวหนา ตัวเอียง default คือ ปิด (false)
+                        el.checked = false;
                     }
                 }
             }
@@ -1297,8 +1427,12 @@ const draw = (currentHeader = null) => {
     if (showNum1) drawNumbers(numbers1Grid, 'num1');
 }
 
+// 🎯 เพิ่มรายชื่อฟอนต์ทั้งเก่าและใหม่ ให้ระบบดึงมาโหลดล่วงหน้าครบทุกตัว
 const preloadFonts = () => {
-    const fontsToLoad = ['Prompt', 'Kanit', 'Sarabun', 'Mitr', 'Mali', 'Itim', 'Chakra Petch', 'Pattaya', 'Pridi', 'Charm', 'Arial', 'Tahoma'];
+    const fontsToLoad = [
+        'Prompt', 'Kanit', 'Sarabun', 'Mitr', 'Mali', 'Itim', 'Chakra Petch', 'Pattaya', 'Pridi', 'Charm', 'Arial', 'Tahoma',
+        'Noto Sans Thai', 'Bai Jamjuree', 'K2D', 'Krub', 'Taviraj', 'Chonburi', 'Sriracha', 'Thasadith', 'Srisakdi', 'IBM Plex Sans Thai'
+    ];
     if (document.fonts) {
         fontsToLoad.forEach(font => {
             document.fonts.load(`16px "${font}"`).then(() => {
