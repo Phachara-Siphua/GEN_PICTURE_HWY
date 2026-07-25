@@ -96,7 +96,7 @@
                     <div @click="toggleSection(1)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 1 ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            1. รูปภาพ (Background & Logo)
+                            รูปภาพ (Background & Logo)
                         </span>
                         <svg class="w-5 h-5 transform transition-transform" :class="openSection === 1 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -136,7 +136,7 @@
                     <div @click="toggleSection(2)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 2 ? 'bg-gradient-to-r from-purple-500 to-fuchsia-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-                            2. รายชื่อหัวข้อ & ฟอนต์
+                            รายชื่อหัวข้อ & ฟอนต์
                         </span>
                         <svg class="w-5 h-5 transform transition-transform" :class="openSection === 2 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -202,7 +202,7 @@
                             
                             <div class="text-center mt-5 pt-4 border-t" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
                                 <button class="w-full bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 rounded-xl border-b-4 border-purple-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('header')">
-                                    <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 110-4 2 2 0 010 4z"/></svg>
+                                    <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดหัวข้อกึ่งกลาง
                                 </button>
                             </div>
@@ -217,7 +217,7 @@
                     <div @click="toggleSection(3)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 3 ? 'bg-gradient-to-r from-red-500 to-rose-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                            3. เลข 1 ตัว (เลขรูด)
+                            เลข 1 ตัว (เลขรูด)
                         </span>
                         <svg class="w-5 h-5 transform transition-transform" :class="openSection === 3 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -278,7 +278,7 @@
                                         <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('num1Color', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
                                     </div>
                                 </div>
-                                <div><label class="block font-bold mt-1">ขอบหนา:</label><input type="number" id="num1StrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-rose-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
+                                <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="num1StrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-rose-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
                                 <div>
                                     <label class="block font-bold mt-1">สีขอบ:</label>
                                     <input type="color" id="num1StrokeColor" value="#FFFFFF" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
@@ -288,8 +288,8 @@
                                 </div>
                             </div>
                             <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <div class="flex-1"><label class="block font-bold text-rose-500">ช่องไฟ ↔ (X):</label><input type="range" id="num1GapX" min="30" max="300" value="80" class="w-full mt-2 accent-rose-500"></div>
-                                <div class="flex-1"><label class="block font-bold text-emerald-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num1GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
+                                <div class="flex-1"><label class="block font-bold text-rose-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="num1GapX" min="30" max="300" value="80" class="w-full mt-2 accent-rose-500"></div>
+                                <div class="flex-1"><label class="block font-bold text-emerald-500">ระยะห่างแกน ↕ (Y):</label><input type="range" id="num1GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
                             </div>
                             <div class="text-center mt-5">
                                 <button class="w-full bg-rose-500 hover:bg-rose-400 text-white font-bold py-3 rounded-xl border-b-4 border-rose-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num1')">
@@ -308,7 +308,7 @@
                     <div @click="toggleSection(4)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 4 ? 'bg-gradient-to-r from-orange-400 to-amber-500 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2z"></path></svg>
-                            4. เลข 2 ตัว
+                            เลข 2 ตัว
                         </span>
                         <svg class="w-5 h-5 transform transition-transform" :class="openSection === 4 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -369,7 +369,7 @@
                                         <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('num2Color', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
                                     </div>
                                 </div>
-                                <div><label class="block font-bold mt-1">ขอบหนา:</label><input type="number" id="num2StrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-orange-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
+                                <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="num2StrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-orange-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
                                 <div>
                                     <label class="block font-bold mt-1">สีขอบ:</label>
                                     <input type="color" id="num2StrokeColor" value="#FFFFFF" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
@@ -379,8 +379,8 @@
                                 </div>
                             </div>
                             <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <div class="flex-1"><label class="block font-bold text-orange-500">ช่องไฟ ↔ (X):</label><input type="range" id="num2GapX" min="30" max="300" value="120" class="w-full mt-2 accent-orange-500"></div>
-                                <div class="flex-1"><label class="block font-bold text-emerald-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num2GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
+                                <div class="flex-1"><label class="block font-bold text-orange-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="num2GapX" min="30" max="300" value="120" class="w-full mt-2 accent-orange-500"></div>
+                                <div class="flex-1"><label class="block font-bold text-emerald-500">ระยะห่างแกน ↕ (Y):</label><input type="range" id="num2GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
                             </div>
                             <div class="text-center mt-5">
                                 <button class="w-full bg-orange-500 hover:bg-orange-400 text-white font-bold py-3 rounded-xl border-b-4 border-orange-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num2')">
@@ -399,7 +399,7 @@
                     <div @click="toggleSection(5)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 5 ? 'bg-gradient-to-r from-yellow-500 to-amber-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path></svg>
-                            5. เลข 3 ตัว
+                            เลข 3 ตัว
                         </span>
                         <svg class="w-5 h-5 transform transition-transform" :class="openSection === 5 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
@@ -460,7 +460,7 @@
                                         <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('num3Color', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
                                     </div>
                                 </div>
-                                <div><label class="block font-bold mt-1">ขอบหนา:</label><input type="number" id="num3StrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-yellow-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
+                                <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="num3StrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-yellow-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
                                 <div>
                                     <label class="block font-bold mt-1">สีขอบ:</label>
                                     <input type="color" id="num3StrokeColor" value="#FFFFFF" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
@@ -470,12 +470,12 @@
                                 </div>
                             </div>
                             <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <div class="flex-1"><label class="block font-bold text-yellow-500">ช่องไฟ ↔ (X):</label><input type="range" id="num3GapX" min="30" max="300" value="150" class="w-full mt-2 accent-yellow-500"></div>
-                                <div class="flex-1"><label class="block font-bold text-emerald-500">ช่องไฟ ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
+                                <div class="flex-1"><label class="block font-bold text-yellow-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="num3GapX" min="30" max="300" value="150" class="w-full mt-2 accent-yellow-500"></div>
+                                <div class="flex-1"><label class="block font-bold text-emerald-500">ระยะห่างแกน ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
                             </div>
                             <div class="text-center mt-5">
-                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-gray-900 font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
-                                    <svg class="w-5 h-5 text-gray-800" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                    <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
@@ -485,17 +485,118 @@
                     </transition>
                 </div>
 
-                <!-- 6. วันที่ -->
+                <!-- 6. 🎯 เพิ่มหัวข้อใหม่: เลขวิน (Win) -->
                 <div id="section-6-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
-                    <div @click="toggleSection(6)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 6 ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                    <div @click="toggleSection(6)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 6 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            6. ตั้งค่าวันที่
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                            เลขวิน (Win)
                         </span>
                         <svg class="w-5 h-5 transform transition-transform" :class="openSection === 6 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
                     <transition name="slide-fade">
                         <div v-show="openSection === 6" class="p-5 space-y-4 text-sm">
+                            <div class="flex justify-between items-center border-b pb-4 mb-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
+                                <label class="flex items-center gap-2 font-bold cursor-pointer text-pink-500">
+                                    <input type="checkbox" id="showNumWin" class="w-4 h-4 rounded text-pink-500 focus:ring-pink-500"> เปิดใช้งานเลขวิน
+                                </label>
+                            </div>
+
+                            <div class="flex justify-between gap-4">
+                                <div class="flex-1">
+                                    <label class="block font-bold">จำนวนตัวเลข (3-10 ตัว):</label>
+                                    <select id="numWinCount" @change="handleUpdate" class="w-full p-2.5 border rounded-xl mt-1 focus:ring-pink-500 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'">
+                                        <option value="3">3 ตัว</option>
+                                        <option value="4">4 ตัว</option>
+                                        <option value="5">5 ตัว</option>
+                                        <option value="6" selected>6 ตัว</option>
+                                        <option value="7">7 ตัว</option>
+                                        <option value="8">8 ตัว</option>
+                                        <option value="9">9 ตัว</option>
+                                        <option value="10">10 ตัว</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mt-2">
+                                <div class="flex-1 w-full">
+                                    <label class="block font-bold">เลือกฟอนต์:</label>
+                                    <select id="numWinFontFamily" @change="e => { e.target.style.fontFamily = e.target.value; handleUpdate(); }" class="w-full p-2.5 border rounded-xl mt-1 focus:ring-pink-500 cursor-pointer" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'">
+                                        <option value="Prompt" style="font-family: 'Prompt', sans-serif;">Prompt</option>
+                                        <option value="Kanit" style="font-family: 'Kanit', sans-serif;">Kanit</option>
+                                        <option value="Sarabun" style="font-family: 'Sarabun', sans-serif;">Sarabun</option>
+                                        <option value="Mitr" style="font-family: 'Mitr', sans-serif;">Mitr</option>
+                                        <option value="Mali" style="font-family: 'Mali', cursive;">Mali</option>
+                                        <option value="Itim" style="font-family: 'Itim', cursive;">Itim</option>
+                                        <option value="Chakra Petch" style="font-family: 'Chakra Petch', sans-serif;">Chakra Petch</option>
+                                        <option value="Pattaya" style="font-family: 'Pattaya', sans-serif;">Pattaya</option>
+                                        <option value="Pridi" style="font-family: 'Pridi', serif;">Pridi</option>
+                                        <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
+                                        <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
+                                        <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
+                                        <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
+                                        <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
+                                        <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
+                                        <option value="Krub" style="font-family: 'Krub', sans-serif;">Krub</option>
+                                        <option value="Taviraj" style="font-family: 'Taviraj', serif;">Taviraj</option>
+                                        <option value="Chonburi" style="font-family: 'Chonburi', cursive;">Chonburi</option>
+                                        <option value="Sriracha" style="font-family: 'Sriracha', cursive;">Sriracha</option>
+                                        <option value="Thasadith" style="font-family: 'Thasadith', sans-serif;">Thasadith</option>
+                                        <option value="Srisakdi" style="font-family: 'Srisakdi', cursive;">Srisakdi</option>
+                                        <option value="IBM Plex Sans Thai" style="font-family: 'IBM Plex Sans Thai', sans-serif;">IBM Plex Sans Thai</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1 w-full">
+                                    <label class="block font-bold">สไตล์:</label>
+                                    <div class="flex gap-4 mt-3">
+                                        <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="numWinFontBold" class="mr-2 w-4 h-4 text-pink-500 rounded"> หนา</label>
+                                        <label class="flex items-center cursor-pointer font-medium"><input type="checkbox" id="numWinFontItalic" class="mr-2 w-4 h-4 text-pink-500 rounded"> เอียง</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 mt-2">
+                                <div><label class="block font-bold">ขนาดฟอนต์:</label><input type="number" id="numWinFontSize" value="50" min="10" class="w-full p-2 border rounded-xl mt-1 focus:ring-pink-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
+                                <div>
+                                    <label class="block font-bold">สีอักษร:</label>
+                                    <input type="color" id="numWinColor" value="#000000" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
+                                    <div class="flex flex-row gap-1.5 mt-2 justify-start">
+                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('numWinColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
+                                    </div>
+                                </div>
+                                <div><label class="block font-bold mt-1">ความหนาขอบ:</label><input type="number" id="numWinStrokeWidth" value="0" min="0" class="w-full p-2 border rounded-xl mt-1 focus:ring-pink-500" :class="isDarkMode ? 'bg-gray-700 border-gray-600 text-white' : 'bg-white border-gray-200'"></div>
+                                <div>
+                                    <label class="block font-bold mt-1">สีขอบ:</label>
+                                    <input type="color" id="numWinStrokeColor" value="#FFFFFF" class="w-full h-[42px] p-1 border rounded-xl cursor-pointer mt-1" :class="isDarkMode ? 'bg-gray-700 border-gray-600' : 'bg-white border-gray-200'">
+                                    <div class="flex flex-row gap-1.5 mt-2 justify-start">
+                                        <button v-for="c in ['#000000', '#FFFFFF', '#FF0000', '#00FF00', '#0000FF']" :key="c" @click="setQuickColor('numWinStrokeColor', c)" type="button" class="w-6 h-6 rounded-md border-2 border-gray-300 shadow-sm hover:scale-110 transition-transform" :style="{ backgroundColor: c }"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
+                                <div class="flex-1"><label class="block font-bold text-pink-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="numWinGapX" min="20" max="300" value="45" class="w-full mt-2 accent-pink-500"></div>
+                            </div>
+                            <div class="text-center mt-5">
+                                <button class="w-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-3 rounded-xl border-b-4 border-pink-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('numWin')">
+                                    <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
+                                    จัดกลุ่มกึ่งกลาง
+                                </button>
+                            </div>
+                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="numWinX" min="0" max="600" value="150" class="w-full mt-2 accent-pink-500">
+                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="numWinY" min="0" max="600" value="400" class="w-full mt-2 accent-pink-500">
+                        </div>
+                    </transition>
+                </div>
+
+                <!-- 7. วันที่ -->
+                <div id="section-7-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
+                    <div @click="toggleSection(7)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 7 ? 'bg-gradient-to-r from-teal-500 to-emerald-600 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                            ตั้งค่าวันที่
+                        </span>
+                        <svg class="w-5 h-5 transform transition-transform" :class="openSection === 7 ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                    <transition name="slide-fade">
+                        <div v-show="openSection === 7" class="p-5 space-y-4 text-sm">
                             
                             <div class="flex justify-between items-center border-b pb-4 mb-4" :class="isDarkMode ? 'border-gray-700' : 'border-gray-100'">
                                 <label class="flex items-center gap-2 font-bold cursor-pointer text-teal-500">
@@ -834,6 +935,7 @@ let ctx = null;
 let numbers3Grid = [];
 let numbers2Grid = [];
 let numbers1Grid = [];
+let numbersWinGrid = []; // 🎯 เพิ่มตัวแปรเก็บเลขวิน
 let bgImage = null;
 let logoImage = null;
 let generatedImagesToZip = [];
@@ -926,11 +1028,12 @@ const lotteryData = {
     "หวยรายวัน": ["ดาวโจนส์STAR", "ดาวโจนส์อเมริกา", "ยี่กี", "ยูโร", "สยาม"]
 };
 
+// 🎯 เพิ่มตัวแปรสำหรับเลขวินลงใน settingInputs
 const settingInputs = [
-    'showBg', 'showLogo',
-    'logoX', 'logoY', 'logoScale', 
+    'showBg', 'showLogo', 'logoX', 'logoY', 'logoScale', 
     'headerX', 'headerY', 'headerFontSize', 'headerColor', 'headerStrokeWidth', 'headerStrokeColor', 'headerFontFamily', 'headerFontBold', 'headerFontItalic',
     'showDate', 'datePicker', 'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
+    'showNumWin', 'numWinCount', 'numWinX', 'numWinY', 'numWinFontSize', 'numWinColor', 'numWinGapX', 'numWinStrokeWidth', 'numWinStrokeColor', 'numWinFontFamily', 'numWinFontBold', 'numWinFontItalic',
     'showNum3', 'row3Count', 'col3Count', 'num3X', 'num3Y', 'num3FontSize', 'num3Color', 'num3GapX', 'num3GapY', 'num3StrokeWidth', 'num3StrokeColor', 'num3FontFamily', 'num3FontBold', 'num3FontItalic',
     'showNum2', 'row2Count', 'col2Count', 'num2X', 'num2Y', 'num2FontSize', 'num2Color', 'num2GapX', 'num2GapY', 'num2StrokeWidth', 'num2StrokeColor', 'num2FontFamily', 'num2FontBold', 'num2FontItalic',
     'showNum1', 'row1Count', 'col1Count', 'num1X', 'num1Y', 'num1FontSize', 'num1Color', 'num1GapX', 'num1GapY', 'num1StrokeWidth', 'num1StrokeColor', 'num1FontFamily', 'num1FontBold', 'num1FontItalic'
@@ -978,7 +1081,10 @@ const loadSelectedFormat = (e) => {
                         if(id.includes('FontFamily')) el.style.fontFamily = settings[id];
                     }
                 } else {
-                    if (id.startsWith('show')) {
+                    // 🎯 ป้องกันบั๊กข้ามเทมเพลต และตั้งค่า default ให้ปุ่มเปิดปิด
+                    if (id === 'showNumWin') {
+                        el.checked = false; // ปิดไว้เป็น Default
+                    } else if (id.startsWith('show')) {
                         el.checked = true;
                     } else if (el.type === 'checkbox') {
                         el.checked = false;
@@ -1304,9 +1410,46 @@ const createNumbersArray = (rows, cols, digitsCount) => {
 }
 
 const generatePreviewNumbers = () => {
-    numbers3Grid = createNumbersArray(document.getElementById('row3Count').value, document.getElementById('col3Count').value, 3);
-    numbers2Grid = createNumbersArray(document.getElementById('row2Count').value, document.getElementById('col2Count').value, 2);
+    // 🎯 สร้างเลข 1, 2, 3 ตัวตามปกติ
     numbers1Grid = createNumbersArray(document.getElementById('row1Count').value, document.getElementById('col1Count').value, 1);
+    numbers2Grid = createNumbersArray(document.getElementById('row2Count').value, document.getElementById('col2Count').value, 2);
+    numbers3Grid = createNumbersArray(document.getElementById('row3Count').value, document.getElementById('col3Count').value, 3);
+    
+    // 🎯 ระบบสร้าง "เลขวิน" อัจฉริยะ (ห้ามซ้ำกันเลย + ต้องมีเลขรูดผสมอยู่ด้วย)
+    let rootDigit = null;
+    if (numbers1Grid.length > 0 && numbers1Grid[0].length > 0) {
+        rootDigit = numbers1Grid[0][0]; // ดึงเลขรูดตัวแรกมาใช้
+    }
+    
+    // ดึงจำนวนตัวเลขที่ผู้ใช้เลือก (3 ถึง 10)
+    let winCountInput = document.getElementById('numWinCount');
+    let winLength = parseInt(winCountInput ? winCountInput.value : 6);
+    
+    let availableDigits = ['0','1','2','3','4','5','6','7','8','9'];
+    let pickedDigits = [];
+    
+    // 1. บังคับใส่เลขรูดลงไปก่อน (ถ้ามี)
+    if (rootDigit && availableDigits.includes(rootDigit)) {
+        pickedDigits.push(rootDigit);
+        availableDigits = availableDigits.filter(d => d !== rootDigit);
+    }
+    
+    // 2. สุ่มเลขที่เหลือแบบไม่ซ้ำกัน จนกว่าจะครบตามจำนวนที่เลือก
+    while (pickedDigits.length < winLength) {
+        let rIdx = Math.floor(Math.random() * availableDigits.length);
+        pickedDigits.push(availableDigits[rIdx]);
+        availableDigits.splice(rIdx, 1); // เอาตัวที่สุ่มแล้วออกจากกอง จะได้ไม่ซ้ำ
+    }
+    
+    // 3. สลับตำแหน่งให้มั่วๆ (Shuffle) เพื่อไม่ให้เลขรูดอยู่หน้าสุดตลอดเวลา
+    for (let i = pickedDigits.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [pickedDigits[i], pickedDigits[j]] = [pickedDigits[j], pickedDigits[i]];
+    }
+    
+    // บันทึกเป็น Array 1 แถว (แถวเดียว บรรทัดเดียว)
+    numbersWinGrid = [pickedDigits];
+    
     handleUpdate();
 }
 
@@ -1324,6 +1467,10 @@ const centerElement = (type) => {
         const cols = parseInt(document.getElementById('col1Count').value);
         const gapX1 = parseInt(document.getElementById('num1GapX').value);
         document.getElementById('num1X').value = (canvas.width - ((cols - 1) * gapX1)) / 2;
+    } else if (type === 'numWin') {
+        const cols = parseInt(document.getElementById('numWinCount').value);
+        const gapXWin = parseInt(document.getElementById('numWinGapX').value);
+        document.getElementById('numWinX').value = (canvas.width - ((cols - 1) * gapXWin)) / 2;
     } else if (type === 'logo' || type === 'header' || type === 'date') {
         document.getElementById(type + 'X').value = canvas.width / 2;
     }
@@ -1381,7 +1528,12 @@ const draw = (currentHeader = null) => {
     
     ctx.fillStyle = document.getElementById('headerColor').value;
     ctx.strokeStyle = document.getElementById('headerStrokeColor').value;
-    ctx.lineWidth = headerStrokeWidth;
+    
+    // 🎯 แก้บั๊ก Canvas State Leakage (ความหนาขอบ)
+    if (headerStrokeWidth > 0) {
+        ctx.lineWidth = headerStrokeWidth;
+    }
+    
     ctx.font = getFontString('header', headerFontSize);
     ctx.textAlign = 'center';
     ctx.fillText(displayHeader, headerX, headerY);
@@ -1404,7 +1556,12 @@ const draw = (currentHeader = null) => {
         
         ctx.fillStyle = document.getElementById('dateColor').value;
         ctx.strokeStyle = document.getElementById('dateStrokeColor').value;
-        ctx.lineWidth = dateStrokeWidth;
+        
+        // 🎯 แก้บั๊ก Canvas State Leakage
+        if (dateStrokeWidth > 0) {
+            ctx.lineWidth = dateStrokeWidth;
+        }
+        
         ctx.font = getFontString('date', dateFontSize);
         ctx.textAlign = 'center';
         ctx.fillText(displayDate, dateX, dateY);
@@ -1416,11 +1573,22 @@ const draw = (currentHeader = null) => {
         const startX = parseInt(document.getElementById(idPrefix + 'X').value);
         const startY = parseInt(document.getElementById(idPrefix + 'Y').value);
         const gapX = parseInt(document.getElementById(idPrefix + 'GapX').value);
-        const gapY = parseInt(document.getElementById(idPrefix + 'GapY').value);
+        
+        // 🎯 เช็กว่ามี GapY หรือไม่ (เพื่อรองรับเลขวินที่มีบรรทัดเดียว)
+        const gapYElement = document.getElementById(idPrefix + 'GapY');
+        const gapY = gapYElement ? parseInt(gapYElement.value) : 0;
+        
+        // 🎯 ดึงค่าความหนาขอบมาเก็บไว้ในตัวแปรก่อน
+        const strokeWidthVal = parseInt(document.getElementById(idPrefix + 'StrokeWidth').value);
         
         ctx.fillStyle = document.getElementById(idPrefix + 'Color').value;
         ctx.strokeStyle = document.getElementById(idPrefix + 'StrokeColor').value;
-        ctx.lineWidth = parseInt(document.getElementById(idPrefix + 'StrokeWidth').value);
+        
+        // 🎯 แก้บั๊ก Canvas State Leakage: ตั้งค่า lineWidth เฉพาะตอนที่ค่ามากกว่า 0
+        if (strokeWidthVal > 0) {
+            ctx.lineWidth = strokeWidthVal;
+        }
+        
         ctx.font = getFontString(idPrefix, fontSize);
         
         grid.forEach((row, rowIndex) => {
@@ -1428,13 +1596,21 @@ const draw = (currentHeader = null) => {
                 const x = startX + (colIndex * gapX);
                 const y = startY + (rowIndex * gapY);
                 ctx.fillText(num, x, y);
-                if (ctx.lineWidth > 0) ctx.strokeText(num, x, y);
+                
+                // 🎯 เช็กจากตัวแปรที่เราดึงมา แทนการเช็กจาก ctx.lineWidth ที่มักจะแอบจำค่าเก่า
+                if (strokeWidthVal > 0) {
+                    ctx.strokeText(num, x, y);
+                }
             });
         });
     };
 
     const showNum3 = document.getElementById('showNum3') ? document.getElementById('showNum3').checked : true;
     if (showNum3) drawNumbers(numbers3Grid, 'num3');
+    
+    // 🎯 วาดเลขวิน (ถ้าเปิดไว้)
+    const showNumWin = document.getElementById('showNumWin') ? document.getElementById('showNumWin').checked : false;
+    if (showNumWin) drawNumbers(numbersWinGrid, 'numWin');
     
     const showNum2 = document.getElementById('showNum2') ? document.getElementById('showNum2').checked : true;
     if (showNum2) drawNumbers(numbers2Grid, 'num2');
@@ -1486,10 +1662,8 @@ const generateBatchPreviews = () => {
 
     for (let i = 0; i < headers.length; i++) {
         const headerName = headers[i];
-        numbers3Grid = createNumbersArray(r3, c3, 3);
-        numbers2Grid = createNumbersArray(r2, c2, 2);
-        numbers1Grid = createNumbersArray(r1, c1, 1);
         
+        generatePreviewNumbers(); // สุ่มเลขใหม่ให้ทุกรูปที่สร้าง
         draw(headerName);
         
         const dataUrl = canvas.toDataURL('image/png');
@@ -1554,6 +1728,7 @@ const initApp = () => {
     document.getElementById('num1FontBold').checked = false;
     document.getElementById('num2FontBold').checked = false;
     document.getElementById('num3FontBold').checked = false;
+    document.getElementById('numWinFontBold').checked = false; // 🎯 จัดการค่าเริ่มต้นเลขวิน
     document.getElementById('dateFontBold').checked = false;
 
     document.querySelectorAll('input, select').forEach(el => {
