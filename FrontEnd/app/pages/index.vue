@@ -825,7 +825,7 @@ import { useHead, useState } from '#imports'
 
 // 🎯 อัปเดตลิงก์ดึง Google Fonts เพิ่มเข้าไปอีก 10 ฟอนต์ยอดนิยม
 useHead({
-  title: 'RunBi - โปรแกรมสุ่มตัวเลขและสร้างรูปภาพอัตโนมัติ',
+  title: 'RunBi - ทำรูปใบหวย ด้วยตัวเองได้แล้ววันนี้!',
   meta: [
     { name: 'description', content: 'ตัวช่วยสร้างรูปภาพแจกเลขเด็ด หวยหุ้น ฮานอย ลาว ใช้งานง่าย ปรับแต่งฟอนต์และสีได้ตามใจชอบ' },
     { name: 'keywords', content: 'สร้างรูปหวย, สุ่มเลขเด็ด, โปรแกรมทำรูปหวย, RunBi, หวยหุ้น, ฮานอย, ลาว' },
@@ -833,7 +833,7 @@ useHead({
     // 🎯 แก้ไขตรงนี้: ใส่เฉพาะรหัสที่เป็นตัวอักษรเท่านั้นครับ
     { name: 'google-site-verification', content: '_SNH2YvEerZYtI3exrHTD8MVTPD4SXKSI7ITc0ZPVTg' },
     
-    { property: 'og:title', content: 'RunBi - โปรแกรมสุ่มตัวเลขและสร้างรูปภาพ' },
+    { property: 'og:title', content: 'RunBi - ทำรูปใบหวย ด้วยตัวเองได้แล้ววันนี้!' },
     { property: 'og:description', content: 'ตัวช่วยสร้างรูปภาพแจกเลขเด็ด ใช้งานง่าย' },
     { property: 'og:image', content: 'https://runbi.vercel.app/img/logo.png' }
   ],
