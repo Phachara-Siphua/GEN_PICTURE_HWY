@@ -632,7 +632,11 @@
                                         </div>
                                         <div class="grid grid-cols-7 text-center text-sm font-medium gap-y-1">
                                             <div v-for="blank in blankDays" :key="'blank'+blank"></div>
-                                            <div v-for="day in daysInMonth" :key="day" @click="selectDate(day)" class="p-1.5 cursor-pointer rounded-lg transition-colors flex items-center justify-center h-8" :class="isSelected(day) ? 'bg-teal-500 text-white shadow-md font-bold' : (isDarkMode ? 'hover:bg-gray-700 text-gray-200' : 'hover:bg-teal-50 text-gray-800')">
+                                            <!-- 🎯 ตรวจสอบและปิดการใช้งานวันที่เกินวันพรุ่งนี้ -->
+                                            <div v-for="day in daysInMonth" :key="day" 
+                                                 @click="!isDayDisabled(day) && selectDate(day)" 
+                                                 class="p-1.5 rounded-lg transition-colors flex items-center justify-center h-8" 
+                                                 :class="isDayDisabled(day) ? 'opacity-30 cursor-not-allowed text-gray-400 dark:text-gray-600 bg-gray-100 dark:bg-gray-800/50' : (isSelected(day) ? 'bg-teal-500 text-white shadow-md font-bold cursor-pointer' : (isDarkMode ? 'hover:bg-gray-700 text-gray-200 cursor-pointer' : 'hover:bg-teal-50 text-gray-800 cursor-pointer'))">
                                                 {{ day }}
                                             </div>
                                         </div>
@@ -659,7 +663,6 @@
                                         <option value="Charm" style="font-family: 'Charm', cursive;">Charm</option>
                                         <option value="Arial" style="font-family: Arial, sans-serif;">Arial</option>
                                         <option value="Tahoma" style="font-family: Tahoma, sans-serif;">Tahoma</option>
-                                        <!-- 🎯 เพิ่มฟอนต์ใหม่ 10 แบบ -->
                                         <option value="Noto Sans Thai" style="font-family: 'Noto Sans Thai', sans-serif;">Noto Sans Thai</option>
                                         <option value="Bai Jamjuree" style="font-family: 'Bai Jamjuree', sans-serif;">Bai Jamjuree</option>
                                         <option value="K2D" style="font-family: 'K2D', sans-serif;">K2D</option>
@@ -983,6 +986,18 @@ const nextMonth = () => {
 const prevYear = () => { calYear.value-- }
 const nextYear = () => { calYear.value++ }
 
+// 🎯 ฟังก์ชันเช็กว่าวันที่เกิน "วันพรุ่งนี้" หรือไม่
+const isDayDisabled = (day) => {
+    const checkDate = new Date(calYear.value, calMonth.value, day);
+    checkDate.setHours(0, 0, 0, 0);
+    
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    tomorrow.setHours(0, 0, 0, 0);
+    
+    return checkDate > tomorrow;
+}
+
 const selectDate = (day) => {
     selectedDateObj.value = new Date(calYear.value, calMonth.value, day);
     showCalendar.value = false;
@@ -1033,10 +1048,10 @@ const settingInputs = [
     'showBg', 'showLogo', 'logoX', 'logoY', 'logoScale', 
     'headerX', 'headerY', 'headerFontSize', 'headerColor', 'headerStrokeWidth', 'headerStrokeColor', 'headerFontFamily', 'headerFontBold', 'headerFontItalic',
     'showDate', 'datePicker', 'dateX', 'dateY', 'dateFontSize', 'dateColor', 'dateStrokeWidth', 'dateStrokeColor', 'dateFontFamily', 'dateFontBold', 'dateFontItalic',
-    'showNumWin', 'numWinCount', 'numWinX', 'numWinY', 'numWinFontSize', 'numWinColor', 'numWinGapX', 'numWinStrokeWidth', 'numWinStrokeColor', 'numWinFontFamily', 'numWinFontBold', 'numWinFontItalic',
     'showNum3', 'row3Count', 'col3Count', 'num3X', 'num3Y', 'num3FontSize', 'num3Color', 'num3GapX', 'num3GapY', 'num3StrokeWidth', 'num3StrokeColor', 'num3FontFamily', 'num3FontBold', 'num3FontItalic',
     'showNum2', 'row2Count', 'col2Count', 'num2X', 'num2Y', 'num2FontSize', 'num2Color', 'num2GapX', 'num2GapY', 'num2StrokeWidth', 'num2StrokeColor', 'num2FontFamily', 'num2FontBold', 'num2FontItalic',
-    'showNum1', 'row1Count', 'col1Count', 'num1X', 'num1Y', 'num1FontSize', 'num1Color', 'num1GapX', 'num1GapY', 'num1StrokeWidth', 'num1StrokeColor', 'num1FontFamily', 'num1FontBold', 'num1FontItalic'
+    'showNum1', 'row1Count', 'col1Count', 'num1X', 'num1Y', 'num1FontSize', 'num1Color', 'num1GapX', 'num1GapY', 'num1StrokeWidth', 'num1StrokeColor', 'num1FontFamily', 'num1FontBold', 'num1FontItalic',
+    'showNumWin', 'numWinCount', 'numWinX', 'numWinY', 'numWinFontSize', 'numWinColor', 'numWinGapX', 'numWinStrokeWidth', 'numWinStrokeColor', 'numWinFontFamily', 'numWinFontBold', 'numWinFontItalic'
 ];
 
 const setQuickColor = (id, colorHex) => {
