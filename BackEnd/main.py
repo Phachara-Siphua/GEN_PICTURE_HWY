@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
-from datetime import datetime, timedelta, time # 🎯 เพิ่มการดึงฟังก์ชัน time
+from datetime import datetime, timedelta, time
 from typing import Optional
 from jose import JWTError, jwt
 import pymysql
@@ -75,6 +75,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
+        pw_hash: str = payload.get("pw") # 🎯 ดึงเศษรหัสผ่านจาก Token มาตรวจสอบ
         if username is None: raise credentials_exception
     except JWTError: raise credentials_exception
     
@@ -83,7 +84,17 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         cursor.execute("SELECT * FROM users WHERE username = %s", (username,))
         user = cursor.fetchone()
     conn.close()
+    
     if user is None: raise credentials_exception
+    
+    # 🎯 เช็กว่ารหัสผ่านถูกเปลี่ยนหรือไม่
+    # ถ้าไม่มี pw_hash (Token เก่า) หรือ เศษรหัสผ่านใน Token ไม่ตรงกับฐานข้อมูลปัจจุบัน = เตะออกทันที!
+    if not pw_hash or pw_hash != user['password'][:10]:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="รหัสผ่านของคุณถูกเปลี่ยนแปลง กรุณาเข้าสู่ระบบใหม่อีกครั้ง"
+        )
+        
     return user
 
 @app.post("/token")
@@ -97,7 +108,11 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     if not user or not verify_password(form_data.password, user['password']):
         raise HTTPException(status_code=401, detail="Username หรือ Password ไม่ถูกต้อง")
 
-    access_token = create_access_token(data={"sub": user['username']})
+    # 🎯 ฝังเศษรหัสผ่าน 10 ตัวแรกเข้าไปใน Token เพื่อเอาไว้ยืนยันตัวตนว่ารหัสยังไม่เปลี่ยน
+    access_token = create_access_token(data={
+        "sub": user['username'],
+        "pw": user['password'][:10]
+    })
     return {"access_token": access_token, "token_type": "bearer"}
 
 @app.get("/users/me")
@@ -146,11 +161,9 @@ async def register_user(user: UserCreate, current_user: dict = Depends(get_curre
 
         if user.sub_end_date:
             end_date_obj = datetime.strptime(user.sub_end_date, "%Y-%m-%d").date()
-            # 🎯 ล็อกเวลาเป็น 23:59:59 
             sub_end = datetime.combine(end_date_obj, time(23, 59, 59))
         else:
             sub_end = sub_start + timedelta(days=365)
-            # 🎯 ล็อกเวลาเป็น 23:59:59 
             sub_end = sub_end.replace(hour=23, minute=59, second=59)
             
         with conn.cursor() as cursor:
@@ -179,7 +192,6 @@ async def update_user(user_id: int, user: UserUpdate, current_user: dict = Depen
         sub_start = datetime.combine(start_date_obj, now_time)
         
         end_date_obj = datetime.strptime(user.sub_end_date, "%Y-%m-%d").date()
-        # 🎯 ล็อกเวลาเป็น 23:59:59
         sub_end = datetime.combine(end_date_obj, time(23, 59, 59))
         
         with conn.cursor() as cursor:
@@ -271,7 +283,7 @@ async def delete_format(format_name: str, current_user: dict = Depends(get_curre
         conn.close()
 
 # ==========================================
-# API สำหรับ Admin เพื่อจัดการรูปแบบของ User.
+# API สำหรับ Admin เพื่อจัดการรูปแบบของ User
 # ==========================================
 @app.get("/admin/users/{target_user_id}/formats")
 def admin_get_user_formats(target_user_id: int, current_user: dict = Depends(get_current_user)):
