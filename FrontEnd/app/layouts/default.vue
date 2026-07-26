@@ -61,7 +61,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+// 🎯 เพิ่มการดึง onUnmounted เพื่อกันบั๊ก
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useState, useHead } from '#imports'
 
@@ -79,6 +80,8 @@ const toggleDarkMode = () => {
     localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light')
 }
 
+let authInterval = null; // 🎯 ตัวแปรเก็บ Timer
+
 onMounted(async () => {
     if (localStorage.getItem('theme') === 'dark') {
         isDarkMode.value = true
@@ -93,6 +96,33 @@ onMounted(async () => {
                 if (data.role === 'admin') isAdmin.value = true
             }
         } catch (e) {}
+        
+        // 🎯 ระบบแอบสุ่มเช็ก Token ตลอดเวลา (ทำงานหลังบ้านแบบเงียบๆ)
+        authInterval = setInterval(async () => {
+            const currentToken = localStorage.getItem('token');
+            if (currentToken) {
+                try {
+                    const checkRes = await fetch('https://gen-picture-hwy.onrender.com/users/me', { 
+                        headers: { 'Authorization': `Bearer ${currentToken}` } 
+                    });
+                    // ถ้าเซิร์ฟเวอร์เตะออก (รหัสผ่านเปลี่ยน หรือ Session หมด)
+                    if (checkRes.status === 401) {
+                        clearInterval(authInterval); // หยุดการเช็ก
+                        alert('⚠️ เซสชันหมดอายุ หรือ รหัสผ่านถูกเปลี่ยนแปลง!\n\nระบบกำลังพาคุณกลับไปหน้าเข้าสู่ระบบ...');
+                        logout(); // เตะกลับไปหน้าล็อกอินทันที
+                    }
+                } catch (e) {
+                    // ปล่อยผ่านไปถ้าเกิดเน็ตกระตุกชั่วคราว ไม่ต้องเตะออก
+                }
+            }
+        }, 10000); // 🎯 ตั้งเวลาเช็กทุกๆ 10 วินาที
+    }
+})
+
+// 🎯 ป้องกันบั๊ก Timer ทำงานค้างเวลาปิดเว็บไปแล้ว
+onUnmounted(() => {
+    if (authInterval) {
+        clearInterval(authInterval);
     }
 })
 
