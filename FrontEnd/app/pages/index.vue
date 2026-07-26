@@ -122,10 +122,28 @@
                                 </button>
                             </div>
 
-                            <div class="p-4 border rounded-xl mt-4" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <label class="block font-bold">ตำแหน่ง Logo X (แนวนอน):</label><input type="range" id="logoX" min="0" max="600" value="480" class="w-full mt-2 accent-indigo-500">
-                                <label class="block font-bold mt-3">ตำแหน่ง Logo Y (แนวตั้ง):</label><input type="range" id="logoY" min="0" max="600" value="90" class="w-full mt-2 accent-indigo-500">
-                                <label class="block font-bold mt-3 text-indigo-500">ขนาด Logo: <span id="logoScaleVal">37</span>%</label><input type="range" id="logoScale" min="10" max="300" value="37" class="w-full mt-2 accent-indigo-500">
+                            <div class="p-4 border rounded-xl mt-4 space-y-4" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่ง Logo X (แนวนอน):</label>
+                                        <input type="number" id="logoX_num" value="480" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('logoX').value = this.value">
+                                    </div>
+                                    <input type="range" id="logoX" min="0" max="600" value="480" class="w-full accent-indigo-500" oninput="document.getElementById('logoX_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่ง Logo Y (แนวตั้ง):</label>
+                                        <input type="number" id="logoY_num" value="90" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('logoY').value = this.value">
+                                    </div>
+                                    <input type="range" id="logoY" min="0" max="600" value="90" class="w-full accent-indigo-500" oninput="document.getElementById('logoY_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-indigo-500">ขนาด Logo (%):</label>
+                                        <input type="number" id="logoScale_num" value="37" class="w-16 p-1 border rounded-lg text-center text-sm font-bold" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-indigo-400' : 'bg-white border-gray-300 text-indigo-600'" oninput="document.getElementById('logoScale').value = this.value">
+                                    </div>
+                                    <input type="range" id="logoScale" min="10" max="300" value="37" class="w-full accent-indigo-500" oninput="document.getElementById('logoScale_num').value = this.value">
+                                </div>
                             </div>
                         </div>
                     </transition>
@@ -206,8 +224,23 @@
                                     จัดหัวข้อกึ่งกลาง
                                 </button>
                             </div>
-                            <label class="block font-bold mt-3">ตำแหน่ง X:</label><input type="range" id="headerX" min="0" max="600" value="290" class="w-full mt-2 accent-purple-500">
-                            <label class="block font-bold mt-3">ตำแหน่ง Y:</label><input type="range" id="headerY" min="0" max="600" value="85" class="w-full mt-2 accent-purple-500">
+                            
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่ง X:</label>
+                                        <input type="number" id="headerX_num" value="290" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('headerX').value = this.value">
+                                    </div>
+                                    <input type="range" id="headerX" min="0" max="600" value="290" class="w-full accent-purple-500" oninput="document.getElementById('headerX_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่ง Y:</label>
+                                        <input type="number" id="headerY_num" value="85" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('headerY').value = this.value">
+                                    </div>
+                                    <input type="range" id="headerY" min="0" max="600" value="85" class="w-full accent-purple-500" oninput="document.getElementById('headerY_num').value = this.value">
+                                </div>
+                            </div>
                         </div>
                     </transition>
                 </div>
@@ -287,18 +320,47 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <div class="flex-1"><label class="block font-bold text-rose-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="num1GapX" min="30" max="300" value="80" class="w-full mt-2 accent-rose-500"></div>
-                                <div class="flex-1"><label class="block font-bold text-emerald-500">ระยะห่างแกน ↕ (Y):</label><input type="range" id="num1GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
+                            
+                            <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-rose-500">ระยะห่างแกน ↔ (X):</label>
+                                        <input type="number" id="num1GapX_num" value="80" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num1GapX').value = this.value">
+                                    </div>
+                                    <input type="range" id="num1GapX" min="0" max="300" value="80" class="w-full accent-rose-500" oninput="document.getElementById('num1GapX_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-emerald-500">ระยะห่างแกน ↕ (Y):</label>
+                                        <input type="number" id="num1GapY_num" value="70" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num1GapY').value = this.value">
+                                    </div>
+                                    <input type="range" id="num1GapY" min="0" max="300" value="70" class="w-full accent-emerald-500" oninput="document.getElementById('num1GapY_num').value = this.value">
+                                </div>
                             </div>
+                            
                             <div class="text-center mt-5">
                                 <button class="w-full bg-rose-500 hover:bg-rose-400 text-white font-bold py-3 rounded-xl border-b-4 border-rose-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num1')">
                                     <svg class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="num1X" min="0" max="600" value="260" class="w-full mt-2 accent-rose-500">
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num1Y" min="0" max="600" value="260" class="w-full mt-2 accent-rose-500">
+                            
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม X:</label>
+                                        <input type="number" id="num1X_num" value="260" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num1X').value = this.value">
+                                    </div>
+                                    <input type="range" id="num1X" min="0" max="600" value="260" class="w-full accent-rose-500" oninput="document.getElementById('num1X_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม Y:</label>
+                                        <input type="number" id="num1Y_num" value="260" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num1Y').value = this.value">
+                                    </div>
+                                    <input type="range" id="num1Y" min="0" max="600" value="260" class="w-full accent-rose-500" oninput="document.getElementById('num1Y_num').value = this.value">
+                                </div>
+                            </div>
                         </div>
                     </transition>
                 </div>
@@ -378,18 +440,47 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <div class="flex-1"><label class="block font-bold text-orange-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="num2GapX" min="30" max="300" value="120" class="w-full mt-2 accent-orange-500"></div>
-                                <div class="flex-1"><label class="block font-bold text-emerald-500">ระยะห่างแกน ↕ (Y):</label><input type="range" id="num2GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
+                            
+                            <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-orange-500">ระยะห่างแกน ↔ (X):</label>
+                                        <input type="number" id="num2GapX_num" value="120" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num2GapX').value = this.value">
+                                    </div>
+                                    <input type="range" id="num2GapX" min="0" max="300" value="120" class="w-full accent-orange-500" oninput="document.getElementById('num2GapX_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-emerald-500">ระยะห่างแกน ↕ (Y):</label>
+                                        <input type="number" id="num2GapY_num" value="70" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num2GapY').value = this.value">
+                                    </div>
+                                    <input type="range" id="num2GapY" min="0" max="300" value="70" class="w-full accent-emerald-500" oninput="document.getElementById('num2GapY_num').value = this.value">
+                                </div>
                             </div>
+                            
                             <div class="text-center mt-5">
                                 <button class="w-full bg-orange-500 hover:bg-orange-400 text-white font-bold py-3 rounded-xl border-b-4 border-orange-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num2')">
                                     <svg class="w-5 h-5 text-yellow-200" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="num2X" min="0" max="600" value="240" class="w-full mt-2 accent-orange-500">
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num2Y" min="0" max="600" value="330" class="w-full mt-2 accent-orange-500">
+                            
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม X:</label>
+                                        <input type="number" id="num2X_num" value="240" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num2X').value = this.value">
+                                    </div>
+                                    <input type="range" id="num2X" min="0" max="600" value="240" class="w-full accent-orange-500" oninput="document.getElementById('num2X_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม Y:</label>
+                                        <input type="number" id="num2Y_num" value="330" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num2Y').value = this.value">
+                                    </div>
+                                    <input type="range" id="num2Y" min="0" max="600" value="330" class="w-full accent-orange-500" oninput="document.getElementById('num2Y_num').value = this.value">
+                                </div>
+                            </div>
                         </div>
                     </transition>
                 </div>
@@ -469,23 +560,52 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <div class="flex-1"><label class="block font-bold text-yellow-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="num3GapX" min="30" max="300" value="150" class="w-full mt-2 accent-yellow-500"></div>
-                                <div class="flex-1"><label class="block font-bold text-emerald-500">ระยะห่างแกน ↕ (Y):</label><input type="range" id="num3GapY" min="30" max="200" value="70" class="w-full mt-2 accent-emerald-500"></div>
+                            
+                            <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-yellow-500">ระยะห่างแกน ↔ (X):</label>
+                                        <input type="number" id="num3GapX_num" value="150" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num3GapX').value = this.value">
+                                    </div>
+                                    <input type="range" id="num3GapX" min="0" max="300" value="150" class="w-full accent-yellow-500" oninput="document.getElementById('num3GapX_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-emerald-500">ระยะห่างแกน ↕ (Y):</label>
+                                        <input type="number" id="num3GapY_num" value="70" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num3GapY').value = this.value">
+                                    </div>
+                                    <input type="range" id="num3GapY" min="0" max="300" value="70" class="w-full accent-emerald-500" oninput="document.getElementById('num3GapY_num').value = this.value">
+                                </div>
                             </div>
+                            
                             <div class="text-center mt-5">
-                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                <button class="w-full bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-3 rounded-xl border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
                                     <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="num3X" min="0" max="600" value="150" class="w-full mt-2 accent-yellow-500">
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="num3Y" min="0" max="600" value="470" class="w-full mt-2 accent-yellow-500">
+                            
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม X:</label>
+                                        <input type="number" id="num3X_num" value="150" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num3X').value = this.value">
+                                    </div>
+                                    <input type="range" id="num3X" min="0" max="600" value="150" class="w-full accent-yellow-500" oninput="document.getElementById('num3X_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม Y:</label>
+                                        <input type="number" id="num3Y_num" value="470" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('num3Y').value = this.value">
+                                    </div>
+                                    <input type="range" id="num3Y" min="0" max="600" value="470" class="w-full accent-yellow-500" oninput="document.getElementById('num3Y_num').value = this.value">
+                                </div>
+                            </div>
                         </div>
                     </transition>
                 </div>
 
-                <!-- 6. 🎯 เพิ่มหัวข้อใหม่: เลขวิน (Win) -->
+                <!-- 6. เลขวิน (Win) -->
                 <div id="section-6-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
                     <div @click="toggleSection(6)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 6 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
@@ -571,17 +691,40 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="flex flex-col sm:flex-row justify-between gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
-                                <div class="flex-1"><label class="block font-bold text-pink-500">ระยะห่างแกน ↔ (X):</label><input type="range" id="numWinGapX" min="20" max="300" value="45" class="w-full mt-2 accent-pink-500"></div>
+                            
+                            <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm text-pink-500">ระยะห่างแกน ↔ (X):</label>
+                                        <input type="number" id="numWinGapX_num" value="45" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('numWinGapX').value = this.value">
+                                    </div>
+                                    <input type="range" id="numWinGapX" min="0" max="300" value="45" class="w-full accent-pink-500" oninput="document.getElementById('numWinGapX_num').value = this.value">
+                                </div>
                             </div>
+                            
                             <div class="text-center mt-5">
                                 <button class="w-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-3 rounded-xl border-b-4 border-pink-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('numWin')">
                                     <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
                             </div>
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม X:</label><input type="range" id="numWinX" min="0" max="600" value="150" class="w-full mt-2 accent-pink-500">
-                            <label class="block font-bold mt-3">ตำแหน่งเริ่ม Y:</label><input type="range" id="numWinY" min="0" max="600" value="400" class="w-full mt-2 accent-pink-500">
+                            
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม X:</label>
+                                        <input type="number" id="numWinX_num" value="150" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('numWinX').value = this.value">
+                                    </div>
+                                    <input type="range" id="numWinX" min="0" max="600" value="150" class="w-full accent-pink-500" oninput="document.getElementById('numWinX_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่งเริ่ม Y:</label>
+                                        <input type="number" id="numWinY_num" value="400" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('numWinY').value = this.value">
+                                    </div>
+                                    <input type="range" id="numWinY" min="0" max="600" value="400" class="w-full accent-pink-500" oninput="document.getElementById('numWinY_num').value = this.value">
+                                </div>
+                            </div>
                         </div>
                     </transition>
                 </div>
@@ -707,8 +850,23 @@
                                     จัดวันที่กึ่งกลาง
                                 </button>
                             </div>
-                            <label class="block font-bold mt-3">ตำแหน่ง X:</label><input type="range" id="dateX" min="0" max="600" value="485" class="w-full mt-2 accent-teal-500">
-                            <label class="block font-bold mt-3">ตำแหน่ง Y:</label><input type="range" id="dateY" min="0" max="600" value="550" class="w-full mt-2 accent-teal-500">
+                            
+                            <div class="mt-4 space-y-4">
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่ง X:</label>
+                                        <input type="number" id="dateX_num" value="485" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('dateX').value = this.value">
+                                    </div>
+                                    <input type="range" id="dateX" min="0" max="600" value="485" class="w-full accent-teal-500" oninput="document.getElementById('dateX_num').value = this.value">
+                                </div>
+                                <div>
+                                    <div class="flex justify-between items-center mb-1">
+                                        <label class="font-bold text-sm">ตำแหน่ง Y:</label>
+                                        <input type="number" id="dateY_num" value="550" class="w-16 p-1 border rounded-lg text-center text-sm" :class="isDarkMode ? 'bg-gray-800 border-gray-600 text-white' : 'bg-white border-gray-300'" oninput="document.getElementById('dateY').value = this.value">
+                                    </div>
+                                    <input type="range" id="dateY" min="0" max="600" value="550" class="w-full accent-teal-500" oninput="document.getElementById('dateY_num').value = this.value">
+                                </div>
+                            </div>
                         </div>
                     </transition>
                 </div>
@@ -803,7 +961,6 @@
         <span style="font-family: 'Charm'">โหลด</span>
         <span style="font-family: 'Arial'">โหลด</span>
         <span style="font-family: 'Tahoma'">โหลด</span>
-        <!-- ฟอนต์ใหม่ -->
         <span style="font-family: 'Noto Sans Thai'">โหลด</span>
         <span style="font-family: 'Bai Jamjuree'">โหลด</span>
         <span style="font-family: 'K2D'">โหลด</span>
@@ -1062,6 +1219,26 @@ const setQuickColor = (id, colorHex) => {
     }
 }
 
+// 🎯 ฟังก์ชันซิงค์ตัวเลขเข้ากับแถบเลื่อนแบบเรียลไทม์
+const syncNumberInputs = () => {
+    const rangeIds = [
+        'logoX', 'logoY', 'logoScale',
+        'headerX', 'headerY',
+        'num1GapX', 'num1GapY', 'num1X', 'num1Y',
+        'num2GapX', 'num2GapY', 'num2X', 'num2Y',
+        'num3GapX', 'num3GapY', 'num3X', 'num3Y',
+        'numWinGapX', 'numWinX', 'numWinY',
+        'dateX', 'dateY'
+    ];
+    rangeIds.forEach(id => {
+        const range = document.getElementById(id);
+        const num = document.getElementById(id + '_num');
+        if (range && num) {
+            num.value = range.value;
+        }
+    });
+}
+
 const fetchFormats = async () => {
     const token = localStorage.getItem('token');
     const res = await fetch('https://gen-picture-hwy.onrender.com/formats', { headers: { 'Authorization': `Bearer ${token}` } });
@@ -1151,7 +1328,10 @@ const loadSelectedFormat = (e) => {
             defLogo.onload = () => { logoImage = defLogo; handleUpdate(); };
         }
 
-        setTimeout(() => { generatePreviewNumbers(); }, 100);
+        setTimeout(() => { 
+            syncNumberInputs(); // 🎯 สั่งซิงค์ตัวเลขตอนโหลดเทมเพลตเสร็จ
+            generatePreviewNumbers(); 
+        }, 100);
     }
 }
 
@@ -1489,6 +1669,7 @@ const centerElement = (type) => {
     } else if (type === 'logo' || type === 'header' || type === 'date') {
         document.getElementById(type + 'X').value = canvas.width / 2;
     }
+    syncNumberInputs(); // 🎯 สั่งซิงค์ตัวเลขเข้ากล่องข้อความ
     handleUpdate();
 }
 
@@ -1510,9 +1691,6 @@ const handleUpdate = () => {
 
 const draw = (currentHeader = null) => {
     if(!ctx || !canvas) return;
-    if(document.getElementById('logoScaleVal')) {
-        document.getElementById('logoScaleVal').innerText = document.getElementById('logoScale').value;
-    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     const isShowBg = document.getElementById('showBg') ? document.getElementById('showBg').checked : true;
@@ -1544,7 +1722,6 @@ const draw = (currentHeader = null) => {
     ctx.fillStyle = document.getElementById('headerColor').value;
     ctx.strokeStyle = document.getElementById('headerStrokeColor').value;
     
-    // 🎯 แก้บั๊ก Canvas State Leakage (ความหนาขอบ)
     if (headerStrokeWidth > 0) {
         ctx.lineWidth = headerStrokeWidth;
     }
@@ -1572,7 +1749,6 @@ const draw = (currentHeader = null) => {
         ctx.fillStyle = document.getElementById('dateColor').value;
         ctx.strokeStyle = document.getElementById('dateStrokeColor').value;
         
-        // 🎯 แก้บั๊ก Canvas State Leakage
         if (dateStrokeWidth > 0) {
             ctx.lineWidth = dateStrokeWidth;
         }
@@ -1589,17 +1765,14 @@ const draw = (currentHeader = null) => {
         const startY = parseInt(document.getElementById(idPrefix + 'Y').value);
         const gapX = parseInt(document.getElementById(idPrefix + 'GapX').value);
         
-        // 🎯 เช็กว่ามี GapY หรือไม่ (เพื่อรองรับเลขวินที่มีบรรทัดเดียว)
         const gapYElement = document.getElementById(idPrefix + 'GapY');
         const gapY = gapYElement ? parseInt(gapYElement.value) : 0;
         
-        // 🎯 ดึงค่าความหนาขอบมาเก็บไว้ในตัวแปรก่อน
         const strokeWidthVal = parseInt(document.getElementById(idPrefix + 'StrokeWidth').value);
         
         ctx.fillStyle = document.getElementById(idPrefix + 'Color').value;
         ctx.strokeStyle = document.getElementById(idPrefix + 'StrokeColor').value;
         
-        // 🎯 แก้บั๊ก Canvas State Leakage: ตั้งค่า lineWidth เฉพาะตอนที่ค่ามากกว่า 0
         if (strokeWidthVal > 0) {
             ctx.lineWidth = strokeWidthVal;
         }
@@ -1612,7 +1785,6 @@ const draw = (currentHeader = null) => {
                 const y = startY + (rowIndex * gapY);
                 ctx.fillText(num, x, y);
                 
-                // 🎯 เช็กจากตัวแปรที่เราดึงมา แทนการเช็กจาก ctx.lineWidth ที่มักจะแอบจำค่าเก่า
                 if (strokeWidthVal > 0) {
                     ctx.strokeText(num, x, y);
                 }
@@ -1764,6 +1936,9 @@ const initApp = () => {
     const logoUpload = document.getElementById('logoUpload');
     if(bgUpload) bgUpload.addEventListener('change', (e) => handleImageUpload(e, 'bg'));
     if(logoUpload) logoUpload.addEventListener('change', (e) => handleImageUpload(e, 'logo'));
+    
+    // 🎯 ซิงค์ตัวเลขเข้ากับแถบเลื่อนครั้งแรกตอนเปิดหน้าเว็บ
+    syncNumberInputs();
 }
 
 onMounted(async () => {
@@ -1822,8 +1997,19 @@ onMounted(async () => {
 .fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 
+/* แต่ง Scrollbar ให้สวยงาม */
 .custom-scrollbar::-webkit-scrollbar { width: 6px; }
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
 .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
+
+/* ซ่อนลูกศรขึ้นลงในช่อง input type="number" */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 </style>
