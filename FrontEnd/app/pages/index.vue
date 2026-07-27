@@ -320,7 +320,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
                                 <div>
                                     <div class="flex justify-between items-center mb-1">
@@ -440,7 +439,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
                                 <div>
                                     <div class="flex justify-between items-center mb-1">
@@ -457,7 +455,6 @@
                                     <input type="range" id="num2GapY" min="0" max="300" value="70" class="w-full accent-emerald-500" oninput="document.getElementById('num2GapY_num').value = this.value">
                                 </div>
                             </div>
-                            
                             <div class="text-center mt-5">
                                 <button class="w-full bg-orange-500 hover:bg-orange-400 text-white font-bold py-3 rounded-xl border-b-4 border-orange-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num2')">
                                     <svg class="w-5 h-5 text-yellow-200" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
@@ -560,7 +557,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
                                 <div>
                                     <div class="flex justify-between items-center mb-1">
@@ -577,9 +573,8 @@
                                     <input type="range" id="num3GapY" min="0" max="300" value="70" class="w-full accent-emerald-500" oninput="document.getElementById('num3GapY_num').value = this.value">
                                 </div>
                             </div>
-                            
                             <div class="text-center mt-5">
-                                <button class="w-full bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-3 rounded-xl border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
                                     <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
@@ -691,7 +686,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="flex flex-col gap-4 mt-4 p-4 border rounded-xl" :class="isDarkMode ? 'border-gray-700 bg-gray-900/50' : 'border-gray-100 bg-gray-50'">
                                 <div>
                                     <div class="flex justify-between items-center mb-1">
@@ -701,7 +695,6 @@
                                     <input type="range" id="numWinGapX" min="0" max="300" value="45" class="w-full accent-pink-500" oninput="document.getElementById('numWinGapX_num').value = this.value">
                                 </div>
                             </div>
-                            
                             <div class="text-center mt-5">
                                 <button class="w-full bg-pink-500 hover:bg-pink-400 text-white font-bold py-3 rounded-xl border-b-4 border-pink-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('numWin')">
                                     <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
@@ -961,6 +954,7 @@
         <span style="font-family: 'Charm'">โหลด</span>
         <span style="font-family: 'Arial'">โหลด</span>
         <span style="font-family: 'Tahoma'">โหลด</span>
+        <!-- ฟอนต์ใหม่ -->
         <span style="font-family: 'Noto Sans Thai'">โหลด</span>
         <span style="font-family: 'Bai Jamjuree'">โหลด</span>
         <span style="font-family: 'K2D'">โหลด</span>
@@ -1691,6 +1685,9 @@ const handleUpdate = () => {
 
 const draw = (currentHeader = null) => {
     if(!ctx || !canvas) return;
+    if(document.getElementById('logoScaleVal')) {
+        document.getElementById('logoScaleVal').innerText = document.getElementById('logoScale').value;
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     const isShowBg = document.getElementById('showBg') ? document.getElementById('showBg').checked : true;
@@ -1722,6 +1719,7 @@ const draw = (currentHeader = null) => {
     ctx.fillStyle = document.getElementById('headerColor').value;
     ctx.strokeStyle = document.getElementById('headerStrokeColor').value;
     
+    // 🎯 แก้บั๊ก Canvas State Leakage (ความหนาขอบ)
     if (headerStrokeWidth > 0) {
         ctx.lineWidth = headerStrokeWidth;
     }
@@ -1749,6 +1747,7 @@ const draw = (currentHeader = null) => {
         ctx.fillStyle = document.getElementById('dateColor').value;
         ctx.strokeStyle = document.getElementById('dateStrokeColor').value;
         
+        // 🎯 แก้บั๊ก Canvas State Leakage
         if (dateStrokeWidth > 0) {
             ctx.lineWidth = dateStrokeWidth;
         }
@@ -1765,14 +1764,17 @@ const draw = (currentHeader = null) => {
         const startY = parseInt(document.getElementById(idPrefix + 'Y').value);
         const gapX = parseInt(document.getElementById(idPrefix + 'GapX').value);
         
+        // 🎯 เช็กว่ามี GapY หรือไม่ (เพื่อรองรับเลขวินที่มีบรรทัดเดียว)
         const gapYElement = document.getElementById(idPrefix + 'GapY');
         const gapY = gapYElement ? parseInt(gapYElement.value) : 0;
         
+        // 🎯 ดึงค่าความหนาขอบมาเก็บไว้ในตัวแปรก่อน
         const strokeWidthVal = parseInt(document.getElementById(idPrefix + 'StrokeWidth').value);
         
         ctx.fillStyle = document.getElementById(idPrefix + 'Color').value;
         ctx.strokeStyle = document.getElementById(idPrefix + 'StrokeColor').value;
         
+        // 🎯 แก้บั๊ก Canvas State Leakage: ตั้งค่า lineWidth เฉพาะตอนที่ค่ามากกว่า 0
         if (strokeWidthVal > 0) {
             ctx.lineWidth = strokeWidthVal;
         }
@@ -1785,6 +1787,7 @@ const draw = (currentHeader = null) => {
                 const y = startY + (rowIndex * gapY);
                 ctx.fillText(num, x, y);
                 
+                // 🎯 เช็กจากตัวแปรที่เราดึงมา แทนการเช็กจาก ctx.lineWidth ที่มักจะแอบจำค่าเก่า
                 if (strokeWidthVal > 0) {
                     ctx.strokeText(num, x, y);
                 }
@@ -2002,14 +2005,4 @@ onMounted(async () => {
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
 .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
-
-/* ซ่อนลูกศรขึ้นลงในช่อง input type="number" */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type="number"] {
-  -moz-appearance: textfield;
-}
 </style>
