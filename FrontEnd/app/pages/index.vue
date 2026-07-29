@@ -979,7 +979,7 @@ useHead({
   title: 'RunBi - ทำรูปใบหวย ด้วยตัวเองได้แล้ววันนี้!',
   meta: [
     { name: 'description', content: 'ตัวช่วยสร้างรูปภาพแจกเลขเด็ด หวยหุ้น ฮานอย ลาว ใช้งานง่าย ปรับแต่งฟอนต์และสีได้ตามใจชอบ' },
-    { name: 'keywords', content: 'สร้างรูปหวย, สุ่มเลขเด็ด, โปรแกรมทำรูปหวย, RunBi, หวยหุ้น, ฮานอย, ลาว' },
+    { name: 'keywords', content: 'สร้างรูปหวย, โปรแกรมทำรูปหวย, RunBi, หวยหุ้น, ฮานอย, ลาว' },
     
     // 🎯 แก้ไขตรงนี้: ใส่เฉพาะรหัสที่เป็นตัวอักษรเท่านั้นครับ
     { name: 'google-site-verification', content: '_SNH2YvEerZYtI3exrHTD8MVTPD4SXKSI7ITc0ZPVTg' },
