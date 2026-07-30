@@ -574,7 +574,7 @@
                                 </div>
                             </div>
                             <div class="text-center mt-5">
-                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                <button class="w-full bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-3 rounded-xl border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
                                     <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
@@ -600,7 +600,7 @@
                     </transition>
                 </div>
 
-                <!-- 6. เลขวิน (Win) -->
+                <!-- 6. 🎯 เพิ่มหัวข้อใหม่: เลขวิน (Win) -->
                 <div id="section-6-header" class="border rounded-2xl overflow-hidden transition-colors shadow-sm" :class="isDarkMode ? 'border-gray-700 bg-gray-800/50' : 'border-gray-200 bg-white'">
                     <div @click="toggleSection(6)" class="p-4 cursor-pointer flex justify-between items-center font-bold transition-all" :class="openSection === 6 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : (isDarkMode ? 'text-gray-200 hover:bg-gray-700' : 'text-gray-700 hover:bg-gray-50')">
                         <span class="flex items-center gap-2">
@@ -1569,29 +1569,86 @@ const handleImageUpload = (e, type) => {
     reader.readAsDataURL(file);
 }
 
-const createNumbersArray = (rows, cols, digitsCount) => {
+// 🎯 ฟังก์ชันสุ่มตัวเลขแบบรับ Array ของเลขรูดมาใช้งานด้วย และป้องกันเลขซ้ำและเลข 00, 000
+const createNumbersArray = (rows, cols, digitsCount, rootDigitsArray = []) => {
     let grid = [];
-    let used1Digits = new Set(); 
+    let usedNumbers = new Set(); 
+    let rootIndex = 0; 
+    
+    // 🎯 กำหนดเป้าหมาย "1 ตำแหน่ง" ที่จะเอาเลขรูดไปใส่
+    let totalCells = rows * cols;
+    let targetIndex = Math.floor(Math.random() * totalCells);
+    
+    // 🎯 สร้างคู่เลขรูด (ถ้ามีเลขรูด 2 ตัวขึ้นไป)
+    let rootPairs = [];
+    if (digitsCount === 2 && rootDigitsArray && rootDigitsArray.length >= 2) {
+         for(let i=0; i<rootDigitsArray.length; i++) {
+             for(let j=0; j<rootDigitsArray.length; j++) {
+                 if(i !== j) rootPairs.push(rootDigitsArray[i] + rootDigitsArray[j]);
+             }
+         }
+    }
+
+    let currentIndex = 0;
 
     for (let i = 0; i < rows; i++) {
         let row = [];
         for (let j = 0; j < cols; j++) {
-            if (digitsCount === 3) {
-                row.push(Math.floor(Math.random() * 1000).toString().padStart(3, '0'));
-            } else if (digitsCount === 2) {
-                row.push(Math.floor(Math.random() * 100).toString().padStart(2, '0'));
-            } else if (digitsCount === 1) {
-                let num;
-                let attempts = 0;
-                do {
-                    num = (Math.floor(Math.random() * 9) + 1).toString();
-                    attempts++;
-                    if(attempts > 50) break; 
-                } while (used1Digits.has(num));
-                
-                used1Digits.add(num);
-                row.push(num);
+            
+            let rootDigit = null;
+            if (rootDigitsArray && rootDigitsArray.length > 0) {
+                rootDigit = rootDigitsArray[rootIndex % rootDigitsArray.length];
+                rootIndex++;
             }
+
+            let num = "";
+            let attempts = 0;
+
+            // 🎯 วนลูปสุ่มเลขจนกว่าจะได้เลขที่ไม่ซ้ำกัน และไม่เป็น '00' หรือ '000'
+            do {
+                if (digitsCount === 3) {
+                    // 🎯 เลข 3 ตัว: ใส่เลขรูดแค่ "ตัวเดียว/ตำแหน่งเดียว" ใน Grid
+                    if (currentIndex === targetIndex && rootDigitsArray && rootDigitsArray.length > 0 && attempts < 30) {
+                        let rd = rootDigitsArray[Math.floor(Math.random() * rootDigitsArray.length)];
+                        let other1 = Math.floor(Math.random() * 10).toString();
+                        let other2 = Math.floor(Math.random() * 10).toString();
+                        let pos = Math.floor(Math.random() * 3);
+                        if (pos === 0) num = rd + other1 + other2;
+                        else if (pos === 1) num = other1 + rd + other2;
+                        else num = other1 + other2 + rd;
+                    } else {
+                        // นอกนั้นสุ่มอิสระ ไม่เกี่ยวกับเลขรูด (สุ่ม 001 - 999)
+                        num = (Math.floor(Math.random() * 999) + 1).toString().padStart(3, '0');
+                    }
+                } else if (digitsCount === 2) {
+                    // 🎯 เลข 2 ตัว: ใส่เลขรูดคู่กันแค่ "ตำแหน่งเดียว" ใน Grid
+                    if (currentIndex === targetIndex && rootDigitsArray && rootDigitsArray.length > 0 && attempts < 15) {
+                        if (rootPairs.length > 0) {
+                            num = rootPairs[Math.floor(Math.random() * rootPairs.length)];
+                        } else {
+                            let rd = rootDigitsArray[0];
+                            let other1 = Math.floor(Math.random() * 10).toString();
+                            num = Math.random() > 0.5 ? rd + other1 : other1 + rd;
+                        }
+                    } else {
+                        // นอกนั้นสุ่มอิสระ ไม่เกี่ยวกับเลขรูด (สุ่ม 01 - 99)
+                        num = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
+                    }
+                } else if (digitsCount === 1) {
+                    num = Math.floor(Math.random() * 10).toString(); // รูด 0 ได้
+                }
+                
+                attempts++;
+                if (attempts > 50) {
+                    if (num !== '00' && num !== '000') break; // 🎯 ป้องกันเว็บค้าง แต่ห้ามเป็น 00/000 เด็ดขาด
+                }
+                
+            } while (usedNumbers.has(num) || num === '00' || num === '000');
+            
+            usedNumbers.add(num);
+            row.push(num);
+            
+            currentIndex++;
         }
         grid.push(row);
     }
@@ -1599,38 +1656,46 @@ const createNumbersArray = (rows, cols, digitsCount) => {
 }
 
 const generatePreviewNumbers = () => {
-    // 🎯 สร้างเลข 1, 2, 3 ตัวตามปกติ
+    // 🎯 1. สร้างเลข 1 ตัวก่อนเพื่อหา "เลขรูด (Root Digits)"
     numbers1Grid = createNumbersArray(document.getElementById('row1Count').value, document.getElementById('col1Count').value, 1);
-    numbers2Grid = createNumbersArray(document.getElementById('row2Count').value, document.getElementById('col2Count').value, 2);
-    numbers3Grid = createNumbersArray(document.getElementById('row3Count').value, document.getElementById('col3Count').value, 3);
     
-    // 🎯 ระบบสร้าง "เลขวิน" อัจฉริยะ (ห้ามซ้ำกันเลย + ต้องมีเลขรูดผสมอยู่ด้วย)
-    let rootDigit = null;
-    if (numbers1Grid.length > 0 && numbers1Grid[0].length > 0) {
-        rootDigit = numbers1Grid[0][0]; // ดึงเลขรูดตัวแรกมาใช้
-    }
+    // 🎯 ดึงเลขรูดทุกตัวที่สุ่มได้ ออกมาใส่กระเป๋าเตรียมไว้
+    let rootDigits = [];
+    numbers1Grid.forEach(row => {
+        row.forEach(num => {
+            if (!rootDigits.includes(num)) {
+                rootDigits.push(num);
+            }
+        });
+    });
+
+    // 🎯 2. สร้างเลข 2 ตัว และ 3 ตัว โดยส่งกระเป๋าเลขรูดเข้าไปผสมด้วย
+    numbers2Grid = createNumbersArray(document.getElementById('row2Count').value, document.getElementById('col2Count').value, 2, rootDigits);
+    numbers3Grid = createNumbersArray(document.getElementById('row3Count').value, document.getElementById('col3Count').value, 3, rootDigits);
     
-    // ดึงจำนวนตัวเลขที่ผู้ใช้เลือก (3 ถึง 10)
+    // 🎯 3. ระบบสร้าง "เลขวิน" อัจฉริยะ (ห้ามซ้ำกันเลย + ต้องมีเลขรูดผสมอยู่ด้วยทุกตัว)
     let winCountInput = document.getElementById('numWinCount');
     let winLength = parseInt(winCountInput ? winCountInput.value : 6);
     
     let availableDigits = ['0','1','2','3','4','5','6','7','8','9'];
     let pickedDigits = [];
     
-    // 1. บังคับใส่เลขรูดลงไปก่อน (ถ้ามี)
-    if (rootDigit && availableDigits.includes(rootDigit)) {
-        pickedDigits.push(rootDigit);
-        availableDigits = availableDigits.filter(d => d !== rootDigit);
-    }
+    // บังคับใส่เลขรูดทั้งหมดลงไปก่อน (ถ้ามี) และห้ามเกินความยาว winLength
+    rootDigits.forEach(rd => {
+        if (availableDigits.includes(rd) && pickedDigits.length < winLength) {
+            pickedDigits.push(rd);
+            availableDigits = availableDigits.filter(d => d !== rd);
+        }
+    });
     
-    // 2. สุ่มเลขที่เหลือแบบไม่ซ้ำกัน จนกว่าจะครบตามจำนวนที่เลือก
+    // สุ่มเลขที่เหลือแบบไม่ซ้ำกัน จนกว่าจะครบตามจำนวนที่เลือก
     while (pickedDigits.length < winLength) {
         let rIdx = Math.floor(Math.random() * availableDigits.length);
         pickedDigits.push(availableDigits[rIdx]);
-        availableDigits.splice(rIdx, 1); // เอาตัวที่สุ่มแล้วออกจากกอง จะได้ไม่ซ้ำ
+        availableDigits.splice(rIdx, 1);
     }
     
-    // 3. สลับตำแหน่งให้มั่วๆ (Shuffle) เพื่อไม่ให้เลขรูดอยู่หน้าสุดตลอดเวลา
+    // สลับตำแหน่งให้มั่วๆ
     for (let i = pickedDigits.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [pickedDigits[i], pickedDigits[j]] = [pickedDigits[j], pickedDigits[i]];
@@ -1663,7 +1728,7 @@ const centerElement = (type) => {
     } else if (type === 'logo' || type === 'header' || type === 'date') {
         document.getElementById(type + 'X').value = canvas.width / 2;
     }
-    syncNumberInputs(); // 🎯 สั่งซิงค์ตัวเลขเข้ากล่องข้อความ
+    syncNumberInputs(); 
     handleUpdate();
 }
 
@@ -1719,7 +1784,6 @@ const draw = (currentHeader = null) => {
     ctx.fillStyle = document.getElementById('headerColor').value;
     ctx.strokeStyle = document.getElementById('headerStrokeColor').value;
     
-    // 🎯 แก้บั๊ก Canvas State Leakage (ความหนาขอบ)
     if (headerStrokeWidth > 0) {
         ctx.lineWidth = headerStrokeWidth;
     }
@@ -1747,7 +1811,6 @@ const draw = (currentHeader = null) => {
         ctx.fillStyle = document.getElementById('dateColor').value;
         ctx.strokeStyle = document.getElementById('dateStrokeColor').value;
         
-        // 🎯 แก้บั๊ก Canvas State Leakage
         if (dateStrokeWidth > 0) {
             ctx.lineWidth = dateStrokeWidth;
         }
@@ -1764,17 +1827,14 @@ const draw = (currentHeader = null) => {
         const startY = parseInt(document.getElementById(idPrefix + 'Y').value);
         const gapX = parseInt(document.getElementById(idPrefix + 'GapX').value);
         
-        // 🎯 เช็กว่ามี GapY หรือไม่ (เพื่อรองรับเลขวินที่มีบรรทัดเดียว)
         const gapYElement = document.getElementById(idPrefix + 'GapY');
         const gapY = gapYElement ? parseInt(gapYElement.value) : 0;
         
-        // 🎯 ดึงค่าความหนาขอบมาเก็บไว้ในตัวแปรก่อน
         const strokeWidthVal = parseInt(document.getElementById(idPrefix + 'StrokeWidth').value);
         
         ctx.fillStyle = document.getElementById(idPrefix + 'Color').value;
         ctx.strokeStyle = document.getElementById(idPrefix + 'StrokeColor').value;
         
-        // 🎯 แก้บั๊ก Canvas State Leakage: ตั้งค่า lineWidth เฉพาะตอนที่ค่ามากกว่า 0
         if (strokeWidthVal > 0) {
             ctx.lineWidth = strokeWidthVal;
         }
@@ -1787,7 +1847,6 @@ const draw = (currentHeader = null) => {
                 const y = startY + (rowIndex * gapY);
                 ctx.fillText(num, x, y);
                 
-                // 🎯 เช็กจากตัวแปรที่เราดึงมา แทนการเช็กจาก ctx.lineWidth ที่มักจะแอบจำค่าเก่า
                 if (strokeWidthVal > 0) {
                     ctx.strokeText(num, x, y);
                 }
@@ -1798,7 +1857,6 @@ const draw = (currentHeader = null) => {
     const showNum3 = document.getElementById('showNum3') ? document.getElementById('showNum3').checked : true;
     if (showNum3) drawNumbers(numbers3Grid, 'num3');
     
-    // 🎯 วาดเลขวิน (ถ้าเปิดไว้)
     const showNumWin = document.getElementById('showNumWin') ? document.getElementById('showNumWin').checked : false;
     if (showNumWin) drawNumbers(numbersWinGrid, 'numWin');
     
@@ -1809,7 +1867,6 @@ const draw = (currentHeader = null) => {
     if (showNum1) drawNumbers(numbers1Grid, 'num1');
 }
 
-// 🎯 เพิ่มรายชื่อฟอนต์ทั้งเก่าและใหม่ ให้ระบบดึงมาโหลดล่วงหน้าครบทุกตัว
 const preloadFonts = () => {
     const fontsToLoad = [
         'Prompt', 'Kanit', 'Sarabun', 'Mitr', 'Mali', 'Itim', 'Chakra Petch', 'Pattaya', 'Pridi', 'Charm', 'Arial', 'Tahoma',
@@ -1940,7 +1997,6 @@ const initApp = () => {
     if(bgUpload) bgUpload.addEventListener('change', (e) => handleImageUpload(e, 'bg'));
     if(logoUpload) logoUpload.addEventListener('change', (e) => handleImageUpload(e, 'logo'));
     
-    // 🎯 ซิงค์ตัวเลขเข้ากับแถบเลื่อนครั้งแรกตอนเปิดหน้าเว็บ
     syncNumberInputs();
 }
 
