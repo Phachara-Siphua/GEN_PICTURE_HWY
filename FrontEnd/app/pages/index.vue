@@ -574,7 +574,7 @@
                                 </div>
                             </div>
                             <div class="text-center mt-5">
-                                <button class="w-full bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-3 rounded-xl border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
                                     <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
@@ -1569,35 +1569,20 @@ const handleImageUpload = (e, type) => {
     reader.readAsDataURL(file);
 }
 
-// 🎯 ฟังก์ชันสุ่มตัวเลขแบบรับ Array ของเลขรูดมาใช้งานด้วย และป้องกันเลขซ้ำและเลข 00, 000
+// 🎯 ฟังก์ชันสุ่มตัวเลข (ดึงเลขรูดทุกตัวมาบังคับแจกจ่ายในตารางให้ครบ)
 const createNumbersArray = (rows, cols, digitsCount, rootDigitsArray = []) => {
     let grid = [];
     let usedNumbers = new Set(); 
     let rootIndex = 0; 
-    
-    // 🎯 กำหนดเป้าหมาย "1 ตำแหน่ง" ที่จะเอาเลขรูดไปใส่
-    let totalCells = rows * cols;
-    let targetIndex = Math.floor(Math.random() * totalCells);
-    
-    // 🎯 สร้างคู่เลขรูด (ถ้ามีเลขรูด 2 ตัวขึ้นไป)
-    let rootPairs = [];
-    if (digitsCount === 2 && rootDigitsArray && rootDigitsArray.length >= 2) {
-         for(let i=0; i<rootDigitsArray.length; i++) {
-             for(let j=0; j<rootDigitsArray.length; j++) {
-                 if(i !== j) rootPairs.push(rootDigitsArray[i] + rootDigitsArray[j]);
-             }
-         }
-    }
-
-    let currentIndex = 0;
 
     for (let i = 0; i < rows; i++) {
         let row = [];
         for (let j = 0; j < cols; j++) {
             
-            let rootDigit = null;
+            let currentRoot = null;
             if (rootDigitsArray && rootDigitsArray.length > 0) {
-                rootDigit = rootDigitsArray[rootIndex % rootDigitsArray.length];
+                // ดึงเลขรูดมาใช้ทีละตัว (วนลูป) เพื่อให้มั่นใจว่าเลขรูดทุกตัวได้โผล่มาแน่นอน
+                currentRoot = rootDigitsArray[rootIndex % rootDigitsArray.length];
                 rootIndex++;
             }
 
@@ -1607,31 +1592,21 @@ const createNumbersArray = (rows, cols, digitsCount, rootDigitsArray = []) => {
             // 🎯 วนลูปสุ่มเลขจนกว่าจะได้เลขที่ไม่ซ้ำกัน และไม่เป็น '00' หรือ '000'
             do {
                 if (digitsCount === 3) {
-                    // 🎯 เลข 3 ตัว: ใส่เลขรูดแค่ "ตัวเดียว/ตำแหน่งเดียว" ใน Grid
-                    if (currentIndex === targetIndex && rootDigitsArray && rootDigitsArray.length > 0 && attempts < 30) {
-                        let rd = rootDigitsArray[Math.floor(Math.random() * rootDigitsArray.length)];
+                    if (currentRoot) {
                         let other1 = Math.floor(Math.random() * 10).toString();
                         let other2 = Math.floor(Math.random() * 10).toString();
                         let pos = Math.floor(Math.random() * 3);
-                        if (pos === 0) num = rd + other1 + other2;
-                        else if (pos === 1) num = other1 + rd + other2;
-                        else num = other1 + other2 + rd;
+                        if (pos === 0) num = currentRoot + other1 + other2;
+                        else if (pos === 1) num = other1 + currentRoot + other2;
+                        else num = other1 + other2 + currentRoot;
                     } else {
-                        // นอกนั้นสุ่มอิสระ ไม่เกี่ยวกับเลขรูด (สุ่ม 001 - 999)
                         num = (Math.floor(Math.random() * 999) + 1).toString().padStart(3, '0');
                     }
                 } else if (digitsCount === 2) {
-                    // 🎯 เลข 2 ตัว: ใส่เลขรูดคู่กันแค่ "ตำแหน่งเดียว" ใน Grid
-                    if (currentIndex === targetIndex && rootDigitsArray && rootDigitsArray.length > 0 && attempts < 15) {
-                        if (rootPairs.length > 0) {
-                            num = rootPairs[Math.floor(Math.random() * rootPairs.length)];
-                        } else {
-                            let rd = rootDigitsArray[0];
-                            let other1 = Math.floor(Math.random() * 10).toString();
-                            num = Math.random() > 0.5 ? rd + other1 : other1 + rd;
-                        }
+                    if (currentRoot) {
+                        let other1 = Math.floor(Math.random() * 10).toString();
+                        num = Math.random() > 0.5 ? currentRoot + other1 : other1 + currentRoot;
                     } else {
-                        // นอกนั้นสุ่มอิสระ ไม่เกี่ยวกับเลขรูด (สุ่ม 01 - 99)
                         num = (Math.floor(Math.random() * 99) + 1).toString().padStart(2, '0');
                     }
                 } else if (digitsCount === 1) {
@@ -1640,15 +1615,13 @@ const createNumbersArray = (rows, cols, digitsCount, rootDigitsArray = []) => {
                 
                 attempts++;
                 if (attempts > 50) {
-                    if (num !== '00' && num !== '000') break; // 🎯 ป้องกันเว็บค้าง แต่ห้ามเป็น 00/000 เด็ดขาด
+                    if (num !== '00' && num !== '000') break; // 🎯 ป้องกันเว็บค้าง
                 }
                 
             } while (usedNumbers.has(num) || num === '00' || num === '000');
             
             usedNumbers.add(num);
             row.push(num);
-            
-            currentIndex++;
         }
         grid.push(row);
     }
@@ -1669,7 +1642,7 @@ const generatePreviewNumbers = () => {
         });
     });
 
-    // 🎯 2. สร้างเลข 2 ตัว และ 3 ตัว โดยส่งกระเป๋าเลขรูดเข้าไปผสมด้วย
+    // 🎯 2. สร้างเลข 2 ตัว และ 3 ตัว โดยส่งกระเป๋าเลขรูดเข้าไปให้ระบบบังคับใช้กับ "ทุกช่อง"
     numbers2Grid = createNumbersArray(document.getElementById('row2Count').value, document.getElementById('col2Count').value, 2, rootDigits);
     numbers3Grid = createNumbersArray(document.getElementById('row3Count').value, document.getElementById('col3Count').value, 3, rootDigits);
     
@@ -1784,6 +1757,7 @@ const draw = (currentHeader = null) => {
     ctx.fillStyle = document.getElementById('headerColor').value;
     ctx.strokeStyle = document.getElementById('headerStrokeColor').value;
     
+    // 🎯 แก้บั๊ก Canvas State Leakage (ความหนาขอบ)
     if (headerStrokeWidth > 0) {
         ctx.lineWidth = headerStrokeWidth;
     }
@@ -1811,6 +1785,7 @@ const draw = (currentHeader = null) => {
         ctx.fillStyle = document.getElementById('dateColor').value;
         ctx.strokeStyle = document.getElementById('dateStrokeColor').value;
         
+        // 🎯 แก้บั๊ก Canvas State Leakage
         if (dateStrokeWidth > 0) {
             ctx.lineWidth = dateStrokeWidth;
         }
@@ -1827,14 +1802,17 @@ const draw = (currentHeader = null) => {
         const startY = parseInt(document.getElementById(idPrefix + 'Y').value);
         const gapX = parseInt(document.getElementById(idPrefix + 'GapX').value);
         
+        // 🎯 เช็กว่ามี GapY หรือไม่ (เพื่อรองรับเลขวินที่มีบรรทัดเดียว)
         const gapYElement = document.getElementById(idPrefix + 'GapY');
         const gapY = gapYElement ? parseInt(gapYElement.value) : 0;
         
+        // 🎯 ดึงค่าความหนาขอบมาเก็บไว้ในตัวแปรก่อน
         const strokeWidthVal = parseInt(document.getElementById(idPrefix + 'StrokeWidth').value);
         
         ctx.fillStyle = document.getElementById(idPrefix + 'Color').value;
         ctx.strokeStyle = document.getElementById(idPrefix + 'StrokeColor').value;
         
+        // 🎯 แก้บั๊ก Canvas State Leakage: ตั้งค่า lineWidth เฉพาะตอนที่ค่ามากกว่า 0
         if (strokeWidthVal > 0) {
             ctx.lineWidth = strokeWidthVal;
         }
@@ -1847,6 +1825,7 @@ const draw = (currentHeader = null) => {
                 const y = startY + (rowIndex * gapY);
                 ctx.fillText(num, x, y);
                 
+                // 🎯 เช็กจากตัวแปรที่เราดึงมา แทนการเช็กจาก ctx.lineWidth ที่มักจะแอบจำค่าเก่า
                 if (strokeWidthVal > 0) {
                     ctx.strokeText(num, x, y);
                 }
@@ -1857,6 +1836,7 @@ const draw = (currentHeader = null) => {
     const showNum3 = document.getElementById('showNum3') ? document.getElementById('showNum3').checked : true;
     if (showNum3) drawNumbers(numbers3Grid, 'num3');
     
+    // 🎯 วาดเลขวิน (ถ้าเปิดไว้)
     const showNumWin = document.getElementById('showNumWin') ? document.getElementById('showNumWin').checked : false;
     if (showNumWin) drawNumbers(numbersWinGrid, 'numWin');
     
@@ -1867,6 +1847,7 @@ const draw = (currentHeader = null) => {
     if (showNum1) drawNumbers(numbers1Grid, 'num1');
 }
 
+// 🎯 เพิ่มรายชื่อฟอนต์ทั้งเก่าและใหม่ ให้ระบบดึงมาโหลดล่วงหน้าครบทุกตัว
 const preloadFonts = () => {
     const fontsToLoad = [
         'Prompt', 'Kanit', 'Sarabun', 'Mitr', 'Mali', 'Itim', 'Chakra Petch', 'Pattaya', 'Pridi', 'Charm', 'Arial', 'Tahoma',
@@ -1975,7 +1956,7 @@ const initApp = () => {
     document.getElementById('num1FontBold').checked = false;
     document.getElementById('num2FontBold').checked = false;
     document.getElementById('num3FontBold').checked = false;
-    document.getElementById('numWinFontBold').checked = false; // 🎯 จัดการค่าเริ่มต้นเลขวิน
+    document.getElementById('numWinFontBold').checked = false; 
     document.getElementById('dateFontBold').checked = false;
 
     document.querySelectorAll('input, select').forEach(el => {
@@ -2061,4 +2042,14 @@ onMounted(async () => {
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
 .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
+
+/* ซ่อนลูกศรขึ้นลงในช่อง input type="number" */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 </style>
