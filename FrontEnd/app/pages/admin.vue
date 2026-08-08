@@ -33,9 +33,10 @@
                   <div>
                       <label class="block text-sm font-bold mb-1.5" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">สิทธิ์ผู้ใช้:</label>
                       <select v-model="form.role" class="w-full p-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 transition-colors" :class="isDarkMode ? 'bg-gray-900/50 border-gray-600 text-white' : 'bg-gray-50 border-gray-200'">
-                          <option value="user">User (ลูกค้าทั่วไป)</option>
-                          <option value="admin">Admin (ผู้ดูแลระบบ)</option>
-                      </select>
+                            <option value="test">Test (ทดลองใช้งาน มีลายน้ำ)</option>
+                            <option value="user">User (ลูกค้าทั่วไป)</option>
+                            <option value="admin">Admin (ผู้ดูแลระบบ)</option>
+                        </select>
                   </div>
                   <div>
                       <label class="block text-sm font-bold mb-1.5" :class="isDarkMode ? 'text-gray-300' : 'text-gray-700'">โควต้าเทมเพลต (จำกัด):</label>

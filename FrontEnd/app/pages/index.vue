@@ -28,6 +28,9 @@
             <h3 class="text-xl font-bold mb-6 flex items-center gap-2" :class="isDarkMode ? 'text-gray-100' : 'text-gray-800'">
                 <svg class="w-6 h-6 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                 ภาพพรีวิวจำลอง
+                <span v-if="userRole === 'test'" class="ml-2 text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full font-bold animate-pulse">
+                    ⚠️ โหมดทดสอบ (มีลายน้ำ)
+                </span>
             </h3>
             
             <canvas id="myCanvas" width="600" height="600" class="w-full max-w-[450px] h-auto border-4 shadow-2xl rounded-2xl transition-transform hover:scale-[1.01]" :class="isDarkMode ? 'border-gray-700' : 'border-white'"></canvas>
@@ -574,7 +577,7 @@
                                 </div>
                             </div>
                             <div class="text-center mt-5">
-                                <button class="w-full bg-amber-500 hover:bg-amber-400 text-white font-bold py-3 rounded-xl border-b-4 border-amber-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
+                                <button class="w-full bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-3 rounded-xl border-b-4 border-yellow-700 active:border-b-0 active:translate-y-1 transition-all shadow-md flex items-center justify-center gap-2" @click="centerElement('num3')">
                                     <svg class="w-5 h-5 text-yellow-100" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a6 6 0 00-6 6c0 4.418 6 10 6 10s6-5.582 6-10a6 6 0 00-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"/></svg>
                                     จัดกลุ่มกึ่งกลาง
                                 </button>
@@ -999,6 +1002,7 @@ const isDarkMode = useState('darkMode')
 const isExpired = ref(false)
 const expireDateStr = ref('')
 const openSection = ref(1) 
+const userRole = ref('') // 🎯 เก็บ Role ของผู้ใช้เพื่อเช็กว่าเป็น test หรือไม่
 
 const showSaveModal = ref(false)
 const newFormatName = ref('')
@@ -1569,7 +1573,7 @@ const handleImageUpload = (e, type) => {
     reader.readAsDataURL(file);
 }
 
-// 🎯 ฟังก์ชันสุ่มตัวเลข (ดึงเลขรูดทุกตัวมาบังคับแจกจ่ายในตารางให้ครบ)
+// 🎯 ฟังก์ชันสุ่มตัวเลขแบบรับ Array ของเลขรูดมาบังคับใส่ทุกช่อง
 const createNumbersArray = (rows, cols, digitsCount, rootDigitsArray = []) => {
     let grid = [];
     let usedNumbers = new Set(); 
@@ -1581,7 +1585,7 @@ const createNumbersArray = (rows, cols, digitsCount, rootDigitsArray = []) => {
             
             let currentRoot = null;
             if (rootDigitsArray && rootDigitsArray.length > 0) {
-                // ดึงเลขรูดมาใช้ทีละตัว (วนลูป) เพื่อให้มั่นใจว่าเลขรูดทุกตัวได้โผล่มาแน่นอน
+                // ดึงเลขรูดมาใช้วนลูปสลับกันไปให้ครบทุกตัว
                 currentRoot = rootDigitsArray[rootIndex % rootDigitsArray.length];
                 rootIndex++;
             }
@@ -1845,6 +1849,27 @@ const draw = (currentHeader = null) => {
     
     const showNum1 = document.getElementById('showNum1') ? document.getElementById('showNum1').checked : true;
     if (showNum1) drawNumbers(numbers1Grid, 'num1');
+
+    // 🎯 วาดลายน้ำ RunBi สำหรับบัญชี test
+    if (userRole.value === 'test') {
+        ctx.save();
+        ctx.translate(canvas.width / 2, canvas.height / 2);
+        ctx.rotate(-Math.PI / 6); // เอียง 30 องศา
+        
+        // 🎯 ลดขนาดฟอนต์ลายน้ำลงเหลือ 45px 
+        ctx.font = 'bold 45px "Prompt", sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        
+        // เงาและสี
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; 
+        ctx.fillText('RunBi - ใช้สำหรับทดสอบ', 0, 0);
+        
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.strokeText('RunBi - ใช้สำหรับทดสอบ', 0, 0);
+        ctx.restore();
+    }
 }
 
 // 🎯 เพิ่มรายชื่อฟอนต์ทั้งเก่าและใหม่ ให้ระบบดึงมาโหลดล่วงหน้าครบทุกตัว
@@ -1990,6 +2015,8 @@ onMounted(async () => {
         if(res.ok) {
             const userData = await res.json();
             const end_date = new Date(userData.sub_end);
+            userRole.value = userData.role; // 🎯 เก็บ Role เอาไว้ใช้เช็กว่าเป็น Test หรือไม่
+
             if (end_date < new Date()) {
                 isExpired.value = true;
                 expireDateStr.value = end_date.toLocaleString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' });
@@ -2042,14 +2069,4 @@ onMounted(async () => {
 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
 .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #cbd5e1; border-radius: 20px; }
 .dark .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #475569; }
-
-/* ซ่อนลูกศรขึ้นลงในช่อง input type="number" */
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type="number"] {
-  -moz-appearance: textfield;
-}
 </style>
